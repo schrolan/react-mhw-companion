@@ -11,6 +11,6 @@ const decorationSchema = new Schema({
      slot: Number
 })
 
-const Charm = model('Charm', charmSchema)
+const Decoration = model('Decoration', decorationSchema)
 
-module.exports = Charm
+module.exports = Decoration

@@ -29,7 +29,67 @@ const userSchema = new Schema({
             type: Schema.Types.ObjectID,
             ref: 'Ailment'
         }
-    ]
+    ],
+    armor: [
+        {
+            type: Schema.Types.ObjectId,
+            ref: 'Armor'
+        }
+    ],
+    armorSet: [
+        {
+            type: Schema.Types.ObjectId,
+            ref: 'ArmorSet'
+        }
+    ],
+    charm: [
+        {
+            type: Schema.Types.ObjectId,
+            ref: 'Charm'
+        }
+    ],
+    decoration: [
+        {
+            type: Schema.Types.ObjectId,
+            ref: 'Decoration'
+        }
+    ],
+    event: [
+        {
+            type: Schema.Types.ObjectId,
+            ref: 'event'
+        }
+    ],
+    item: [
+        {
+            type: Schema.Types.ObjectId,
+            ref: 'Item'
+        }
+    ],
+    location: [
+        {
+            type: Schema.Types.ObjectId,
+            ref: 'Location'
+        }
+    ],
+    monster: [
+        {
+            type: Schema.Types.ObjectId,
+            ref: 'Monster'
+        }
+    ],
+    skill: [
+        {
+            type: Schema.Types.ObjectId,
+            ref: 'skill'
+        }
+    ],
+    weapon: [
+        {
+            type: Schema.Types.ObjectId,
+            ref: 'Weapon'
+        }
+    ],
 })
 
 //Setting up a middleware to hook into different stages of a model. We will be using the pre middleware to hook into before this gets saved.
