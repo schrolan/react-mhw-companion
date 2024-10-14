@@ -6,11 +6,13 @@ const armorSchema = new Schema({
     type: String,
     rank: String,
     rarity: Number,
-    defense: {
-        base: Number,
-        max: Number,
-        augmented: Number
-    },
+    defense: [
+        {
+            base: Number,
+            max: Number,
+            augmented: Number
+        }
+    ],
     resistances: {
         fire: Number,
         water: Number,
@@ -21,28 +23,61 @@ const armorSchema = new Schema({
     slots: {
         rank: Number
     },
-    skill: { 
-        type: [Schema.Types.ObjectId],
-        ref: "Skill"
-     },
+    skills:[
+        { 
+            slug: String,
+            name: String,
+            description: String,
+            ranks: [
+                {
+                    slug: String,
+                    skill: Number,
+                    level: Number,
+                    description: String,
+                    modifiers: [
+                        {
+                            affinity: Number,
+                            attack: Number,
+                            damageFire: Number,
+                            damageWater: Number,
+                            damageIce: Number,
+                            damageThunder: Number,
+                            damageDragon: Number,
+                            defense: Number,
+                            health: Number,
+                            sharpnessBonus: Number,
+                            resistAll: Number,
+                            resistFire: Number,
+                            resistWater: Number,
+                            resistIce: Number,
+                            resistThunder: Number,
+                            resistDragon: Number 
+                        }
+                    ]
+                }
+            ]
+        }
+    ],
      armorSet: {
-        id: Number,
         name: String,
         rank: String,
         pieces: [Number]
      },
      assets: {
-        imageMale: Number,
-        imageFemale: Number
+        imageMale: String,
+        imageFemale: String
      },
      crafting: {
         materials: [
             {
                 quantity: Number,
-                item: { 
-                    type: [Schema.Types.ObjectId],
-                    ref: "Item"
-                 }
+                item: {
+                    name: String,
+                    description: String,
+                    rarity: Number,
+                    carryLimit: Number,
+                    value: Number
+                }
             }
         ]
      }

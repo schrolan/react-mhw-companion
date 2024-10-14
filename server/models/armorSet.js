@@ -1,56 +1,131 @@
-const { Schema, model } = require('mongoose')
+const { Schema, model } = require('mongoose');
 
 const armorSetSchema = new Schema({
-    name: String,
     rank: String,
+    name: String,
     pieces: [
         {
-            id: Number,
             slug: String,
             name: String,
             type: String,
             rank: String,
             rarity: Number,
-            armorSet: Number,
-            attributes: {
-                defense: Number,
-                resistFire: Number,
-                resistWater: Number,
-                resistThunder: Number,
-                resistIce: Number
+            defense: [
+                {
+                    base: Number,
+                    max: Number,
+                    augmented: Number
+                }
+            ],
+            resistances: {
+                fire: Number,
+                water: Number,
+                ice: Number,
+                thunder: Number,
+                dragon: Number
             },
-            skill: { 
-                type: [Schema.Types.ObjectId],
-                ref: "Skill"
-             },
-             skill: Number,
-             skillName: String,
-             assets: {
-                 imageMale: Number,
-                 imageFemale: Number
-             }
+            slots: {
+                rank: Number
+            },
+            skills:[
+                { 
+                    slug: String,
+                    name: String,
+                    description: String,
+                    ranks: [
+                        {
+                            slug: String,
+                            skill: Number,
+                            level: Number,
+                            description: String,
+                            modifiers: [
+                                {
+                                    affinity: Number,
+                                    attack: Number,
+                                    damageFire: Number,
+                                    damageWater: Number,
+                                    damageIce: Number,
+                                    damageThunder: Number,
+                                    damageDragon: Number,
+                                    defense: Number,
+                                    health: Number,
+                                    sharpnessBonus: Number,
+                                    resistAll: Number,
+                                    resistFire: Number,
+                                    resistWater: Number,
+                                    resistIce: Number,
+                                    resistThunder: Number,
+                                    resistDragon: Number 
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ],
+            armorSet: {
+                name: String,
+                rank: String,
+                pieces: [Number]
+            },
+            assets: {
+                imageMale: String,
+                imageFemale: String
+            },
+            crafting: {
+                materials: [
+                    {
+                        quantity: Number,
+                        item: {
+                            name: String,
+                            description: String,
+                            rarity: Number,
+                            carryLimit: Number,
+                            value: Number
+                        }
+                    }
+                ]
+            }
         }
     ],
     bonus: {
-        id: Number,
         name: String,
         ranks: [
             {
                 pieces: Number,
-                skill: {
-                    id: Number,
-                    slug: String,
-                    level: Number,
-                    description: String,
-                    modifiers: [String],
-                    skill: Number,
-                    skillName: String
-                }
+                skill: [
+                    {
+                        slug: String,
+                        level: Number,
+                        description: String,
+                        modifiers: [
+                            {
+                                affinity: Number,
+                                attack: Number,
+                                damageFire: Number,
+                                damageWater: Number,
+                                damageIce: Number,
+                                damageThunder: Number,
+                                damageDragon: Number,
+                                defense: Number,
+                                health: Number,
+                                sharpnessBonus: Number,
+                                resistAll: Number,
+                                resistFire: Number,
+                                resistWater: Number,
+                                resistIce: Number,
+                                resistThunder: Number,
+                                resistDragon: Number
+                            }
+                        ],
+                        skill: Number,
+                        skillName: String
+                    }
+                ]
             }
         ]
     }
-})
+});
 
-const ArmorSet = model('ArmorSet', armorSetSchema)
+const ArmorSet = model('ArmorSet', armorSetSchema);
 
 module.exports = ArmorSet

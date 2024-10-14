@@ -38,14 +38,17 @@ const weaponSchema = new Schema({
     ],
     crafting: {
         craftable: Boolean,
-        previous: Number | null,
+        previous: Number || null,
         branches: [Number],
         craftingMaterials: [
             {
                 quantity: Number,
                 item: { 
-                    type: [Schema.Types.ObjectId],
-                    ref: "Item"
+                    name: String,
+                    description: String,
+                    rarity: Number,
+                    carryLimit: Number,
+                    value: Number
                  }
             }
         ],
@@ -53,14 +56,17 @@ const weaponSchema = new Schema({
             {
                 quantity: Number,
                 item: { 
-                    type: [Schema.Types.ObjectId],
-                    ref: "Item"
+                    name: String,
+                    description: String,
+                    rarity: Number,
+                    carryLimit: Number,
+                    value: Number
                  }
             }
         ],
         assets: {
             icon: Number,
-            image: Number
+            image: String
         }
     }
 })

@@ -1,7 +1,6 @@
 const { Schema, model } = require('mongoose')
 
 const ailmentSchema = new Schema({
-    ailmentId: Number,
     name: {
         type: String,
         required: "A name is required",

@@ -6,14 +6,30 @@ const skillSchema = new Schema({
     description: String,
     ranks: [
         {
-            id: Number,
             slug: String,
             skill: Number,
             level: Number,
             description: String,
-            modifiers: {
-                attack: Number
-            }
+            modifiers: [
+                {
+                    affinity: Number,
+                    attack: Number,
+                    damageFire: Number,
+                    damageWater: Number,
+                    damageIce: Number,
+                    damageThunder: Number,
+                    damageDragon: Number,
+                    defense: Number,
+                    health: Number,
+                    sharpnessBonus: Number,
+                    resistAll: Number,
+                    resistFire: Number,
+                    resistWater: Number,
+                    resistIce: Number,
+                    resistThunder: Number,
+                    resistDragon: Number 
+                }
+            ]
         }
     ]
 })
