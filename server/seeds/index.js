@@ -4,75 +4,18 @@ const connection = require('../config/connection')
 const { Ailment, Armor, ArmorSet, Charm, Decoration, Event, Item, Location, Monster, Skill, User, Weapon } = require('../models')
 
 connection.once('open', async () => {
-    await Item.deleteMany()
-    await Skill.deleteMany()
-    await Location.deleteMany()
     await Ailment.deleteMany()
     await Armor.deleteMany()
     await ArmorSet.deleteMany()
     await Charm.deleteMany()
     await Decoration.deleteMany()
     await Event.deleteMany()
+    await Item.deleteMany()
+    await Location.deleteMany()
     await Monster.deleteMany()
+    await Skill.deleteMany()
     await Weapon.deleteMany()
     await User.deleteMany()
-    
-    //Item seed
-    for (const id of [1]) {
-        const response = await fetch(`https://mhw-db.com/items/${id}`)
-
-        const {
-            name,
-            description,
-            rarity,
-            carryLimit,
-            value
-        } = await response.json()
-
-            await Item.create({
-                name,
-                description,
-                rarity,
-                carryLimit,
-                value
-            })
-        }
-
-        //Skill seed
-        for (const id of [1]) {
-            const response = await fetch(`https://mhw-db.com/skills/${id}`)
-    
-            const {
-                slug,
-                name,
-                description,
-                ranks
-            } = await response.json()
-    
-                await Skill.create({
-                    slug,
-                    name,
-                    description,
-                    ranks
-                })
-        }
-
-         //Location seed
-         for (const id of [1]) {
-            const response = await fetch(`https://mhw-db.com/locations/${id}`)
-
-            const {
-                name,
-                zoneCount,
-                camps
-            } = await response.json()
-
-                await Location.create({
-                    name,
-                    zoneCount,
-                    camps
-                })
-        }
 
         //Seed the ailment
         for (const id of [1]) {
@@ -224,6 +167,44 @@ connection.once('open', async () => {
                     })
             }
 
+            //Item seed
+            for (const id of [1]) {
+                const response = await fetch(`https://mhw-db.com/items/${id}`)
+
+                const {
+                    name,
+                    description,
+                    rarity,
+                    carryLimit,
+                    value
+                } = await response.json()
+
+                    await Item.create({
+                        name,
+                        description,
+                        rarity,
+                        carryLimit,
+                        value
+                    })
+                }
+
+             //Location seed
+            for (const id of [1]) {
+                const response = await fetch(`https://mhw-db.com/locations/${id}`)
+
+                const {
+                    name,
+                    zoneCount,
+                    camps
+                } = await response.json()
+
+                    await Location.create({
+                        name,
+                        zoneCount,
+                        camps
+                    })
+            }
+
             //Monster seed
             for (const id of [1]) {
                 const response = await fetch(`https://mhw-db.com/monsters/${id}`)
@@ -252,6 +233,25 @@ connection.once('open', async () => {
                         resistances,
                         weakness,
                         rewards
+                    })
+        }
+
+            //Skill seed
+            for (const id of [1]) {
+                const response = await fetch(`https://mhw-db.com/skills/${id}`)
+        
+                const {
+                    slug,
+                    name,
+                    description,
+                    ranks
+                } = await response.json()
+        
+                    await Skill.create({
+                        slug,
+                        name,
+                        description,
+                        ranks
                     })
             }
 
@@ -295,12 +295,6 @@ connection.once('open', async () => {
 
             
             //User seed
-            const allItem = await Item.find()
-            const allItemIds = allItem.map(item => item._id)
-            const allSkill = await Skill.find()
-            const allSkillIds = allSkill.map(skill => skill._id)
-            const allLocation = await Location.find()
-            const allLocationIds = allLocation.map(location => location._id)
             const allAilment = await Ailment.find()
             const allAilmentIds = allAilment.map(ailment => ailment._id)
             const allArmor = await Armor.find()
@@ -313,8 +307,14 @@ connection.once('open', async () => {
             const allDecorationIds = allDecoration.map(decoration => decoration._id)
             const allEvent = await Event.find()
             const allEventIds = allEvent.map(event => event._id)
+            const allItem = await Item.find()
+            const allItemIds = allItem.map(item => item._id)
+            const allLocation = await Location.find()
+            const allLocationIds = allLocation.map(location => location._id)
             const allMonster = await Monster.find()
             const allMonsterIds = allMonster.map(monster => monster._id)
+            const allSkill = await Skill.find()
+            const allSkillIds = allSkill.map(skill => skill._id)
             const allWeapon = await Weapon.find()
             const allWeaponIds = allWeapon.map(weapon => weapon._id)
 
@@ -322,16 +322,16 @@ connection.once('open', async () => {
                 username: 'MonsterHunter',
                 email: 'RankOneHunter@gmail.com',
                 password: 'GottaHunt',
-                item: allItemIds,
-                skill: allSkillIds,
-                location: allLocationIds,
                 ailment: allAilmentIds,
                 armor: allArmorIds,
                 armorSet: allArmorSetIds,
                 charm: allCharmIds,
                 decoration: allDecorationIds,
                 event: allEventIds,
+                item: allItemIds,
+                location: allLocationIds,
                 monster: allMonsterIds,
+                skill: allSkillIds,
                 weapon: allWeaponIds
             })
 
