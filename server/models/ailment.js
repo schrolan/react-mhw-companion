@@ -1,11 +1,7 @@
 const { Schema, model } = require('mongoose')
 
 const ailmentSchema = new Schema({
-    name: {
-        type: String,
-        required: "A name is required",
-        trim: true
-    },
+    name: String,
     description: String,
     recovery: {
         action: [String],

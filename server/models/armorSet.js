@@ -1,57 +1,61 @@
 const { Schema, model } = require('mongoose');
 
-const skillSchema = new Schema({
-    level: Number,
-    modifiers: {
-        affinity: Number,
-        attack: Number,
-        damageFire: Number,
-        damageWater: Number,
-        damageIce: Number,
-        damageThunder: Number,
-        damageDragon: Number,
-        defense: Number,
-        health: Number,
-        sharpnessBonus: Number,
-        resistAll: Number,
-        resistFire: Number,
-        resistWater: Number,
-        resistIce: Number,
-        resistThunder: Number,
-        resistDragon: Number 
-    },
-    skill: Number,
-    description: String,
-    skillName: String
-})
-
 const itemSchema = new Schema({
+    name: String,
+    description: String,
     rarity: Number,
     carryLimit: Number,
-    value: Number,
-    name: String,
-    description: String
+    value: Number
 })
 
-const craftingSchema = new Schema({
-    materials: [
+const skillSchema = new Schema({
+    id: Number,
+    slug: String,
+    name: String,
+    description: String,
+    ranks: [
         {
-            quantity: Number,
-            item: itemSchema
+            slug: String,
+            skill: Number,
+            level: Number,
+            description: String,
+            modifiers: [
+                {
+                    affinity: Number,
+                    attack: Number,
+                    damageFire: Number,
+                    damageWater: Number,
+                    damageIce: Number,
+                    damageThunder: Number,
+                    damageDragon: Number,
+                    defense: Number,
+                    health: Number,
+                    sharpnessBonus: Number,
+                    resistAll: Number,
+                    resistFire: Number,
+                    resistWater: Number,
+                    resistIce: Number,
+                    resistThunder: Number,
+                    resistDragon: Number 
+                }
+            ]
         }
     ]
 })
 
-const pieceSchema = new Schema({
+const armorSchema = new Schema({
+    slug: String,
+    name: String,
     type: String,
     rank: String,
     rarity: Number,
-    attributes: {},
-    defense: {
-        base: Number,
-        max: Number,
-        augmented: Number
-    },
+    defense: [
+        {
+            base: Number,
+            max: Number,
+            augmented: Number
+        }
+    ],
     resistances: {
         fire: Number,
         water: Number,
@@ -59,66 +63,78 @@ const pieceSchema = new Schema({
         thunder: Number,
         dragon: Number
     },
-    name: String,
-    slots: [
-        {
-            rank: Number
-        }
+    slots: {
+        rank: Number
+    },
+    skills:[
+        skillSchema
     ],
-    skills: [skillSchema],
-    armorSet: Number,
-    assets: {
+     armorSet: {
+        name: String,
+        rank: String,
+        pieces: [Number]
+     },
+     assets: {
         imageMale: String,
         imageFemale: String
-    },
-    crafting: craftingSchema
-})
-
-const bonusSkillSchema = new Schema({
-    slug: String,
-    level: Number,
-    description: String,
-    modifiers: [
-        {
-            affinity: Number,
-            attack: Number,
-            damageFire: Number,
-            damageWater: Number,
-            damageIce: Number,
-            damageThunder: Number,
-            damageDragon: Number,
-            defense: Number,
-            health: Number,
-            sharpnessBonus: Number,
-            resistAll: Number,
-            resistFire: Number,
-            resistWater: Number,
-            resistIce: Number,
-            resistThunder: Number,
-            resistDragon: Number
-        }
-    ],
-    skill: Number,
-    skillName: String
-})
-
-const bonusRankSchema = new Schema({
-    pieces: Number,
-    skill: [bonusSkillSchema]
-})
-
-const bonusSchema = new Schema({
-    name: String,
-    ranks: [bonusRankSchema]
+     },
+     crafting: {
+        materials: [
+            {
+                quantity: Number,
+                item: {
+                    itemSchema
+                }
+            }
+        ]
+     }
 })
 
 const armorSetSchema = new Schema({
     rank: String,
     name: String,
-    pieces: [pieceSchema],
-    bonus: bonusSchema
+    pieces: [
+        armorSchema
+    ],
+    bonus: {
+        name: String,
+        ranks: [
+            {
+                pieces: Number,
+                skill: [
+                    {
+                        slug: String,
+                        level: Number,
+                        description: String,
+                        modifiers: [
+                            {
+                                affinity: Number,
+                                attack: Number,
+                                damageFire: Number,
+                                damageWater: Number,
+                                damageIce: Number,
+                                damageThunder: Number,
+                                damageDragon: Number,
+                                defense: Number,
+                                health: Number,
+                                sharpnessBonus: Number,
+                                resistAll: Number,
+                                resistFire: Number,
+                                resistWater: Number,
+                                resistIce: Number,
+                                resistThunder: Number,
+                                resistDragon: Number
+                            }
+                        ],
+                        skill: Number,
+                        skillName: String
+                    }
+                ]
+            }
+        ]
+    }
 })
 
 const ArmorSet = model('ArmorSet', armorSetSchema);
 
-module.exports = ArmorSet;
+module.exports = ArmorSet
