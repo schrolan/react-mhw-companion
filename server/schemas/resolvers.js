@@ -1,79 +1,127 @@
 const { GraphQLError } = require('graphql')
 const { Ailment, Armor, ArmorSet, Charm, Decoration, Event, Item, Location, Monster, Skill, User, Weapon } = require('../models')
+const { Query } = require('mongoose')
 
 const resolvers = {
     Query: {
-        ailments: async (parent, args, context, info) => {
-            return await Ailment.find()
+        ailments: async () => {
+            try {
+                return await Ailment.find()
+            } catch (err) {
+                throw new Error('Could not fetch ailments.')
+            }
         },
-        ailment: async (parent, args, context, info) => {
-            return await Ailment.findById(args._id)
+        ailment: async (_, { _id }) => {
+            try {
+                const ailment = await Ailment.findById(_id)
+                .populate('recovery.item')
+                .populate('protection.item')
+                .populate('protection.skill')
+                if (!ailment) {
+                    throw new Error('Ailment not found');
+                }
+                return ailment;
+            } catch (error) {
+                throw new Error('Error fetching ailment');
+            }
         },
-        armors: async (parent, args, context, info) => {
-            return await Armor.find()
+        armors: async () => {
+            try {
+                return await Armor.find()
+            } catch (err) {
+                throw new Error('Could not fetch armors.')
+            }
         },
-        armor: async (parent, args, context, info) => {
-            return await Armor.findById(args._id)
+        armorSets: async () => {
+            try {
+                return await ArmorSet.find()
+            } catch (err) {
+                throw new Error('Could not fetch armorSets.')
+            }
         },
-        armorSets: async (parent, args, context, info) => {
-            return await ArmorSet.find()
+        charms: async () => {
+            try {
+                return await Charm.find()
+            } catch (err) {
+                throw new Error('Could not fetch charms.')
+            }
         },
-        armorSet: async (parent, args, context, info) => {
-            return await ArmorSet.findById(args._id)
+        decorations: async () => {
+            try {
+                return await Decoration.find()
+            } catch (err) {
+                throw new Error('Could not fetch decorations.')
+            }
         },
-        charms: async (parent, args, context, info) => {
-            return await Charm.find()
+        events: async () => {
+            try {
+                return await Event.find()
+            } catch (err) {
+                throw new Error('Could not fetch events.')
+            }
         },
-        charm: async (parent, args, context, info) => {
-            return await Charm.findById(args._id)
+        items: async () => {
+            try {
+                return await Item.find()
+            } catch (err) {
+                throw new Error('Could not fetch items.')
+            }
         },
-        decorations: async (parent, args, context, info) => {
-            return await Decoration.find()
+        locations: async () => {
+            try {
+                return await Location.find()
+            } catch (err) {
+                throw new Error('Could not fetch locations.')
+            }
         },
-        decoration: async (parent, args, context, info) => {
-            return await Decoration.findById(args._id)
+        monsters: async () => {
+            try {
+                return await Monster.find()
+            } catch (err) {
+                throw new Error('Could not fetch monsters.')
+            }
         },
-        events: async (parent, args, context, info) => {
-            return await Event.find()
+        skills: async () => {
+            try {
+                return await Skill.find()
+            } catch (err) {
+                throw new Error('Could not fetch skills.')
+            }
         },
-        event: async (parent, args, context, info) => {
-            return await Event.findById(args._id)
+        weapons: async () => {
+            try {
+                return await Weapon.find()
+            } catch (err) {
+                throw new Error('Could not fetch weapons.')
+            }
         },
-        items: async (parent, args, context, info) => {
-            return await Item.find()
+        users: async () => {
+            try {
+                return await User.find()
+            } catch (err) {
+                throw new Error('Could not fetch users.')
+            }
+        }
+    },
+    Mutation: {
+        login: async (_, { email, password }) => {
+            const user = await User.findOne({ email });
+            if (!user) {
+                throw new Error('User not found');
+            }
+            const token = generateToken(user);
+            return { token, user };
         },
-        item: async (parent, args, context, info) => {
-            return await Item.findById(args._id)
+        addAilment: async(_, { user, name, description, recovery, protection }) => {
+            const newAilment = new Ailment({ name, description, recovery, protection })
+            return await newAilment.save()
         },
-        locations: async (parent, args, context, info) => {
-            return await Location.find()
-        },
-        location: async (parent, args, context, info) => {
-            return await Location.findById(args._id)
-        },
-        monsters: async (parent, args, context, info) => {
-            return await Monster.find()
-        },
-        Monster: async (parent, args, context, info) => {
-            return await Monster.find()
-        },
-        ailments: async (parent, args, context, info) => {
-            return await Ailment.find()
-        },
-        ailments: async (parent, args, context, info) => {
-            return await Ailment.find()
-        },
-        ailments: async (parent, args, context, info) => {
-            return await Ailment.find()
-        },
-        ailments: async (parent, args, context, info) => {
-            return await Ailment.find()
-        },
-        ailments: async (parent, args, context, info) => {
-            return await Ailment.find()
-        },
-        ailments: async (parent, args, context, info) => {
-            return await Ailment.find()
-        },
+        addArmor: async(_, { slug, name, type, rank, rarity, defense, resistances, slots, skils, armorSet, assets, crafting
+         }) => {
+            const newArmor = new Armor({ slug, name, type, rank, rarity, defense, resistances, slots, skils, armorSet, assets, crafting })
+            return await newArmor.save()
+         }
     }
 }
+
+module.exports = resolvers

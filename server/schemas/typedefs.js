@@ -503,8 +503,6 @@ const typeDefs = `
         description: String
         recovery: Recovery
         protection: Protection
-
-
     }
 
 
@@ -640,17 +638,29 @@ const typeDefs = `
 
     type Query {
         ailments: [Ailment]
+        ailment(_id: ID!): Ailment
         armors: [Armor]
+        armor(_id: ID!): Armor
         armorSets: [ArmorSet]
+        armorSet(_id: ID!): ArmorSet
         charms: [Charm]
+        charm(_id: ID!): Charm
         decorations: [Decoration]
+        decoration(_id: ID!): Decoration
         events: [Event]
+        event(_id: ID!): Event
         items: [Item]
+        item(_id: ID!): Item
         locations: [Location]
+        location(_id: ID!): Location
         monsters: [Monster]
+        monster(_id: ID!): Monster
         skills: [Skill]
+        skill(_id: ID!): Skill
         weapons: [Weapon]
+        weapon(_id: ID!): Weapon
         users: [User]
+        user(_id: ID!): User
     }
 
     type Mutation {

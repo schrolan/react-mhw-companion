@@ -1,6 +1,7 @@
 const { Schema, model } = require('mongoose')
 
 const ailmentSchema = new Schema({
+    id: Number,
     name: String,
     description: String,
     recovery: {
