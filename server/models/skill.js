@@ -7,6 +7,7 @@ const skillSchema = new Schema({
     description: String,
     ranks: [
         {
+            id: Number,
             slug: String,
             skill: Number,
             level: Number,

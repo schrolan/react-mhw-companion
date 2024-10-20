@@ -14,9 +14,6 @@ const resolvers = {
         ailment: async (_, { _id }) => {
             try {
                 const ailment = await Ailment.findById(_id)
-                .populate('recovery.item')
-                .populate('protection.item')
-                .populate('protection.skill')
                 if (!ailment) {
                     throw new Error('Ailment not found');
                 }

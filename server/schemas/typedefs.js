@@ -5,13 +5,13 @@ const typeDefs = `
     }
 
     input RecoveryInput {
-        action: [String]
-        item: [ItemInput]
+        actions: [String]
+        items: [ItemInput]
     }
 
     input ProtectionInput {
-        item: [ItemInput]
-        skill: [SkillInput]
+        items: [ItemInput]
+        skills: [SkillInput]
     }
 
     input DefenseInput {
@@ -302,14 +302,14 @@ const typeDefs = `
     }
 
     type Recovery {
-        action: [String]
-        item: [Item]
+        actions: [String]
+        items: [Item]
     }
 
 
     type Protection {
-        item: [Item]
-        skill: [Skill]
+        items: [Item]
+        skills: [Skill]
     }
 
 

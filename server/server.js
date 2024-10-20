@@ -22,7 +22,7 @@ if (process.env.NODE_ENV === 'production') {
 
 //This connects us to MongoDB
 // Connect to MongoDB
-mongoose.connect(process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/react-hand-me-a-book', {
+mongoose.connect(process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/mhw-companion', {
     useNewUrlParser: true,
     useUnifiedTopology: true
   })
