@@ -175,6 +175,7 @@ const typeDefs = `
 
     input AilmentInput {
         _id: ID
+        id: Int
         name: String
         description: String
         recovery: RecoveryInput
@@ -184,6 +185,7 @@ const typeDefs = `
 
     input ArmorInput {
         _id: ID
+        id: Int
         slug: String
         name: String
         type: String
@@ -199,6 +201,8 @@ const typeDefs = `
     }
 
     input ArmorSetInput {
+        _id: ID
+        id: Int
         rank: String
         name: String
         pieces: [ArmorInput]
@@ -206,6 +210,8 @@ const typeDefs = `
     }
 
     input CharmInput {
+        _id: ID
+        id: Int
         slug: String
         name: String
         ranks: [SkillInput]
@@ -213,6 +219,8 @@ const typeDefs = `
     }
 
     input DecorationInput {
+        _id: ID
+        id: Int
         slug: String
         name: String
         rarity: Int
@@ -221,6 +229,8 @@ const typeDefs = `
     }
 
     input EventInput {
+        _id: ID
+        id: Int
         name: String
         platform: String
         exclusive: Boolean
@@ -236,6 +246,8 @@ const typeDefs = `
     }
 
     input ItemInput {
+        _id: ID
+        id: Int
         name: String
         description: String
         rarity: Int
@@ -244,12 +256,16 @@ const typeDefs = `
     }
 
     input LocationInput {
+        _id: ID
+        id: Int
         name: String
         zoneCount: Int
         camps: [CampsInput]
     }
 
     input MonsterInput {
+        _id: ID
+        id: Int
         name: String
         type: String
         species: String
@@ -263,6 +279,7 @@ const typeDefs = `
     }
 
     input SkillInput {
+        _id: ID
         id: Int
         slug: String
         name: String
@@ -288,6 +305,8 @@ const typeDefs = `
     }
 
     input WeaponInput {
+        _id: ID
+        id: Int
         name: String
         type: String
         rarity: Int
@@ -499,6 +518,7 @@ const typeDefs = `
 
     type Ailment {
         _id: ID
+        id: Int
         name: String
         description: String
         recovery: Recovery
@@ -508,6 +528,7 @@ const typeDefs = `
 
     type Armor {
         _id: ID
+        id: Int
         slug: String
         name: String
         type: String
@@ -524,6 +545,8 @@ const typeDefs = `
 
 
     type ArmorSet {
+        _id: ID
+        id: Int
         rank: String
         name: String
         pieces: [Armor]
@@ -532,6 +555,8 @@ const typeDefs = `
 
 
     type Charm {
+        _id: ID
+        id: Int
         slug: String
         name: String
         ranks: [Skill]
@@ -540,6 +565,8 @@ const typeDefs = `
 
 
     type Decoration {
+        _id: ID
+        id: Int
         slug: String
         name: String
         rarity: Int
@@ -549,6 +576,8 @@ const typeDefs = `
 
 
     type Event {
+        _id: ID
+        id: Int
         name: String
         platform: String
         exclusive: Boolean
@@ -565,6 +594,8 @@ const typeDefs = `
 
 
     type Item {
+        _id: ID
+        id: Int
         name: String
         description: String
         rarity: Int
@@ -574,6 +605,8 @@ const typeDefs = `
 
 
     type Location {
+        _id: ID
+        id: Int
         name: String
         zoneCount: Int
         camps: [Camps]
@@ -581,6 +614,8 @@ const typeDefs = `
 
 
     type Monster {
+        _id: ID
+        id: Int
         name: String
         type: String
         species: String
@@ -595,6 +630,7 @@ const typeDefs = `
 
 
     type Skill {
+        _id: ID
         id: Int
         slug: String
         name: String
@@ -622,6 +658,8 @@ const typeDefs = `
 
 
     type Weapon {
+        _id: ID
+        id: Int
         name: String
         type: String
         rarity: Int
@@ -669,6 +707,7 @@ const typeDefs = `
         addAilment(
             user: ID!
             _id: ID
+            id: Int
             name: String
             description: String
             recovery: RecoveryInput
@@ -677,6 +716,7 @@ const typeDefs = `
         addArmor(
             user: ID!
             _id: ID
+            id: Int
             slug: String
             name: String
             type: String
@@ -692,6 +732,8 @@ const typeDefs = `
         ): Armor
         addArmorSet(
             user: ID!
+            _id: ID
+            id: Int
             rank: String
             name: String
             pieces: [ArmorInput]
@@ -699,6 +741,8 @@ const typeDefs = `
         ): ArmorSet
         addCharm(
             user: ID!
+            _id: ID
+            id: Int
             slug: String
             name: String
             ranks: [SkillInput]
@@ -706,6 +750,8 @@ const typeDefs = `
         ): Charm
         addDecoration(
             user: ID!
+            _id: ID
+            id: Int
             slug: String
             name: String
             rarity: Int
@@ -714,6 +760,8 @@ const typeDefs = `
         ): Decoration
         addEvent(
             user: ID!
+            _id: ID
+            id: Int
             name: String
             platform: String
             exclusive: Boolean
@@ -729,6 +777,8 @@ const typeDefs = `
         ): Event
         addItem(
             user: ID!
+            _id: ID
+            id: Int
             name: String
             description: String
             rarity: Int
@@ -737,6 +787,8 @@ const typeDefs = `
         ): Item
         addLocation(
             user: ID!
+            _id: ID
+            id: Int
             name: String
             description: String
             rarity: Int
@@ -745,6 +797,8 @@ const typeDefs = `
         ): Location
         addMonster(
             user: ID!
+            _id: ID
+            id: Int
             name: String
             type: String
             species: String
@@ -758,6 +812,7 @@ const typeDefs = `
         ): Monster
         addSkill(
             user: ID!
+            _id: ID
             id: Int
             slug: String
             name: String
@@ -766,6 +821,8 @@ const typeDefs = `
         ): Skill
         addWeapon(
             user: ID!
+            _id: ID
+            id: Int
             name: String
             type: String
             rarity: Int
