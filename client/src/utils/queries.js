@@ -1,5 +1,53 @@
 import { gql } from "@apollo/client";
 
+const MODIFIERS_FRAGMENT = gql`
+  fragment ModifiersFragment on ModifierType {
+    affinity
+    attack
+    damageFire
+    damageWater
+    damageIce
+    damageThunder
+    damageDragon
+    defense
+    health
+    sharpnessBonus
+    resistAll
+    resistFire
+    resistWater
+    resistIce
+    resistThunder
+    resistDragon
+  }
+`;
+
+const RANKS_FRAGMENT = gql`
+  fragment RanksFragment on RankType {
+    slug
+    skill
+    level
+    description
+    modifiers {
+      ...ModifiersFragment
+    }
+  }
+  ${MODIFIERS_FRAGMENT}
+`;
+
+const SKILL_FRAGMENT = gql`
+  fragment SkillFragment on SkillType {
+    _id
+    id
+    slug
+    name
+    description
+    ranks {
+      ...RanksFragment
+    }
+  }
+  ${RANKS_FRAGMENT}
+`;
+
 const ITEM_FRAGMENT = gql`
   fragment ItemFragment on ItemType {
     _id
@@ -70,6 +118,22 @@ const CRAFTING_FRAGMENT = gql`
   }
   ${ITEM_FRAGMENT}
 `;
+
+const AILMENT_FRAGMENT = gql`
+  fragment AilmentInput on Ailment {
+    _id
+    name
+    description
+    recovery {
+      ...RecoveryFragment
+    }
+    protection {
+      ...ProtectionFragment
+    }
+  }
+  ${RECOVERY_FRAGMENT}
+  ${PROTECTION_FRAGMENT}
+`
 
 const ARMOR_FRAGMENT = gql`
   fragment ArmorFragment on ArmorType {
@@ -368,54 +432,6 @@ const MONSTER_FRAGMENT = gql`
   ${AILMENT_FRAGMENT}
   ${LOCATION_FRAGMENT}
   ${REWARD_FRAGMENT}
-`;
-
-const MODIFIERS_FRAGMENT = gql`
-  fragment ModifiersFragment on ModifierType {
-    affinity
-    attack
-    damageFire
-    damageWater
-    damageIce
-    damageThunder
-    damageDragon
-    defense
-    health
-    sharpnessBonus
-    resistAll
-    resistFire
-    resistWater
-    resistIce
-    resistThunder
-    resistDragon
-  }
-`;
-
-const RANKS_FRAGMENT = gql`
-  fragment RanksFragment on RankType {
-    slug
-    skill
-    level
-    description
-    modifiers {
-      ...ModifiersFragment
-    }
-  }
-  ${MODIFIERS_FRAGMENT}
-`;
-
-const SKILL_FRAGMENT = gql`
-  fragment SkillFragment on SkillType {
-    _id
-    id
-    slug
-    name
-    description
-    ranks {
-      ...RanksFragment
-    }
-  }
-  ${RANKS_FRAGMENT}
 `;
 
 const ATTACK_FRAGMENT = gql`

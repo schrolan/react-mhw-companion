@@ -11,3 +11,171 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+
+/* Common Card Styles */
+.card {
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 16px;
+  width: 100%;
+  margin: 16px auto;
+  background-color: #f9f9f9;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.card h2 {
+  margin-bottom: 8px;
+}
+
+.card h3, 
+.card h4 {
+  color: #444;
+  margin: 8px 0;
+}
+
+.card ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.card li {
+  margin-bottom: 4px;
+}
+
+.card strong {
+  font-weight: bold;
+}
+
+/* Button Styles */
+.save-button {
+  margin-top: 16px;
+  padding: 8px 16px;
+  background-color: #4CAF50; /* Default background */
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.save-button:hover {
+  background-color: #45a049; /* Hover state */
+}
+
+/* Specific Card Classes */
+.ailment-card,
+.armor-card,
+.armor-set-card,
+.charm-card,
+.decoration-card,
+.event-card,
+.item-card,
+.location-card,
+.monster-card,
+.skill-card,
+.weapon-card {
+  max-width: 600px; /* Adjust as necessary for specific cards */
+}
+
+.armor-image {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+  margin-bottom: 16px;
+}
+
+/* Section Styles */
+.ailment-section,
+.armor-section,
+.charm-skills,
+.crafting-materials,
+.decoration-skills,
+.event-locations,
+.location-info,
+.location-camps,
+.skill {
+  margin-top: 16px;
+}
+
+.armor-pieces, 
+.armor-bonus, 
+.bonus-skill, 
+.resistances {
+  margin-top: 8px;
+}
+
+.skill-rank {
+  margin-left: 16px;
+}
+
+.crafting-materials > div {
+  margin-top: 8px;
+}
+
+/* Miscellaneous Card Classes */
+.location-card h2 {
+  font-size: 1.5em;
+  margin-bottom: 8px;
+}
+
+.monster-card h2 {
+  font-size: 1.8em;
+  margin-bottom: 8px;
+}
+
+.skill-card h2,
+.weapon-card h2 {
+  font-size: 1.8em;
+  margin-bottom: 8px;
+}
+
+.weapon-card h3 {
+  margin-top: 16px;
+}
+
+.weapon-card h4 {
+  margin-top: 12px;
+}
+
+.weapon-image {
+  max-width: 100%;
+  height: auto;
+  margin-top: 16px;
+}
+
+.search-container {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.search-container h1 {
+  text-align: center;
+}
+
+.search-container form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.search-container input,
+.search-container select,
+.search-container button {
+  padding: 10px;
+  font-size: 16px;
+}
+
+.error {
+  color: red;
+  text-align: center;
+}
+
+.results {
+  margin-top: 20px;
+}

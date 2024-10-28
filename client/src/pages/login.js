@@ -1,6 +1,6 @@
 import { useState } from "react"
 import { LOGIN } from "../utils/mutations"
-import { fromError, useMutation } from "@apollo/client"
+import { useMutation } from "@apollo/client"
 import Auth from '../utils/auth'
 import { Link } from "react-router-dom"
  
@@ -9,7 +9,7 @@ const Login = () => {
     const [password, setPassword] = useState('')
     const [formError, setFormError] = useState('')
 
-    const [login, { loading, error }] = useMutation(LOGIN)
+    const [login, { error }] = useMutation(LOGIN)
 
     const handleSubmit = async e => {
         e.preventDefault()

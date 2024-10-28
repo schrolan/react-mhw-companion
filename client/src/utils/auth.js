@@ -1,51 +1,49 @@
-import decode from 'jwt-decode'
+import * as jwt_decode from 'jwt-decode';
 
-const lsKey = 'bookToken'
+const lsKey = 'mhwToken';
 
 class AuthService {
   getLoggedInUser() {
-    return this.getToken() && decode(this.getToken())?.data || false
+    return this.getToken() && jwt_decode(this.getToken())?.data || false;
   }
 
   loggedIn() {
-    const token = this.getToken()
-    if (token && !this.isTokenExpired(token) ) {
-      const decoded = decode(token)
-      return decoded
+    const token = this.getToken();
+    if (token && !this.isTokenExpired(token)) {
+      const decoded = jwt_decode(token);
+      return decoded;
     }
-    return false
+    return false;
   }
 
   isTokenExpired(token) {
-    const decoded = decode(token)
+    const decoded = jwt_decode(token);
     if (decoded.exp < Date.now() / 1000) {
-      localStorage.removeItem(lsKey)
-      return true
+      localStorage.removeItem(lsKey);
+      return true;
     }
-    return false
+    return false;
   }
 
   getToken() {
-    return localStorage.getItem(lsKey)
+    return localStorage.getItem(lsKey);
   }
-  
+
   login(token) {
-    localStorage.setItem(lsKey, token)
-    const decoded = decode(token)
-    const { _id } = decoded?.data
-    window.location.assign(`/user/${_id}`)
+    localStorage.setItem(lsKey, token);
+    const decoded = jwt_decode(token);
+    const { _id } = decoded?.data;
+    window.location.assign(`/user/${_id}`);
   }
 
   logout() {
-    localStorage.removeItem(lsKey)
-    window.location.assign(`/`)
+    localStorage.removeItem(lsKey);
+    window.location.assign(`/`);
   }
 
   addUser(token) {
-    
-      this.login(token)
-    
+    this.login(token);
   }
 }
 
-export default new AuthService()
+export default new AuthService();
