@@ -2,6 +2,7 @@
   "name": "react-mhw-companion",
   "version": "0.1.0",
   "private": true,
+  "homepage": ".",
   "dependencies": {
     "bootstrap": "^5.3.3",
     "if-env": "^1.0.4"
