@@ -64,16 +64,16 @@ const MonsterDetails = ({ monster }) => {
                         })),
                     },
                 })),
-                location: location.map(l => ({
+                location: Array.isArray(location) ? location.map(l => ({
                     id: l.id,
                     name: l.name,
                     zoneCount: l.zoneCount,
-                    camps: l.camps.map(c => ({
+                    camps: Array.isArray(l.camps) ? l.camps.map(c => ({
                         id: c.id,
                         name: c.name,
                         zone: c.zone
-                    })),
-                })),
+                    })) : [],
+                })) : [], // Ensure location is an array
                 resistances,
                 weaknesses,
                 reward: reward.map(r => ({
@@ -115,11 +115,15 @@ const MonsterDetails = ({ monster }) => {
                     </div>
                 ))}
                 <h3>Locations:</h3>
-                {monster.location.map(location => (
-                    <div key={location.id}>
-                        <strong>{location.name}</strong> - Zones: {location.zoneCount}
-                    </div>
-                ))}
+                {Array.isArray(monster.location) && monster.location.length > 0 ? (
+                    monster.location.map(loc => (
+                        <div key={loc.id}>
+                            <strong>{loc.name}</strong> - Zones: {loc.zoneCount}
+                        </div>
+                    ))
+                ) : (
+                    <p>No locations available</p>
+                )}
                 <button onClick={() => saveMonster(monster)} className="save-button">
                     Save Monster
                 </button>

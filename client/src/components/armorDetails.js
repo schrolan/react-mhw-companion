@@ -42,7 +42,15 @@ const ArmorDetails = ({ armor }) => {
         <Container>
             <div className="armor-card">
                 <h2>{name}</h2>
-                <img src={assets.imageMale || assets.imageFemale} alt={`${name} armor`} className="armor-image" />
+                {assets && (assets.imageMale || assets.imageFemale) ? (
+                    <img
+                        src={assets.imageMale || assets.imageFemale}
+                        alt={`${name} armor`}
+                        className="armor-image"
+                    />
+                ) : (
+                    <p>No image available</p>
+                )}
                 <p>Type: {type}</p>
                 <p>Rank: {rank}</p>
                 <p>Rarity: {rarity}</p>
@@ -50,9 +58,9 @@ const ArmorDetails = ({ armor }) => {
                 {defense && (
                     <div className="armor-section">
                         <h3>Defense</h3>
-                        <p>Base: {defense[0].base}</p>
-                        <p>Max: {defense[0].max}</p>
-                        <p>Augmented: {defense[0].augmented}</p>
+                        <p>Base: {defense.base || defense[0]?.base}</p>
+                        <p>Max: {defense.max || defense[0]?.max}</p>
+                        <p>Augmented: {defense.augmented || defense[0]?.augmented}</p>
                     </div>
                 )}
 
@@ -73,12 +81,16 @@ const ArmorDetails = ({ armor }) => {
                         {skills.map(skill => (
                             <div key={skill.id} className="skill">
                                 <strong>{skill.name}</strong> - {skill.description}
-                                {skill.ranks.map((rank, index) => (
-                                    <div key={index}>
-                                        <p>Level: {rank.level}</p>
-                                        <p>{rank.description}</p>
-                                    </div>
-                                ))}
+                                {skill.ranks && skill.ranks.length > 0 ? (
+                                    skill.ranks.map((rank, index) => (
+                                        <div key={index}>
+                                            <p>Level: {rank.level}</p>
+                                            <p>{rank.description}</p>
+                                        </div>
+                                    ))
+                                ) : (
+                                    <p>No ranks available for this skill</p>
+                                )}
                             </div>
                         ))}
                     </div>
@@ -98,11 +110,15 @@ const ArmorDetails = ({ armor }) => {
                         <ul>
                             {crafting.materials.map((material, index) => (
                                 <li key={index}>
-                                    {material.item.map(item => (
-                                        <div key={item.id}>
-                                            <strong>{item.name}</strong> - Quantity: {material.quantity}
-                                        </div>
-                                    ))}
+                                    {Array.isArray(material.item) ? (
+                                        material.item.map(item => (
+                                            <div key={item.id}>
+                                                <strong>{item.name}</strong> - Quantity: {material.quantity}
+                                            </div>
+                                        ))
+                                    ) : (
+                                        <p>Material information is unavailable</p>
+                                    )}
                                 </li>
                             ))}
                         </ul>

@@ -58,18 +58,26 @@ const EventDetails = ({ event }) => {
 
                 <div className="event-locations">
                     <h3>Locations:</h3>
-                    {location.map((loc, index) => (
-                        <div key={index} className="location-info">
-                            <h4>{loc.name}</h4>
-                            <p>Zone Count: {loc.zoneCount}</p>
-                            <div className="location-camps">
-                                <h5>Camps:</h5>
-                                {loc.camps.map((camp, i) => (
-                                    <p key={i}>{camp.name} (Zone: {camp.zone})</p>
-                                ))}
+                    {Array.isArray(location) && location.length > 0 ? (
+                        location.map((loc, index) => (
+                            <div key={index} className="location-info">
+                                <h4>{loc.name}</h4>
+                                <p>Zone Count: {loc.zoneCount}</p>
+                                <div className="location-camps">
+                                    <h5>Camps:</h5>
+                                    {Array.isArray(loc.camps) && loc.camps.length > 0 ? (
+                                        loc.camps.map((camp, i) => (
+                                            <p key={i}>{camp.name} (Zone: {camp.zone})</p>
+                                        ))
+                                    ) : (
+                                        <p>No camps available</p>
+                                    )}
+                                </div>
                             </div>
-                        </div>
-                    ))}
+                        ))
+                    ) : (
+                        <p>No locations available</p>
+                    )}
                 </div>
 
                 <button onClick={() => saveEvent(event)} className="save-button">

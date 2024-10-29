@@ -7,7 +7,7 @@ const ArmorSetSearch = () => {
     const [entities, setEntities] = useState([]);
     const [filteredEntities, setFilteredEntities] = useState([]);
     const [searchTerm, setSearchTerm] = useState('');
-    const category = 'armor-sets';
+    const category = 'armor/sets';
 
     useEffect(() => {
         const fetchEntities = async () => {

@@ -42,25 +42,35 @@ const DecorationDetails = ({ decoration }) => {
 
                 <div className="decoration-skills">
                     <h3>Skills:</h3>
-                    {skill.map((skillItem, index) => (
-                        <div key={index}>
-                            <h4>{skillItem.name}</h4>
-                            <p>{skillItem.description}</p>
-                            {skillItem.ranks.map((rank, i) => (
-                                <div key={i} className="skill-rank">
-                                    <p>Level: {rank.level}</p>
-                                    <p>{rank.description}</p>
-                                    {rank.modifiers.map((modifier, j) => (
-                                        <div key={j}>
-                                            <p>Affinity: {modifier.affinity}</p>
-                                            <p>Attack: {modifier.attack}</p>
-                                            {/* Display additional modifiers as needed */}
+                    {skill && skill.length > 0 ? (
+                        skill.map((skillItem, index) => (
+                            <div key={index}>
+                                <h4>{skillItem.name}</h4>
+                                <p>{skillItem.description}</p>
+                                {skillItem.ranks && skillItem.ranks.length > 0 ? (
+                                    skillItem.ranks.map((rank, i) => (
+                                        <div key={i} className="skill-rank">
+                                            <p>Level: {rank.level}</p>
+                                            <p>{rank.description}</p>
+                                            {rank.modifiers && rank.modifiers.length > 0 && (
+                                                rank.modifiers.map((modifier, j) => (
+                                                    <div key={j}>
+                                                        <p>Affinity: {modifier.affinity}</p>
+                                                        <p>Attack: {modifier.attack}</p>
+                                                        {/* Display additional modifiers as needed */}
+                                                    </div>
+                                                ))
+                                            )}
                                         </div>
-                                    ))}
-                                </div>
-                            ))}
-                        </div>
-                    ))}
+                                    ))
+                                ) : (
+                                    <p>No ranks available for this skill</p>
+                                )}
+                            </div>
+                        ))
+                    ) : (
+                        <p>No skills available for this decoration</p>
+                    )}
                 </div>
 
                 <button onClick={() => saveDecoration(decoration)} className="save-button">

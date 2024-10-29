@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
-import SearchForm from "../components/searchForm";
-import ArmorDetails from "../components/armorDetails";
+import SearchForm from '../components/searchForm';
+import ArmorDetails from '../components/armorDetails';
 
 const ArmorSearch = () => {
     const [error, setError] = useState(null);
@@ -9,17 +9,18 @@ const ArmorSearch = () => {
     const [searchTerm, setSearchTerm] = useState('');
     const category = 'armor';
 
+    // Initial fetch of armor data on component mount
     useEffect(() => {
         const fetchEntities = async () => {
             try {
                 const response = await fetch(`https://mhw-db.com/${category}`);
                 if (!response.ok) {
-                    throw new Error('Unable to fetch entities');
+                    throw new Error('Unable to fetch armor data');
                 }
                 const data = await response.json();
-                setEntities(data);
-                setFilteredEntities(data);
-                setSearchTerm('');
+                setEntities(data); // Store all armor data
+                setFilteredEntities(data); // Initialize filtered data
+                setSearchTerm(''); // Clear any existing search term
             } catch (err) {
                 setError(err.message);
             }
@@ -28,14 +29,15 @@ const ArmorSearch = () => {
         fetchEntities();
     }, [category]);
 
+    // Filter entities whenever searchTerm changes
     useEffect(() => {
         if (searchTerm) {
-            const results = entities.filter(entity => 
+            const results = entities.filter(entity =>
                 entity.name && entity.name.toLowerCase().includes(searchTerm.toLowerCase())
             );
             setFilteredEntities(results);
         } else {
-            setFilteredEntities(entities);
+            setFilteredEntities(entities); // Reset to all entities if search term is empty
         }
     }, [searchTerm, entities]);
 
@@ -45,8 +47,8 @@ const ArmorSearch = () => {
         } else if (!searchTerm) {
             return <p>Search for armor to get started!</p>;
         } else if (filteredEntities.length > 0) {
-            return filteredEntities.map(entity => (
-                <ArmorDetails key={entity.id} armor={entity} />
+            return filteredEntities.map(armor => (
+                <ArmorDetails key={armor.id} armor={armor} />
             ));
         } else {
             return <p>No results found for "{searchTerm}".</p>;

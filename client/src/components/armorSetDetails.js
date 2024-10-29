@@ -8,7 +8,6 @@ import '../index.css';
 
 const ArmorSetDetails = ({ armorSet }) => {
     const currentUser = Auth.getLoggedInUser();
-
     const [addArmorSet] = useMutation(ADD_ARMORSET, {
         refetchQueries: [{ query: GET_USER }, 'GET_USER'],
     });
@@ -63,18 +62,22 @@ const ArmorSetDetails = ({ armorSet }) => {
                         {bonus.ranks.map((rank, index) => (
                             <div key={index}>
                                 <p>Pieces required: {rank.pieces}</p>
-                                {rank.skill.map((skill, i) => (
-                                    <div key={i} className="bonus-skill">
-                                        <strong>{skill.skillName}</strong> - {skill.description}
-                                        {skill.modifiers && skill.modifiers.map((mod, j) => (
-                                            <div key={j}>
-                                                <p>Affinity: {mod.affinity}</p>
-                                                <p>Attack: {mod.attack}</p>
-                                                {/* Include other modifiers as needed */}
-                                            </div>
-                                        ))}
-                                    </div>
-                                ))}
+                                {Array.isArray(rank.skill) ? (
+                                    rank.skill.map((skill, i) => (
+                                        <div key={i} className="bonus-skill">
+                                            <strong>{skill.skillName}</strong> - {skill.description}
+                                            {skill.modifiers && skill.modifiers.map((mod, j) => (
+                                                <div key={j}>
+                                                    <p>Affinity: {mod.affinity}</p>
+                                                    <p>Attack: {mod.attack}</p>
+                                                    {/* Include other modifiers as needed */}
+                                                </div>
+                                            ))}
+                                        </div>
+                                    ))
+                                ) : (
+                                    <p>No skills available for this rank.</p>
+                                )}
                             </div>
                         ))}
                     </div>

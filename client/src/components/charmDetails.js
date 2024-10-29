@@ -35,49 +35,69 @@ const CharmDetails = ({ charm }) => {
         <Container>
             <div className="charm-card">
                 <h2>{name}</h2>
-                <p>Level: {ranks.level}</p>
-                <p>Rarity: {ranks.rarity}</p>
 
-                <div className="charm-skills">
-                    <h3>Skills:</h3>
-                    {ranks.skill.map((skill, index) => (
-                        <div key={index}>
-                            <h4>{skill.name}</h4>
-                            <p>{skill.description}</p>
-                            {skill.ranks.map((rank, i) => (
-                                <div key={i} className="skill-rank">
-                                    <p>Level: {rank.level}</p>
-                                    <p>{rank.description}</p>
-                                    {rank.modifiers.map((modifier, j) => (
-                                        <div key={j}>
-                                            <p>Affinity: {modifier.affinity}</p>
-                                            <p>Attack: {modifier.attack}</p>
-                                            {/* Display additional modifiers as needed */}
-                                        </div>
-                                    ))}
-                                </div>
-                            ))}
-                        </div>
-                    ))}
-                </div>
+                {ranks.map((rank, index) => (
+                    <div key={index}>
+                        <p>Level: {rank.level}</p>
+                        <p>Rarity: {rank.rarity}</p>
 
-                {ranks.crafting?.craftable && (
-                    <div className="crafting-materials">
-                        <h3>Crafting Materials:</h3>
-                        {ranks.crafting.materials.map((material, index) => (
-                            <div key={index}>
-                                <p>Quantity: {material.quantity}</p>
-                                {material.item.map((item, i) => (
+                        <div className="charm-skills">
+                            <h3>Skills:</h3>
+                            {rank.skills ? (
+                                rank.skills.map((skill, i) => (
                                     <div key={i}>
-                                        <p>Name: {item.name}</p>
-                                        <p>Rarity: {item.rarity}</p>
-                                        <p>Value: {item.value}</p>
+                                        <h4>{skill.name}</h4>
+                                        <p>{skill.description}</p>
+                                        {skill.ranks ? (
+                                            skill.ranks.map((skillRank, j) => (
+                                                <div key={j} className="skill-rank">
+                                                    <p>Level: {skillRank.level}</p>
+                                                    <p>{skillRank.description}</p>
+                                                    {skillRank.modifiers?.map((modifier, k) => (
+                                                        <div key={k}>
+                                                            <p>Affinity: {modifier.affinity}</p>
+                                                            <p>Attack: {modifier.attack}</p>
+                                                        </div>
+                                                    ))}
+                                                </div>
+                                            ))
+                                        ) : (
+                                            <p>No ranks available for this skill</p>
+                                        )}
+                                    </div>
+                                ))
+                            ) : (
+                                <p>No skills available</p>
+                            )}
+                        </div>
+
+                        {rank.crafting?.craftable && (
+                            <div className="crafting-materials">
+                                <h3>Crafting Materials:</h3>
+                                {rank.crafting.materials.map((material, i) => (
+                                    <div key={i}>
+                                        <p>Quantity: {material.quantity}</p>
+                                        {Array.isArray(material.item) ? (
+                                            material.item.map((item, j) => (
+                                                <div key={j}>
+                                                    <p>Name: {item.name}</p>
+                                                    <p>Rarity: {item.rarity}</p>
+                                                    <p>Value: {item.value}</p>
+                                                </div>
+                                            ))
+                                        ) : (
+                                            <div>
+                                                <p>Name: {material.item.name}</p>
+                                                <p>Rarity: {material.item.rarity}</p>
+                                                <p>Value: {material.item.value}</p>
+                                            </div>
+                                        )}
                                     </div>
                                 ))}
                             </div>
-                        ))}
+                        )}
                     </div>
-                )}
+                ))}
 
                 <button onClick={() => saveCharm(charm)} className="save-button">
                     Save Charm

@@ -67,11 +67,15 @@ const SkillDetails = ({ skill }) => {
                         <strong>Level {rank.level}:</strong> {rank.description}
                         <h4>Modifiers:</h4>
                         <ul>
-                            {rank.modifiers.map((modifier, index) => (
-                                <li key={index}>
-                                    Affinity: {modifier.affinity}, Attack: {modifier.attack}, Damage (Fire): {modifier.damageFire}, Damage (Water): {modifier.damageWater}, Damage (Ice): {modifier.damageIce}, Damage (Thunder): {modifier.damageThunder}, Damage (Dragon): {modifier.damageDragon}, Defense: {modifier.defense}, Health: {modifier.health}, Sharpness Bonus: {modifier.sharpnessBonus}, Resist All: {modifier.resistAll}, Resist Fire: {modifier.resistFire}, Resist Water: {modifier.resistWater}, Resist Ice: {modifier.resistIce}, Resist Thunder: {modifier.resistThunder}, Resist Dragon: {modifier.resistDragon}
-                                </li>
-                            ))}
+                            {Array.isArray(rank.modifiers) && rank.modifiers.length > 0 ? (
+                                rank.modifiers.map((modifier, index) => (
+                                    <li key={index}>
+                                        Affinity: {modifier.affinity}, Attack: {modifier.attack}, Damage (Fire): {modifier.damageFire}, Damage (Water): {modifier.damageWater}, Damage (Ice): {modifier.damageIce}, Damage (Thunder): {modifier.damageThunder}, Damage (Dragon): {modifier.damageDragon}, Defense: {modifier.defense}, Health: {modifier.health}, Sharpness Bonus: {modifier.sharpnessBonus}, Resist All: {modifier.resistAll}, Resist Fire: {modifier.resistFire}, Resist Water: {modifier.resistWater}, Resist Ice: {modifier.resistIce}, Resist Thunder: {modifier.resistThunder}, Resist Dragon: {modifier.resistDragon}
+                                    </li>
+                                ))
+                            ) : (
+                                <li>No modifiers available</li>
+                            )}
                         </ul>
                     </div>
                 ))}
