@@ -1,7 +1,7 @@
 const { GraphQLError } = require('graphql')
 const { Ailment, Armor, ArmorSet, Charm, Decoration, Event, Item, Location, Monster, Skill, User, Weapon } = require('../models')
-const { Query } = require('mongoose')
 const { signToken } = require('../utils/auth')
+const bcrypt = require('bcrypt')
 
 const resolvers = {
     Query: {
@@ -210,47 +210,41 @@ const resolvers = {
                 throw new Error('Could not fetch users.')
             }
         },
-        user: async (_, { _id }) => {
-            try {
-                const user = await User.findById(_id)
-                if (!user) {
-                    throw new Error('User not found');
-                }
-                return user;
-            } catch (error) {
-                throw new Error('Error fetching user');
-            }
+        user: async (parent, args, context, info) => {
+            return await User.findById(args._id).populate('ailemnt', 'armor', 'armorSet', 'charm', 'decoration', 'event', 'item', 'location', 'monster', 'skill', 'weapon')
         }
     },
     Mutation: {
         login: async (parent, { email, password }, context, info) => {
-            //find the user based on email
-            const user = await User.findOne({ email })
+            const user = await User.findOne({ email });
             if (!user) {
                 throw new GraphQLError('User not found', {
                     extensions: {
                         code: 'USER NOT FOUND',
                         http: { status: 404 }
                     }
-                })
+                });
             }
-            //verify the password
-            const isCorrectPassword = await user.isCorrectPassword(password)
+            
+            console.log("Hashed Password from DB:", user.password); // Check stored password
+    
+            const isCorrectPassword = await user.isCorrectPassword(password);
+            console.log("Password comparison result:", isCorrectPassword); // Log result
+            
             if (!isCorrectPassword) {
                 throw new GraphQLError('Password incorrect', {
                     extensions: {
                         code: 'INCORRECT PASSWORD',
                         http: { status: 401 }
                     }
-                })
+                });
             }
-            //sign the token
-            const token = signToken(user)
-            //return object that resembles Auth
+    
+            const token = signToken(user);
             return {
                 token,
                 user
-            }
+            };
         },
         addAilment: async(parent, args, context, info) => {
             const ailment = await Ailment.create(args)
@@ -373,10 +367,19 @@ const resolvers = {
             }
             return weapon
         },
-        addUser: async (parent, args, context, info) => {
-            const user = await User.create(args)
-            const token = signToken(user);
-            return { token, user };
+        addUser: async (parent, { username, email, password }, context, info) => {
+            if (!username || !email || !password) {
+                throw new GraphQLError('All fields are required', {
+                    extensions: {
+                        code: 'INVALID INPUT',
+                        http: { status: 400 }
+                    }
+                });
+            }
+        
+            const hashedPassword = await bcrypt.hash(password, 10);
+            const user = await User.create({ username, email, password: hashedPassword });
+            return { _id: user._id, username: user.username, email: user.email };
         },
         deleteAilment: async (parent, { userId, ailmentId }, context, info) => {
             const user = await User.findById(userId);

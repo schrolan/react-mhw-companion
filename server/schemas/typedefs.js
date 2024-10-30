@@ -712,7 +712,7 @@ const typeDefs = `
             description: String
             recovery: RecoveryInput
             protection: ProtectionInput
-        ): Ailment
+        ):Ailment
         addArmor(
             user: ID!
             _id: ID
@@ -729,7 +729,7 @@ const typeDefs = `
             armorSet: ArmorSetArmorInput
             assets: AssetsInput
             crafting: CraftingInput
-        ): Armor
+        ):Armor
         addArmorSet(
             user: ID!
             _id: ID
@@ -738,7 +738,7 @@ const typeDefs = `
             name: String
             pieces: [ArmorInput]
             bonus: BonusInput
-        ): ArmorSet
+        ):ArmorSet
         addCharm(
             user: ID!
             _id: ID
@@ -747,7 +747,7 @@ const typeDefs = `
             name: String
             ranks: [SkillInput]
             crafting: CraftingInput
-        ): Charm
+        ):Charm
         addDecoration(
             user: ID!
             _id: ID
@@ -757,7 +757,7 @@ const typeDefs = `
             rarity: Int
             skill: [SkillInput]
             slot: Int
-        ): Decoration
+        ):Decoration
         addEvent(
             user: ID!
             _id: ID
@@ -774,7 +774,7 @@ const typeDefs = `
             startTimestamp: Int
             endTimestamp: Int
             location: [LocationInput]
-        ): Event
+        ):Event
         addItem(
             user: ID!
             _id: ID
@@ -784,7 +784,7 @@ const typeDefs = `
             rarity: Int
             carryLimit: Int
             value: Int
-        ): Item
+        ):Item
         addLocation(
             user: ID!
             _id: ID
@@ -794,7 +794,7 @@ const typeDefs = `
             rarity: Int
             carryLimit: Int
             value: Int
-        ): Location
+        ):Location
         addMonster(
             user: ID!
             _id: ID
@@ -809,7 +809,7 @@ const typeDefs = `
             resistances: [MonsterResistancesInput]
             weaknesses: [WeaknessesInput]
             reward: [RewardInput]
-        ): Monster
+        ):Monster
         addSkill(
             user: ID!
             _id: ID
@@ -818,7 +818,7 @@ const typeDefs = `
             name: String
             description: String
             ranks: [SkillRanksInput]
-        ): Skill
+        ):Skill
         addWeapon(
             user: ID!
             _id: ID
@@ -834,12 +834,12 @@ const typeDefs = `
             slots: [SlotsInput]
             elements: [ElementsInput]
             crafting: CraftingInput
-        ): Weapon
+        ):Weapon
         addUser(
             username: String!
             email: String!
             password: String!
-        ): User
+        ):User
         deleteAilment(userId: ID!, ailmentId: ID!): User
         deleteArmor(userId: ID!, armorId: ID!): User
         deleteArmorSet(userId: ID!, armorSetId: ID!): User

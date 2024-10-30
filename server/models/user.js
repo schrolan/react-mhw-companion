@@ -57,7 +57,7 @@ const userSchema = new Schema({
     event: [
         {
             type: Schema.Types.ObjectId,
-            ref: 'event'
+            ref: 'Event'
         }
     ],
     item: [
@@ -95,18 +95,18 @@ const userSchema = new Schema({
 //Setting up a middleware to hook into different stages of a model. We will be using the pre middleware to hook into before this gets saved.
 userSchema.pre('save', async function(next) {
     if (this.isNew || this.isModified('password')) {
-        //This is the number that determines the random charachters that are hashed into a password
-        const saltRounds = 10
-        this.password = await bcrypt.hash(this.password, saltRounds)
+        const saltRounds = 10;
+        this.password = await bcrypt.hash(this.password, saltRounds);
+        console.log("Hashed password:", this.password); // Log after hashing
     }
+    next();
+});
 
-    next()
-})
 
-userSchema.methods.isCorrectPassword = function(password) {
-    //This is reffering to the document that you are calling this method from
-    return bcrypt.compare(password, this.password) 
-}
+userSchema.methods.isCorrectPassword = async function(password) {
+    console.log("Comparing passwords:", password, this.password); // Log for debugging
+    return await bcrypt.compare(password, this.password); 
+};
 
 const User = model('User', userSchema)
 

@@ -1,19 +1,31 @@
 const path = require('path');
 const express = require('express');
 const mongoose = require('mongoose');
+const cors = require('cors'); // Import CORS
 const { ApolloServer } = require('@apollo/server');
 const { expressMiddleware } = require('@apollo/server/express4');
 const typeDefs = require('./schemas/typeDefs');
 const resolvers = require('./schemas/resolvers');
 const { authMiddleware } = require('./utils/auth');
 
-// Connect to the port
 const PORT = process.env.PORT || 3000;
 const app = express();
+
+// Middleware for CORS
+app.use(cors({
+    origin: 'http://localhost:3000', // Adjust as needed
+    credentials: true,
+}));
 
 // Middleware for parsing data
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
+
+// Increase limit for headers
+app.use((req, res, next) => {
+  req.headers['Content-Length'] = 10000; // set to a suitable limit
+  next();
+});
 
 // Serve static files from the React app
 if (process.env.NODE_ENV === 'production') {
@@ -22,27 +34,27 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 // Connect to MongoDB
-mongoose.connect(process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/mhw-companion', {
+mongoose.connect(process.env.MONGODB_URI || 'mongodb+srv://root:root@cluster0.5jsp7.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0', {
     useNewUrlParser: true,
     useUnifiedTopology: true
 })
 .then(async () => {
     console.log('MongoDB connected');
-  
+
     // Start Apollo Server
     const apolloServer = new ApolloServer({ typeDefs, resolvers });
     await apolloServer.start();
-  
+
     // Apollo Server middleware for GraphQL endpoint
     app.use('/graphql', expressMiddleware(apolloServer, {
       context: authMiddleware,
     }));
-  
+
     // Serve the React app for all routes
     app.get('*', (req, res) => {
       res.sendFile(path.join(__dirname, '..', 'client', 'build', 'index.html'));
     });
-  
+
     // Start the Express server
     app.listen(PORT, () => {
       console.log(`Express server listening on http://localhost:${PORT}`);
@@ -51,4 +63,4 @@ mongoose.connect(process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/mhw-compa
 })
 .catch(err => {
     console.error('MongoDB connection error:', err);
-});  
+});
