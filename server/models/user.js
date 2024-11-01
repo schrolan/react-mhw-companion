@@ -104,8 +104,7 @@ userSchema.pre('save', async function(next) {
 
 
 userSchema.methods.isCorrectPassword = async function(password) {
-    console.log("Comparing passwords:", password, this.password); // Log for debugging
-    return await bcrypt.compare(password, this.password); 
+    return await bcrypt.compare(password, this.password);
 };
 
 const User = model('User', userSchema)

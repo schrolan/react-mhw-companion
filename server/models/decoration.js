@@ -1,7 +1,6 @@
 const { Schema, model } = require('mongoose')
 
 const skillSchema = new Schema({
-    id: Number,
     slug: String,
     name: String,
     description: String,
@@ -36,7 +35,6 @@ const skillSchema = new Schema({
 })
 
 const decorationSchema = new Schema({
-    id: Number,
     slug: String,
     name: String,
     rarity: Number,

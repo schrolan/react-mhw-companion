@@ -1,7 +1,6 @@
 const { Schema, model } = require('mongoose')
 
 const itemSchema = new Schema({
-    id: Number,
     name: String,
     description: String,
     rarity: Number,
@@ -10,7 +9,6 @@ const itemSchema = new Schema({
 })
 
 const weaponSchema = new Schema({
-    id: Number,
     name: String,
     type: String,
     rarity: Number,

@@ -1,27 +1,14 @@
 const { GraphQLError } = require('graphql')
 const { Ailment, Armor, ArmorSet, Charm, Decoration, Event, Item, Location, Monster, Skill, User, Weapon } = require('../models')
 const { signToken } = require('../utils/auth')
-const bcrypt = require('bcrypt')
 
 const resolvers = {
     Query: {
-        ailments: async () => {
-            try {
-                return await Ailment.find()
-            } catch (err) {
-                throw new Error('Could not fetch ailments.')
-            }
+        ailments: async (parent, args, context, info) => {
+            return await Ailment.find()
         },
-        ailment: async (_, { _id }) => {
-            try {
-                const ailment = await Ailment.findById(_id)
-                if (!ailment) {
-                    throw new Error('Ailment not found');
-                }
-                return ailment;
-            } catch (error) {
-                throw new Error('Error fetching ailment');
-            }
+        ailment: async (parent, args, context, info) => {
+            return await Ailment.findById(args._id)
         },
         armors: async () => {
             try {
@@ -102,16 +89,8 @@ const resolvers = {
                 throw new Error('Could not fetch events.')
             }
         },
-        event: async (_, { _id }) => {
-            try {
-                const event = await Event.findById(_id)
-                if (!event) {
-                    throw new Error('Event not found');
-                }
-                return event;
-            } catch (error) {
-                throw new Error('Error fetching event');
-            }
+        event: async (parent, args, context, info) => {
+            return await Event.findById(args._id)
         },
         items: async () => {
             try {
@@ -165,8 +144,7 @@ const resolvers = {
                 return monster;
             } catch (error) {
                 throw new Error('Error fetching monster');
-            }
-        },
+            }        },
         skills: async () => {
             try {
                 return await Skill.find()
@@ -203,15 +181,23 @@ const resolvers = {
                 throw new Error('Error fetching weapon');
             }
         },
-        users: async () => {
-            try {
-                return await User.find()
-            } catch (err) {
-                throw new Error('Could not fetch users.')
-            }
+        users: async (paren, args, context, info) => {
+            return await User.find()
         },
-        user: async (parent, args, context, info) => {
-            return await User.findById(args._id).populate('ailemnt', 'armor', 'armorSet', 'charm', 'decoration', 'event', 'item', 'location', 'monster', 'skill', 'weapon')
+        user: async (paren, args, context, info) => {
+            return await User.findById(args._id).populate([
+                'ailment',
+                'armor',
+                'armorSet',
+                'charm',
+                'decoration',
+                'event',
+                'item',
+                'location',
+                'monster',
+                'skill',
+                'weapon'
+            ]);
         }
     },
     Mutation: {
@@ -367,19 +353,10 @@ const resolvers = {
             }
             return weapon
         },
-        addUser: async (parent, { username, email, password }, context, info) => {
-            if (!username || !email || !password) {
-                throw new GraphQLError('All fields are required', {
-                    extensions: {
-                        code: 'INVALID INPUT',
-                        http: { status: 400 }
-                    }
-                });
-            }
-        
-            const hashedPassword = await bcrypt.hash(password, 10);
-            const user = await User.create({ username, email, password: hashedPassword });
-            return { _id: user._id, username: user.username, email: user.email };
+        addUser: async (parent, args, context, info) => {
+            const user = await User.create(args)
+            const token = signToken(user);
+            return { token, user };
         },
         deleteAilment: async (parent, { userId, ailmentId }, context, info) => {
             const user = await User.findById(userId);

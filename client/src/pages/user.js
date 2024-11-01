@@ -7,24 +7,30 @@ import DeleteButton from "../components/deleteButton"
 
 const User = () => {
     const { id } = useParams();
+    console.log("ID from params", id)
     const { data, loading, error } = useQuery(GET_USER, {
-        variables: { _id: id },
+        variables: { 
+            _id: id,
+        }
     });
+
+    if (loading) return <p>Loading...</p>;
+    console.log(data)
 
     if (error) return <p>Error: {error.message}</p>;
 
-    const user = data?.user || {};
+    const user = data?.variables || {};
 
     return (
         <>
             <nav className="navbar navbar-expand-lg navbar-light bg-success">
                 <div className="container-fluid">
-                    <h1 className="custom-font">{user.username}: <h6 className="custom-font">{user.email}</h6></h1>
+                    <h1 >{user.username}: <h6 >{user.email}</h6></h1>
                     <button onClick={() => Auth.logout()} className="btn btn-info custom-font">Log out</button>
                 </div>
             </nav>
 
-            <h1 className="custom-font">Favorites</h1>
+            <h1>Favorites</h1>
 
             <Container className="results">
                 <div className="card-container">

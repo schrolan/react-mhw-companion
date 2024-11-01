@@ -1,7 +1,6 @@
 const { Schema, model } = require('mongoose');
 
 const itemSchema = new Schema({
-    id: Number,
     name: String,
     description: String,
     rarity: Number,
@@ -10,7 +9,6 @@ const itemSchema = new Schema({
 })
 
 const skillSchema = new Schema({
-    id: Number,
     slug: String,
     name: String,
     description: String,
@@ -45,7 +43,6 @@ const skillSchema = new Schema({
 })
 
 const armorSchema = new Schema({
-    id: Number,
     slug: String,
     name: String,
     type: String,
@@ -89,14 +86,13 @@ const armorSchema = new Schema({
 })
 
 const armorSetSchema = new Schema({
-    id: Number,
     rank: String,
     name: String,
     pieces: [
         armorSchema
     ],
     bonus: {
-        id: Number,
+        
         name: String,
         ranks: [
             {

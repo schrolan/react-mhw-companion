@@ -206,7 +206,7 @@ connection.once('open', async () => {
             }
 
             //Monster seed
-            for (const id of [1]) {
+            for (const id of [30]) {
                 const response = await fetch(`https://mhw-db.com/monsters/${id}`)
 
                 const {
@@ -295,44 +295,44 @@ connection.once('open', async () => {
 
             
             //User seed
-            // const allAilment = await Ailment.find()
-            // const allAilmentIds = allAilment.map(ailment => ailment._id)
-            // const allArmor = await Armor.find()
-            // const allArmorIds = allArmor.map(armor => armor._id)
-            // const allArmorSet = await ArmorSet.find()
-            // const allArmorSetIds = allArmorSet.map(armorSet => armorSet._id)
-            // const allCharm = await Charm.find()
-            // const allCharmIds = allCharm.map(charm => charm._id)
-            // const allDecoration = await Decoration.find()
-            // const allDecorationIds = allDecoration.map(decoration => decoration._id)
-            // const allEvent = await Event.find()
-            // const allEventIds = allEvent.map(event => event._id)
-            // const allItem = await Item.find()
-            // const allItemIds = allItem.map(item => item._id)
-            // const allLocation = await Location.find()
-            // const allLocationIds = allLocation.map(location => location._id)
-            // const allMonster = await Monster.find()
-            // const allMonsterIds = allMonster.map(monster => monster._id)
-            // const allSkill = await Skill.find()
-            // const allSkillIds = allSkill.map(skill => skill._id)
-            // const allWeapon = await Weapon.find()
-            // const allWeaponIds = allWeapon.map(weapon => weapon._id)
+            const allAilment = await Ailment.find()
+            const allAilmentIds = allAilment.map(ailment => ailment._id)
+            const allArmor = await Armor.find()
+            const allArmorIds = allArmor.map(armor => armor._id)
+            const allArmorSet = await ArmorSet.find()
+            const allArmorSetIds = allArmorSet.map(armorSet => armorSet._id)
+            const allCharm = await Charm.find()
+            const allCharmIds = allCharm.map(charm => charm._id)
+            const allDecoration = await Decoration.find()
+            const allDecorationIds = allDecoration.map(decoration => decoration._id)
+            const allEvent = await Event.find()
+            const allEventIds = allEvent.map(event => event._id)
+            const allItem = await Item.find()
+            const allItemIds = allItem.map(item => item._id)
+            const allLocation = await Location.find()
+            const allLocationIds = allLocation.map(location => location._id)
+            const allMonster = await Monster.find()
+            const allMonsterIds = allMonster.map(monster => monster._id)
+            const allSkill = await Skill.find()
+            const allSkillIds = allSkill.map(skill => skill._id)
+            const allWeapon = await Weapon.find()
+            const allWeaponIds = allWeapon.map(weapon => weapon._id)
 
             await User.create({
                 username: 'MonsterHunter',
                 email: 'RankOneHunter@gmail.com',
                 password: 'GottaHunt',
-                // ailment: allAilmentIds,
-                // armor: allArmorIds,
-                // armorSet: allArmorSetIds,
-                // charm: allCharmIds,
-                // decoration: allDecorationIds,
-                // event: allEventIds,
-                // item: allItemIds,
-                // location: allLocationIds,
-                // monster: allMonsterIds,
-                // skill: allSkillIds,
-                // weapon: allWeaponIds
+                ailment: allAilmentIds,
+                armor: allArmorIds,
+                armorSet: allArmorSetIds,
+                charm: allCharmIds,
+                decoration: allDecorationIds,
+                event: allEventIds,
+                item: allItemIds,
+                location: allLocationIds,
+                monster: allMonsterIds,
+                skill: allSkillIds,
+                weapon: allWeaponIds
             })
 
             console.log('Time to hunt!')

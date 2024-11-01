@@ -1,38 +1,44 @@
 import { useState } from "react";
 import { ADD_USER, LOGIN } from "../utils/mutations";
 import { useMutation } from "@apollo/client";
-import Auth from "../utils/auth";
+import Auth from '../utils/auth';
 
 const SignUp = () => {
-    const [username, setUsername] = useState("");
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
+    const [username, setUsername] = useState('');
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
 
-    const [addUser, { loading: addingUser, error: addUserError }] = useMutation(ADD_USER);
-    const [login, { loading: loggingIn, error: loginError }] = useMutation(LOGIN);
+    const [addUser, { loading: addLoading, error: addError }] = useMutation(ADD_USER);
+    const [login, { loading: loginLoading, error: loginError }] = useMutation(LOGIN);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-
+        
         try {
-            // First, create the user account
-            const { data: addUserData } = await addUser({
-                variables: { username, email, password }
+            // First, call addUser mutation
+            const addUserResponse = await addUser({
+                variables: {
+                    username,
+                    email,
+                    password
+                }
             });
 
-            // Check if the user was added before attempting login
-            if (addUserData?.addUser) {
-                // Separate login request
-                const { data: loginData } = await login({
-                    variables: { email, password }
+            if (addUserResponse?.data?.addUser) {
+                // Once user is added, call login mutation
+                const loginResponse = await login({
+                    variables: {
+                        email,
+                        password,
+                    }
                 });
-                
-                if (loginData?.login?.token) {
-                    Auth.login(loginData.login.token); // Authenticate user on successful login
+
+                if (loginResponse?.data?.login?.token) {
+                    Auth.login(loginResponse.data.login.token);
                 }
             }
         } catch (err) {
-            console.error("Error during signup or login:", err);
+            console.error("Error in sign-up process:", err);
         }
     };
 
@@ -41,7 +47,7 @@ const SignUp = () => {
             <h1>Sign Up</h1>
             <nav className="navbar navbar-expand-lg navbar-light bg-success">
                 <div className="container-fluid">
-                    <input
+                    <input 
                         name="username"
                         value={username}
                         onChange={(e) => setUsername(e.target.value)}
@@ -49,7 +55,7 @@ const SignUp = () => {
                         type="text"
                         className="form-control me-2"
                     />
-                    <input
+                    <input 
                         name="email"
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
@@ -57,7 +63,7 @@ const SignUp = () => {
                         type="email"
                         className="form-control me-2"
                     />
-                    <input
+                    <input 
                         name="password"
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
@@ -65,13 +71,13 @@ const SignUp = () => {
                         type="password"
                         className="form-control me-2"
                     />
-                    <button className="btn btn-info" disabled={addingUser || loggingIn}>
-                        SignUp
+                    <button className="btn btn-info" disabled={addLoading || loginLoading}>
+                        {addLoading || loginLoading ? 'Processing...' : 'Sign Up'}
                     </button>
                 </div>
             </nav>
-            {addUserError && <p>Error: {addUserError.message}</p>}
-            {loginError && <p>Error: {loginError.message}</p>}
+            {addError && <p>Error signing up: {addError.message}</p>}
+            {loginError && <p>Error logging in: {loginError.message}</p>}
         </form>
     );
 };

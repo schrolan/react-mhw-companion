@@ -1,23 +1,23 @@
-import * as jwt_decode from 'jwt-decode';
+import decode from 'jwt-decode';
 
 const lsKey = 'mhwToken';
 
 class AuthService {
   getLoggedInUser() {
-    return this.getToken() && jwt_decode(this.getToken())?.data || false;
+    return this.getToken() && decode(this.getToken())?.data || false;
   }
 
   loggedIn() {
     const token = this.getToken();
     if (token && !this.isTokenExpired(token)) {
-      const decoded = jwt_decode(token);
+      const decoded = decode(token);
       return decoded;
     }
     return false;
   }
 
   isTokenExpired(token) {
-    const decoded = jwt_decode(token);
+    const decoded = decode(token);
     if (decoded.exp < Date.now() / 1000) {
       localStorage.removeItem(lsKey);
       return true;
@@ -31,7 +31,7 @@ class AuthService {
 
   login(token) {
     localStorage.setItem(lsKey, token);
-    const decoded = jwt_decode(token);
+    const decoded = decode(token);
     const { _id } = decoded?.data;
     window.location.assign(`/user/${_id}`);
   }

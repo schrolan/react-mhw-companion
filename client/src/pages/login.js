@@ -8,30 +8,33 @@ const Login = () => {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [formError, setFormError] = useState('')
-
-    const [login, { error }] = useMutation(LOGIN)
+    console.log("Testing info")
+    const [login, { error }] = useMutation(LOGIN, {
+        onError: (err) => {
+            console.log('Mutation error:', err)
+        }
+    })
 
     const handleSubmit = async e => {
-        e.preventDefault()
+        e.preventDefault();
         if (!email || !password) {
-            setFormError('Email and password must both be filled out.')
-            return
+            setFormError('Email and password must both be filled out.');
+            return;
         }
-
-        setFormError('')
+        setFormError('');
         try {
             const { data } = await login({
                 variables: {
                     email,
-                    password,
+                    password
                 }
-            })
-            console.log(data)
-            Auth.login(data.login.token)
+            });
+            console.log(data);
+            Auth.login(data.login.token);
         } catch (err) {
-            console.log(err)
+            console.log(err);
         }
-    }
+    };    
 
     return (
         <nav className="navbar navbar-expand-lg navbar-light bg-light">

@@ -1,7 +1,6 @@
 const { Schema, model } = require('mongoose')
 
 const itemSchema = new Schema({
-    id: Number,
     name: String,
     description: String,
     rarity: Number,
@@ -10,13 +9,11 @@ const itemSchema = new Schema({
 })
 
 const skillSchema = new Schema({
-    id: Number,
     slug: String,
     name: String,
     description: String,
     ranks: [
         {
-            id: Number,
             slug: String,
             skill: Number,
             level: Number,
@@ -46,7 +43,6 @@ const skillSchema = new Schema({
 })
 
 const ailmentSchema = new Schema({
-    id: Number,
     name: String,
     description: String,
     recovery: {
@@ -61,12 +57,10 @@ const ailmentSchema = new Schema({
 })
 
 const locationSchema = new Schema({
-    id: Number,
     name: String,
     zoneCount: Number,
     camps: [
         {
-            id: Number,
             name: String,
             zone: Number
         }
@@ -80,7 +74,7 @@ const monsterSchema = new Schema({
     description: String,
     elements: [String],
     ailments: [ailmentSchema],
-    location: [locationSchema],
+    locations: [locationSchema],
     resistances: [
         {
             element: String,
@@ -96,7 +90,6 @@ const monsterSchema = new Schema({
     ],
     reward: [
         {
-            id: Number,
             item: [itemSchema],
              conditions: [
                 {

@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken')
 
-const secret = "booksarethegreatest"
+const secret = "timetohunt"
 //After this amount of time the user would have to reauthenticate to get a new token
 const expiration = '2hr'
 
@@ -36,7 +36,5 @@ module.exports = {
         } catch(err) {
             console.log('Invalid Token', err)
         }
-
-        return req
     }
 }

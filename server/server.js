@@ -1,7 +1,6 @@
 const path = require('path');
 const express = require('express');
 const mongoose = require('mongoose');
-const cors = require('cors'); // Import CORS
 const { ApolloServer } = require('@apollo/server');
 const { expressMiddleware } = require('@apollo/server/express4');
 const typeDefs = require('./schemas/typeDefs');
@@ -10,12 +9,6 @@ const { authMiddleware } = require('./utils/auth');
 
 const PORT = process.env.PORT || 3000;
 const app = express();
-
-// Middleware for CORS
-app.use(cors({
-    origin: 'http://localhost:3000', // Adjust as needed
-    credentials: true,
-}));
 
 // Middleware for parsing data
 app.use(express.urlencoded({ extended: false }));
