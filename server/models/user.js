@@ -81,7 +81,7 @@ const userSchema = new Schema({
     skill: [
         {
             type: Schema.Types.ObjectId,
-            ref: 'skill'
+            ref: 'Skill'
         }
     ],
     weapon: [

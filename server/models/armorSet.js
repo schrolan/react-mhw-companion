@@ -92,7 +92,6 @@ const armorSetSchema = new Schema({
         armorSchema
     ],
     bonus: {
-        
         name: String,
         ranks: [
             {

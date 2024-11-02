@@ -382,8 +382,6 @@ const EVENT_FRAGMENT = gql`
     requirements
     questRank
     successConditions
-    startTimestamp
-    endTimestamp
     location {
       ...LocationFragment
     }

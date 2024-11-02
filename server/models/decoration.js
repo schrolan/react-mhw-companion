@@ -39,7 +39,7 @@ const decorationSchema = new Schema({
     name: String,
     rarity: Number,
     skill: [skillSchema],
-     slot: Number
+    slot: Number
 })
 
 const Decoration = model('Decoration', decorationSchema)

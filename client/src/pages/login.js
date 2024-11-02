@@ -8,7 +8,7 @@ const Login = () => {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [formError, setFormError] = useState('')
-    console.log("Testing info")
+    
     const [login, { error }] = useMutation(LOGIN, {
         onError: (err) => {
             console.log('Mutation error:', err)

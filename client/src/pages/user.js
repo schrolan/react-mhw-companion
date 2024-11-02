@@ -7,7 +7,6 @@ import DeleteButton from "../components/deleteButton"
 
 const User = () => {
     const { id } = useParams();
-    console.log("ID from params", id)
     const { data, loading, error } = useQuery(GET_USER, {
         variables: { 
             _id: id,
@@ -19,7 +18,7 @@ const User = () => {
 
     if (error) return <p>Error: {error.message}</p>;
 
-    const user = data?.variables || {};
+    const user = data?.user || {};
 
     return (
         <>
@@ -33,10 +32,10 @@ const User = () => {
             <h1>Favorites</h1>
 
             <Container className="results">
-                <div className="card-container">
+                { <div className="card-container">
 
                     <h2>Ailments</h2>
-                    {user.ailments?.map((ailment, i) => (
+                    {user.ailment?.map((ailment, i) => (
                         <div className="card bg-success" key={`ailment-${i}`}>
                             <h3 className="ailment-background">Name: {ailment.name}</h3>
                             <div className="ailment-background">
@@ -59,19 +58,19 @@ const User = () => {
                     ))}
 
                     <h2>Armor Sets</h2>
-                    {user.armorSets?.map((armorSet, i) => (
+                    {user.armorSet?.map((armorSet, i) => (
                         <div className="card bg-success" key={`armorSet-${i}`}>
                             <h3 className="armorSet-background">Name: {armorSet.name}</h3>
                             <div className="armorSet-background">
                                 <h4 className="card-text">Rank: {armorSet.rank}</h4>
-                                <h4 className="card-text">Bonus: {armorSet.bonus}</h4>
+                                <h4 className="card-text">Bonus: {armorSet.bonus.name}</h4>
                             </div>
                             <DeleteButton userId={user._id} entityId={armorSet.id} entityType="armorSet" />
                         </div>
                     ))}
 
                     <h2>Charms</h2>
-                    {user.charms?.map((charm, i) => (
+                    {user.charm?.map((charm, i) => (
                         <div className="card bg-success" key={`charm-${i}`}>
                             <h3 className="charm-background">Name: {charm.name}</h3>
                             <div className="charm-background">
@@ -82,7 +81,7 @@ const User = () => {
                     ))}
 
                     <h2>Decorations</h2>
-                    {user.decorations?.map((decoration, i) => (
+                    {user.decoration?.map((decoration, i) => (
                         <div className="card bg-success" key={`decoration-${i}`}>
                             <h3 className="decoration-background">Name: {decoration.name}</h3>
                             <div className="decoration-background">
@@ -94,7 +93,7 @@ const User = () => {
                     ))}
 
                     <h2>Events</h2>
-                    {user.events?.map((event, i) => (
+                    {user.event?.map((event, i) => (
                         <div className="card bg-success" key={`event-${i}`}>
                             <h3 className="event-background">Name: {event.name}</h3>
                             <div className="event-background">
@@ -106,7 +105,7 @@ const User = () => {
                     ))}
 
                     <h2>Items</h2>
-                    {user.items?.map((item, i) => (
+                    {user.item?.map((item, i) => (
                         <div className="card bg-success" key={`item-${i}`}>
                             <h3 className="item-background">Name: {item.name}</h3>
                             <div className="item-background">
@@ -118,7 +117,7 @@ const User = () => {
                     ))}
 
                     <h2>Locations</h2>
-                    {user.locations?.map((location, i) => (
+                    {user.location?.map((location, i) => (
                         <div className="card bg-success" key={`location-${i}`}>
                             <h3 className="location-background">Name: {location.name}</h3>
                             <div className="location-background">
@@ -129,7 +128,7 @@ const User = () => {
                     ))}
 
                     <h2>Monsters</h2>
-                    {user.monsters?.map((monster, i) => (
+                    {user.monster?.map((monster, i) => (
                         <div className="card bg-success" key={`monster-${i}`}>
                             <h3 className="monster-background">Name: {monster.name}</h3>
                             <div className="monster-background">
@@ -141,7 +140,7 @@ const User = () => {
                     ))}
 
                     <h2>Skills</h2>
-                    {user.skills?.map((skill, i) => (
+                    {user.skill?.map((skill, i) => (
                         <div className="card bg-success" key={`skill-${i}`}>
                             <h3 className="skill-background">Name: {skill.name}</h3>
                             <div className="skill-background">
@@ -152,7 +151,7 @@ const User = () => {
                     ))}
 
                     <h2>Weapons</h2>
-                    {user.weapons?.map((weapon, i) => (
+                    {user.weapon?.map((weapon, i) => (
                         <div className="card bg-success" key={`weapon-${i}`}>
                             <h3 className="weapon-background">Name: {weapon.name}</h3>
                             <div className="weapon-background">
@@ -163,7 +162,7 @@ const User = () => {
                         </div>
                     ))}
 
-                </div>
+                </div> }
             </Container>
         </>
     );
