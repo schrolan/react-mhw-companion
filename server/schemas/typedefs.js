@@ -495,20 +495,107 @@ const typeDefs = `
         crafting: Crafting
     }
 
+    type ArmorSetPiecesAttributes {
+        defense: Int
+        resistFire: Int
+        resistWater: Int
+        resistThunder: Int
+        resistIce: Int
+    }
+
+    type ArmorSetPiecesSkills {
+        slug: String
+        level: Int
+        description: String
+        modifiers: [Modifiers]
+        skill: Int
+        skillName: String
+    }
+
+    type ArmorSetPiecesAssets {
+        imageMale: String
+        imageFemale: String
+    }
+
+    type ArmorSetPieces {
+        slug: String
+        name: String
+        type: String
+        rank: String
+        rarity: Int
+        armorSet: Int
+        attributes: ArmorSetPiecesAttributes
+        skills: [ArmorSetPiecesSkills]
+        assets: ArmorSetPiecesAssets
+    }
+
+    type ArmorSetBonusRanksSkill {
+        slug: String
+        level: Int
+        description: String
+        modifiers: [Modifiers]
+        skill: Int
+        skillName: String
+    }
+
+    type ArmorSetBonusRanks {
+        pieces: Int
+        skill: [ArmorSetBonusRanksSkill]
+    }
+
+    type ArmorSetBonus {
+        name: String
+        ranks: [ArmorSetBonusRanks]
+    }
+
     type ArmorSet {
         _id: ID
-        rank: String
         name: String
-        pieces: [Armor]
-        bonus: Bonus
+        rank: String
+        pieces: [ArmorSetPieces]
+        bonus: ArmorSetBonus
+    }
+
+    type CharmRanksSkills {
+        slug: String
+        level: Int
+        description: String
+        skill: Int
+        skillName: String
+        modifiers: [Modifiers]
+    }
+
+    type CharmCraftingMaterialsItems {
+        name: String
+        description: String
+        rarity: Int
+        carryLimit: Int
+        sellPrice: Int
+        buyPrice: Int
+    }
+
+    type CharmRanksCraftingMaterials {
+        quantity: Int
+        item: CharmCraftingMaterialsItems
+    }
+
+    type CharmRanksCrafting {
+        craftable: Boolean
+        materials: [CharmRanksCraftingMaterials]
+    }
+
+    type CharmRanks {
+        level: Int
+        rarity: Int
+        skills: [CharmRanksSkills]
+        crafting: CharmRanksCrafting
     }
 
     type Charm {
         _id: ID
         slug: String
         name: String
-        ranks: [Skill]
-        crafting: Crafting
+        ranks: [CharmRanks]
     }
 
     type Decoration {

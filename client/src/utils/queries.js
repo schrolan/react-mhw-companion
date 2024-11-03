@@ -874,188 +874,134 @@ export const GET_USER = gql`
           }
         }
       }
+      armorSet {
+        _id
+        name
+        rank
+        pieces {
+          slug
+          name
+          type
+          rank
+          rarity
+          armorSet
+          attributes {
+            defense
+            resistFire
+            resistWater
+            resistThunder
+            resistIce
+          }
+          skills {
+            slug
+            level
+            description
+            modifiers {
+              affinity
+              attack
+              damageFire
+              damageWater
+              damageIce
+              damageThunder
+              damageDragon
+              defense
+              health
+              sharpnessBonus
+              resistAll
+              resistFire
+              resistWater
+              resistIce
+              resistThunder
+              resistDragon
+            }
+            skill
+            skillName
+          }
+          assets {
+            imageMale
+            imageFemale
+          }
+        }
+        bonus {
+          name
+          ranks {
+            pieces
+            skill {
+              slug
+              level
+              description
+              modifiers {
+                affinity
+                attack
+                damageFire
+                damageWater
+                damageIce
+                damageThunder
+                damageDragon
+                defense
+                health
+                sharpnessBonus
+                resistAll
+                resistFire
+                resistWater
+                resistIce
+                resistThunder
+                resistDragon
+              }
+              skill
+              skillName
+            }
+          }
+        }
+      }
+      charm {
+        _id
+        slug
+        name
+        ranks {
+          level
+          rarity
+          skills {
+            slug
+            level
+            description
+            skill
+            skillName
+            modifiers {
+              affinity
+              attack
+              damageFire
+              damageWater
+              damageIce
+              damageThunder
+              damageDragon
+              defense
+              health
+              sharpnessBonus
+              resistAll
+              resistFire
+              resistWater
+              resistIce
+              resistThunder
+              resistDragon
+            }
+          }
+          crafting {
+            craftable
+            materials {
+              quantity
+              item {
+                name
+                description
+                rarity
+                carryLimit
+                sellPrice
+                buyPrice
+              }
+            }
+          }
+        }
+      }
     }
   }
-  `
-
-  // armorSet {
-  //   rank
-  //   name
-  //   pieces {
-  //     slug
-  //     name
-  //     type
-  //     rank
-  //     rarity
-  //     defense {
-  //       base
-  //       max
-  //       augmented
-  //     }
-  //     resistances {
-  //       fire
-  //       water
-  //       ice
-  //       thunder
-  //       dragon
-  //     }
-  //     slots {
-  //         rank
-  //     }
-  //     skills {
-  //       slug
-  //       name
-  //       description
-  //       ranks {
-  //         slug
-  //         skill
-  //         level
-  //         description
-  //         modifiers {
-  //           affinity
-  //           attack
-  //           damageFire
-  //           damageWater
-  //           damageIce
-  //           damageThunder
-  //           damageDragon
-  //           defense
-  //           health
-  //           sharpnessBonus
-  //           resistAll
-  //           resistFire
-  //           resistWater
-  //           resistIce
-  //           resistThunder
-  //           resistDragon 
-  //         }
-  //       }
-  //     }
-  //     armorSet {
-  //       name
-  //       rank
-  //       pieces
-  //     }
-  //     assets {
-  //         imageMale
-  //         imageFemale
-  //     }
-  //     crafting {
-  //       materials {
-  //         quantity
-  //         item {
-  //           name
-  //           description
-  //           rarity
-  //           carryLimit
-  //           value
-  //         }
-  //       }
-  //     }
-  //   }
-  //   bonus {
-  //     name
-  //     ranks {
-  //       pieces
-  //       skill {
-  //         slug
-  //         level
-  //         description
-  //         modifiers {
-  //           affinity
-  //           attack
-  //           damageFire
-  //           damageWater
-  //           damageIce
-  //           damageThunder
-  //           damageDragon
-  //           defense
-  //           health
-  //           sharpnessBonus
-  //           resistAll
-  //           resistFire
-  //           resistWater
-  //           resistIce
-  //           resistThunder
-  //           resistDragon
-  //         }
-  //         skill
-  //         skillName
-  //       }
-  //     }
-  //   }
-  // }
-  // charm {
-  //   slug
-  //   name
-  //   ranks {
-  //     level
-  //     rarity
-  //     skill {
-  //       slug
-  //         level
-  //         description
-  //         modifiers {
-  //           affinity
-  //           attack
-  //           damageFire
-  //           damageWater
-  //           damageIce
-  //           damageThunder
-  //           damageDragon
-  //           defense
-  //           health
-  //           sharpnessBonus
-  //           resistAll
-  //           resistFire
-  //           resistWater
-  //           resistIce
-  //           resistThunder
-  //           resistDragon
-  //         }
-  //     }
-  //     crafting {
-  //       craftable
-  //       materials {
-  //         quantity
-  //         item {
-  //           _id
-  //           name
-  //           description
-  //           rarity
-  //           carryLimit
-  //           value
-  //         }
-  //       }
-  //     }
-  //   }
-  // }
-  // decoration {
-  //   slug
-  //   name
-  //   rarity
-  //   skill {
-  //     slug
-  //       level
-  //       description
-  //       modifiers {
-  //         affinity
-  //         attack
-  //         damageFire
-  //         damageWater
-  //         damageIce
-  //         damageThunder
-  //         damageDragon
-  //         defense
-  //         health
-  //         sharpnessBonus
-  //         resistAll
-  //         resistFire
-  //         resistWater
-  //         resistIce
-  //         resistThunder
-  //         resistDragon
-  //       }
-  //   }
-  //   slot
-  // }
+`
