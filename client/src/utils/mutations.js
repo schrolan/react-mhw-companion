@@ -484,13 +484,14 @@ const WEAPON_FRAGMENT = gql`
 
 // User Mutations
 export const ADD_USER = gql`
-  mutation ADD_USER($input: UserInput!) {
-    addUser(input: $input) {
-      _id
-      username
-      email
+  mutation ADD_USER($username: String!, $email: String!, $password: String!) 
+    {
+      addUser(username: $username, email: $email, password: $password) {
+        _id
+        email
+        username
+      }
     }
-  }
 `;
 
 export const LOGIN = gql`
