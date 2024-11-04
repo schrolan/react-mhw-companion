@@ -598,13 +598,34 @@ const typeDefs = `
         ranks: [CharmRanks]
     }
 
+    type DecorationSkills {
+        slug: String
+        description: String
+        level: Int
+        skill: Int
+        skillName: String
+        modifiers: [Modifiers]
+    }
+
     type Decoration {
         _id: ID
         slug: String
         name: String
         rarity: Int
-        skill: [Skill]
+        skills: [DecorationSkills]
         slot: Int
+    }
+
+    type EventLocationCamps {
+        name: String
+        zone: Int
+
+    }
+
+    type EventLocation {
+        name: String
+        zoneCount: Int
+        camps: [EventLocationCamps]
     }
 
     type Event {
@@ -637,6 +658,23 @@ const typeDefs = `
         camps: [Camps]
     }
 
+    type MonsterAilmentsRecovery {
+        actions: [String]
+        items: [Item]
+    }
+
+    type MonsterAilmentsProtection {
+        items: [Item]
+        skills: [Skill]
+    }
+
+    type MonsterAilments {
+        name: String
+        description: String
+        recovery: MonsterAilmentsRecovery
+        protection: MonsterAilmentsProtection
+    }
+
     type Monster {
         _id: ID
         name: String
@@ -644,8 +682,8 @@ const typeDefs = `
         species: String
         description: String
         elements: [String]
-        ailments: [Ailment]
-        location: [Location]
+        ailments: [MonsterAilments]
+        locations: [Location]
         resistances: [MonsterResistances]
         weaknesses: [Weaknesses]
         reward: [Reward]

@@ -1,16 +1,5 @@
 const { Schema, model } = require('mongoose')
 
-const locationSchema = new Schema({
-    name: String,
-    zoneCount: Number,
-    camps: [
-        {
-            name: String,
-            zone: Number
-        }
-    ]
-})
-
 const eventSchema = new Schema({
     name: String,
     platform: String,
@@ -21,7 +10,18 @@ const eventSchema = new Schema({
     requirements: String,
     questRank: Number,
     successConditions: String,
-    location: [locationSchema]
+    location: [
+        {
+            name: String,
+            zoneCount: Number,
+            camps: [
+                {
+                    name: String,
+                    zone: Number
+                }
+            ]
+        }
+    ]
 })
 
 const Event = model('Event', eventSchema)

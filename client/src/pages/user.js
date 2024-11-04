@@ -63,7 +63,7 @@ const User = () => {
                             <h3 className="armorSet-background">Name: {armorSet.name}</h3>
                             <div className="armorSet-background">
                                 <h4 className="card-text">Rank: {armorSet.rank}</h4>
-                                <h4 className="card-text">Bonus: {armorSet.bonus.name}</h4>
+                                <h4 className="card-text">Bonus: {armorSet?.bonus?.name}</h4>
                             </div>
                             <DeleteButton userId={user._id} entityId={armorSet.id} entityType="armorSet" />
                         </div>
@@ -86,7 +86,7 @@ const User = () => {
                             <h3 className="decoration-background">Name: {decoration.name}</h3>
                             <div className="decoration-background">
                                 <h4 className="card-text">Rarity: {decoration.rarity}</h4>
-                                <h4 className="card-text">Skill: {decoration.skill.name}</h4>
+                                <h4 className="card-text">Skill: {decoration.skills.skillName}</h4>
                             </div>
                             <DeleteButton userId={user._id} entityId={decoration.id} entityType="decoration" />
                         </div>

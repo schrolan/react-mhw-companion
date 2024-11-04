@@ -1002,6 +1002,257 @@ export const GET_USER = gql`
           }
         }
       }
+      decoration {
+        _id
+        slug
+        name
+        rarity
+        skills {
+          slug
+          description
+          level
+          skill
+          skillName
+          modifiers {
+          affinity
+            attack
+            damageFire
+            damageWater
+            damageIce
+            damageThunder
+            damageDragon
+            defense
+            health
+            sharpnessBonus
+            resistAll
+            resistFire
+            resistWater
+            resistIce
+            resistThunder
+            resistDragon
+          }
+        }
+        slot
+      }
+      event {
+        _id
+        name
+        platform
+        exclusive
+        type
+        expansion
+        description
+        requirements
+        questRank
+        successConditions
+        location {
+          name
+          zoneCount
+          camps {
+            name
+            zone
+          }
+        }
+      }
+      item {
+        name
+        description
+        rarity
+        carryLimit
+        value
+      }
+      location {
+        name
+        zoneCount
+        camps {
+          name
+          zone
+        }
+      }
+      monster {
+        name
+        type
+        species
+        description
+        elements
+        ailments {
+          name
+          description
+          recovery {
+            actions
+            items {
+              _id
+              name
+              description
+              rarity
+              carryLimit
+              value
+            }
+          }
+          protection {
+            items {
+              _id
+              name
+              description
+              rarity
+              carryLimit
+              value
+            }
+            skills {
+              _id        
+              slug
+              name
+              description
+              ranks {
+                slug
+                skill
+                level
+                description
+                modifiers {
+                  affinity
+                  attack
+                  damageFire
+                  damageWater
+                  damageIce
+                  damageThunder
+                  damageDragon
+                  defense
+                  health
+                  sharpnessBonus
+                  resistAll
+                  resistFire
+                  resistWater
+                  resistIce
+                  resistThunder
+                  resistDragon
+                }
+              }
+            }
+          }
+        }
+        locations {
+          name
+          zoneCount
+          camps {
+            name
+            zone
+          }
+        }
+        resistances {
+          element
+          condition
+        }
+        weaknesses {
+          element
+          stars
+          condition
+        }
+        reward {
+          item {
+            name
+            description
+            rarity
+            carryLimit
+            value
+          }
+          conditions {
+            type
+            subtype
+            rank
+            quantity
+            chance
+          }
+        }
+      }
+      skill {
+        slug
+        name
+        description
+        ranks {
+          slug
+          skill
+          level
+          description
+          modifiers {
+            affinity
+            attack
+            damageFire
+            damageWater
+            damageIce
+            damageThunder
+            damageDragon
+            defense
+            health
+            sharpnessBonus
+            resistAll
+            resistFire
+            resistWater
+            resistIce
+            resistThunder
+            resistDragon
+          }
+        }
+      }
+      weapon {
+        name
+        type
+        rarity
+        attack {
+          display
+          raw
+        }
+        elderseal
+        attributes {
+          damageType
+        }
+        damageType
+        durability {
+          red
+          orange
+          yellow
+          green
+          blue
+          white
+          purple
+        }
+        slots {
+          rank
+        }
+        elements {
+          type
+          damage
+          hidden
+        }
+        crafting {
+          craftable
+          previous
+          branches
+          craftingMaterials {
+            quantity
+            item {
+              name
+              description
+              rarity
+              carryLimit
+              value
+            }
+          }
+          upgradeMaterials {
+            quantity
+            item {
+              name
+              description
+              rarity
+              carryLimit
+              value
+            }
+          }
+          assets {
+            icon
+            image
+          }
+        }
+      }
     }
   }
 `

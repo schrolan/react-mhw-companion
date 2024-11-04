@@ -35,16 +35,8 @@ const resolvers = {
                 throw new Error('Could not fetch armorSets.')
             }
         },
-        armorSet: async (_, { _id }) => {
-            try {
-                const armorSet = await ArmorSet.findById(_id)
-                if (!armorSet) {
-                    throw new Error('ArmorSet not found');
-                }
-                return armorSet;
-            } catch (error) {
-                throw new Error('Error fetching armorSet');
-            }
+        armorSet: async (parent, args, context, info) => {
+           return await ArmorSet.findById(args._id)
         },
         charms: async () => {
             try {

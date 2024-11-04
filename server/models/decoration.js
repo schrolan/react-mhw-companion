@@ -1,15 +1,16 @@
 const { Schema, model } = require('mongoose')
 
-const skillSchema = new Schema({
+const decorationSchema = new Schema({
     slug: String,
     name: String,
-    description: String,
-    ranks: [
+    rarity: Number,
+    skills: [
         {
             slug: String,
-            skill: Number,
-            level: Number,
             description: String,
+            level: Number,
+            skill: Number,
+            skillName: String,
             modifiers: [
                 {
                     affinity: Number,
@@ -31,14 +32,7 @@ const skillSchema = new Schema({
                 }
             ]
         }
-    ]
-})
-
-const decorationSchema = new Schema({
-    slug: String,
-    name: String,
-    rarity: Number,
-    skill: [skillSchema],
+    ],
     slot: Number
 })
 
