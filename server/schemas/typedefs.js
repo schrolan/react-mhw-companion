@@ -4,53 +4,9 @@ const typeDefs = `
         user: User
     }
 
-    input ModifiersInput {
-        affinity: Int
-        attack: Int
-        damageFire: Int
-        damageWater: Int
-        damageIce: Int
-        damageThunder: Int
-        damageDragon: Int
-        defense: Int
-        health: Int
-        sharpnessBonus: Int
-        resistAll: Int
-        resistFire: Int
-        resistWater: Int
-        resistIce: Int
-        resistThunder: Int
-        resistDragon: Int
-    }
-
-    input SkillRanksInput {
-        slug: String
-        skill: Int
-        level: Int
-        description: String
-        modifiers: [ModifiersInput]
-    }
-
-    input SkillInput {
-        _id: ID
-        slug: String
-        name: String
-        description: String
-        ranks: [SkillRanksInput]
-    }
-
-    input ItemInput {
-        _id: ID
-        name: String
-        description: String
-        rarity: Int
-        carryLimit: Int
-        value: Int
-    }
-
     input RecoveryInput {
-        actions: [String]
-        items: [ItemInput]
+    actions: [String]
+    items: [ItemInput]
     }
 
     input ProtectionInput {
@@ -107,7 +63,6 @@ const typeDefs = `
     input BonusInput {
         name: String
         ranks: [RanksInput]
-
     }
 
     input CampsInput {
@@ -137,6 +92,33 @@ const typeDefs = `
     input RewardInput {
         item: [ItemInput]
         conditions: [ConditionsInput]
+    }
+
+    input ModifiersInput {
+        affinity: Int
+        attack: Int
+        damageFire: Int
+        damageWater: Int
+        damageIce: Int
+        damageThunder: Int
+        damageDragon: Int
+        defense: Int
+        health: Int
+        sharpnessBonus: Int
+        resistAll: Int
+        resistFire: Int
+        resistWater: Int
+        resistIce: Int
+        resistThunder: Int
+        resistDragon: Int
+    }
+
+    input SkillRanksInput {
+        slug: String
+        skill: Int
+        level: Int
+        description: String
+        modifiers: [ModifiersInput]
     }
 
     input AttackInput {
@@ -194,7 +176,6 @@ const typeDefs = `
         description: String
         recovery: RecoveryInput
         protection: ProtectionInput
-
     }
 
     input ArmorInput {
@@ -213,20 +194,116 @@ const typeDefs = `
         crafting: CraftingInput
     }
 
+    input ArmorSetPiecesAttributesInput {
+        defense: Int
+        resistFire: Int
+        resistWater: Int
+        resistThunder: Int
+        resistIce: Int
+    }
+
+    input ArmorSetPiecesSkillsInput {
+        slug: String
+        level: Int
+        description: String
+        modifiers: [ModifiersInput]
+        skill: Int
+        skillName: String
+    }
+
+    input ArmorSetPiecesAssetsInput {
+        imageMale: String
+        imageFemale: String
+    }
+
+    input ArmorSetPiecesInput {
+        slug: String
+        name: String
+        type: String
+        rank: String
+        rarity: Int
+        armorSet: Int
+        attributes: ArmorSetPiecesAttributesInput
+        skills: [ArmorSetPiecesSkillsInput]
+        assets: ArmorSetPiecesAssetsInput
+    }
+
+    input ArmorSetBonusRanksSkillInput {
+        slug: String
+        level: Int
+        description: String
+        modifiers: [ModifiersInput]
+        skill: Int
+        skillName: String
+    }
+
+    input ArmorSetBonusRanksInput {
+        pieces: Int
+        skill: [ArmorSetBonusRanksSkillInput]
+    }
+
+    input ArmorSetBonusInput {
+        name: String
+        ranks: [ArmorSetBonusRanksInput]
+    }
+
     input ArmorSetInput {
         _id: ID
-        rank: String
         name: String
-        pieces: [ArmorInput]
-        bonus: BonusInput
+        rank: String
+        pieces: [ArmorSetPiecesInput]
+        bonus: ArmorSetBonusInput
+    }
+
+    input CharmRanksSkillsInput {
+        slug: String
+        level: Int
+        description: String
+        skill: Int
+        skillName: String
+        modifiers: [ModifiersInput]
+    }
+
+    input CharmCraftingMaterialsItemsInput {
+        name: String
+        description: String
+        rarity: Int
+        carryLimit: Int
+        sellPrice: Int
+        buyPrice: Int
+    }
+
+    input CharmRanksCraftingMaterialsInput {
+        quantity: Int
+        item: CharmCraftingMaterialsItemsInput
+    }
+
+    input CharmRanksCraftingInput {
+        craftable: Boolean
+        materials: [CharmRanksCraftingMaterialsInput]
+    }
+
+    input CharmRanksInput {
+        level: Int
+        rarity: Int
+        skills: [CharmRanksSkillsInput]
+        crafting: CharmRanksCraftingInput
     }
 
     input CharmInput {
         _id: ID
         slug: String
         name: String
-        ranks: [SkillInput]
-        crafting: CraftingInput
+        ranks: [CharmRanksInput]
+    }
+
+    input DecorationSkillsInput {
+        slug: String
+        description: String
+        level: Int
+        skill: Int
+        skillName: String
+        modifiers: [ModifiersInput]
     }
 
     input DecorationInput {
@@ -234,8 +311,19 @@ const typeDefs = `
         slug: String
         name: String
         rarity: Int
-        skill: [SkillInput]
+        skills: [DecorationSkillsInput]
         slot: Int
+    }
+
+    input EventLocationCampsInput {
+        name: String
+        zone: Int
+    }
+
+    input EventLocationInput {
+        name: String
+        zoneCount: Int
+        camps: [EventLocationCampsInput]
     }
 
     input EventInput {
@@ -249,7 +337,16 @@ const typeDefs = `
         requirements: String
         questRank: Int
         successConditions: String
-        location: [LocationInput]
+        location: [EventLocationInput]
+    }
+
+    input ItemInput {
+        _id: ID
+        name: String
+        description: String
+        rarity: Int
+        carryLimit: Int
+        value: Int
     }
 
     input LocationInput {
@@ -259,6 +356,23 @@ const typeDefs = `
         camps: [CampsInput]
     }
 
+    input MonsterAilmentsRecoveryInput {
+        actions: [String]
+        items: [ItemInput]
+    }
+
+    input MonsterAilmentsProtectionInput {
+        items: [ItemInput]
+        skills: [SkillInput]
+    }
+
+    input MonsterAilmentsInput {
+        name: String
+        description: String
+        recovery: MonsterAilmentsRecoveryInput
+        protection: MonsterAilmentsProtectionInput
+    }
+
     input MonsterInput {
         _id: ID
         name: String
@@ -266,28 +380,19 @@ const typeDefs = `
         species: String
         description: String
         elements: [String]
-        ailments: [AilmentInput]
-        location: [LocationInput]
+        ailments: [MonsterAilmentsInput]
+        locations: [LocationInput]
         resistances: [MonsterResistancesInput]
         weaknesses: [WeaknessesInput]
         reward: [RewardInput]
     }
 
-    input UserInput {
+    input SkillInput {
         _id: ID
-        username: String
-        email: String
-        ailment: [AilmentInput]
-        armor: [ArmorInput]
-        armorSet: [ArmorSetInput]
-        charm: [CharmInput]
-        decoration: [DecorationInput]
-        event: [EventInput]
-        item: [ItemInput]
-        location: [LocationInput]
-        monster: [MonsterInput]
-        skill: [SkillInput]
-        weapon: [WeaponInput]
+        slug: String
+        name: String
+        description: String
+        ranks: [SkillRanksInput]
     }
 
     input WeaponInput {
@@ -639,7 +744,7 @@ const typeDefs = `
         requirements: String
         questRank: Int
         successConditions: String
-        location: [Location]
+        location: [EventLocation]
     }
 
     type Item {
@@ -788,15 +893,15 @@ const typeDefs = `
             _id: ID           
             rank: String
             name: String
-            pieces: [ArmorInput]
-            bonus: BonusInput
+            pieces: [ArmorSetPiecesInput]
+            bonus: ArmorSetBonusInput
         ):ArmorSet
         addCharm(
             user: ID!
             _id: ID
             slug: String
             name: String
-            ranks: [SkillInput]
+            ranks: [CharmRanksInput]
             crafting: CraftingInput
         ):Charm
         addDecoration(
@@ -805,7 +910,7 @@ const typeDefs = `
             slug: String
             name: String
             rarity: Int
-            skill: [SkillInput]
+            skill: [DecorationSkillsInput]
             slot: Int
         ):Decoration
         addEvent(
@@ -820,7 +925,7 @@ const typeDefs = `
             requirements: String
             questRank: Int
             successConditions: String
-            location: [LocationInput]
+            location: [EventLocationInput]
         ):Event
         addItem(
             user: ID!
@@ -835,10 +940,8 @@ const typeDefs = `
             user: ID!
             _id: ID
             name: String
-            description: String
-            rarity: Int
-            carryLimit: Int
-            value: Int
+            zoneCount: Int
+            camps: [CampsInput]
         ):Location
         addMonster(
             user: ID!
@@ -848,7 +951,7 @@ const typeDefs = `
             species: String
             description: String
             elements: [String]
-            ailments: [AilmentInput]
+            ailments: [MonsterAilmentsInput]
             location: [LocationInput]
             resistances: [MonsterResistancesInput]
             weaknesses: [WeaknessesInput]
@@ -885,7 +988,7 @@ const typeDefs = `
         deleteAilment(userId: ID!, ailmentId: ID!): User
         deleteArmor(userId: ID!, armorId: ID!): User
         deleteArmorSet(userId: ID!, armorSetId: ID!): User
-        deleteCharm(userId: ID!, CharmId: ID!): User
+        deleteCharm(userId: ID!, charmId: ID!): User
         deleteDecoration(userId: ID!, decorationId: ID!): User
         deleteEvent(userId: ID!, eventId: ID!): User
         deleteItem(userId: ID!, itemId: ID!): User

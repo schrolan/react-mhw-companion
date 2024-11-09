@@ -1817,6 +1817,7 @@ export const GET_USER = gql`
         }
       }
       armor {
+        _id
         slug
         name
         type
@@ -2069,6 +2070,7 @@ export const GET_USER = gql`
         }
       }
       item {
+        _id
         name
         description
         rarity
@@ -2076,6 +2078,7 @@ export const GET_USER = gql`
         value
       }
       location {
+        _id
         name
         zoneCount
         camps {
@@ -2084,6 +2087,7 @@ export const GET_USER = gql`
         }
       }
       monster {
+        _id
         name
         type
         species
@@ -2179,101 +2183,37 @@ export const GET_USER = gql`
         }
       }
       skill {
+        _id
+        slug
         name
-        type
-        species
         description
-        elements
-        ailments {
-          name
+        ranks {
+          slug
+          skill
+          level
           description
-          recovery {
-            actions
-            items {
-              _id
-              name
-              description
-              rarity
-              carryLimit
-              value
-            }
-          }
-          protection {
-            items {
-              _id
-              name
-              description
-              rarity
-              carryLimit
-              value
-            }
-            skills {
-              _id        
-              slug
-              name
-              description
-              ranks {
-                slug
-                skill
-                level
-                description
-                modifiers {
-                  affinity
-                  attack
-                  damageFire
-                  damageWater
-                  damageIce
-                  damageThunder
-                  damageDragon
-                  defense
-                  health
-                  sharpnessBonus
-                  resistAll
-                  resistFire
-                  resistWater
-                  resistIce
-                  resistThunder
-                  resistDragon
-                }
-              }
-            }
-          }
-        }
-        locations {
-          name
-          zoneCount
-          camps {
-            name
-            zone
-          }
-        }
-        resistances {
-          element
-          condition
-        }
-        weaknesses {
-          element
-          stars
-          condition
-        }
-        reward {
-          item {
-            name
-            description
-            rarity
-            carryLimit
-            value
-          }
-          conditions {
-            type
-            subtype
-            rank
-            quantity
-            chance
+          modifiers {
+            affinity
+            attack
+            damageFire
+            damageWater
+            damageIce
+            damageThunder
+            damageDragon
+            defense
+            health
+            sharpnessBonus
+            resistAll
+            resistFire
+            resistWater
+            resistIce
+            resistThunder
+            resistDragon
           }
         }
       }
       weapon {
+        _id
         name
         type
         rarity

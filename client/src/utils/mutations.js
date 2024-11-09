@@ -518,9 +518,64 @@ export const ADD_AILMENT = gql`
 `;
 
 export const DELETE_AILMENT = gql`
-  mutation DELETE_AILMENT($id: ID!) {
-    deleteAilment(_id: $id) {
+  mutation DELETE_AILMENT($userId: ID!, $ailmentId: ID!) {
+    deleteAilment(userId: $userId, ailmentId: $ailmentId) {
       _id
+      username
+      email
+      ailment {
+        _id
+        name
+        description
+        recovery {
+          actions
+          items {
+            name
+            description
+            rarity
+            carryLimit
+            value
+          }
+        }
+        protection {
+          items {
+            name
+            description
+            rarity
+            carryLimit
+            value
+          }
+          skills {    
+            slug
+            name
+            description
+            ranks {
+              slug
+              skill
+              level
+              description
+              modifiers {
+                affinity
+                attack
+                damageFire
+                damageWater
+                damageIce
+                damageThunder
+                damageDragon
+                defense
+                health
+                sharpnessBonus
+                resistAll
+                resistFire
+                resistWater
+                resistIce
+                resistThunder
+                resistDragon
+              }
+            }
+          }
+        }
+      }
     }
   }
 `;
@@ -536,9 +591,84 @@ export const ADD_ARMOR = gql`
 `;
 
 export const DELETE_ARMOR = gql`
-  mutation DELETE_ARMOR($id: ID!) {
-    deleteArmor(_id: $id) {
+  mutation DELETE_ARMOR($userId: ID!, $armorId: ID!) {
+    deleteArmor(userId: $userId, armorId: $armorId) {
       _id
+      username
+      email
+      armor {
+        _id
+        slug
+        name
+        type
+        rank
+        rarity
+        defense {
+          base
+          max
+          augmented
+        }
+        resistances {
+          fire
+          water
+          ice
+          thunder
+          dragon
+        }
+        slots {
+            rank
+        }
+        skills {
+          slug
+          name
+          description
+          ranks {
+            slug
+            skill
+            level
+            description
+            modifiers {
+              affinity
+              attack
+              damageFire
+              damageWater
+              damageIce
+              damageThunder
+              damageDragon
+              defense
+              health
+              sharpnessBonus
+              resistAll
+              resistFire
+              resistWater
+              resistIce
+              resistThunder
+              resistDragon 
+            }
+          }
+        }
+        armorSet {
+          name
+          rank
+          pieces
+        }
+        assets {
+            imageMale
+            imageFemale
+        }
+        crafting {
+          materials {
+            quantity
+            item {
+              name
+              description
+              rarity
+              carryLimit
+              value
+            }
+          }
+        }
+      }
     }
   }
 `;
@@ -554,9 +684,91 @@ export const ADD_ARMORSET = gql`
 `;
 
 export const DELETE_ARMORSET = gql`
-  mutation DELETE_ARMORSET($id: ID!) {
-    deleteArmorSet(_id: $id) {
+  mutation DELETE_ARMORSET($userId: ID!, $armorSetId: ID!) {
+    deleteArmorSet(userId: $userId, armorSetId: $armorSetId) {
       _id
+      username
+      email
+      armorSet {
+        _id
+        name
+        rank
+        pieces {
+          slug
+          name
+          type
+          rank
+          rarity
+          armorSet
+          attributes {
+            defense
+            resistFire
+            resistWater
+            resistThunder
+            resistIce
+          }
+          skills {
+            slug
+            level
+            description
+            modifiers {
+              affinity
+              attack
+              damageFire
+              damageWater
+              damageIce
+              damageThunder
+              damageDragon
+              defense
+              health
+              sharpnessBonus
+              resistAll
+              resistFire
+              resistWater
+              resistIce
+              resistThunder
+              resistDragon
+            }
+            skill
+            skillName
+          }
+          assets {
+            imageMale
+            imageFemale
+          }
+        }
+        bonus {
+          name
+          ranks {
+            pieces
+            skill {
+              slug
+              level
+              description
+              modifiers {
+                affinity
+                attack
+                damageFire
+                damageWater
+                damageIce
+                damageThunder
+                damageDragon
+                defense
+                health
+                sharpnessBonus
+                resistAll
+                resistFire
+                resistWater
+                resistIce
+                resistThunder
+                resistDragon
+              }
+              skill
+              skillName
+            }
+          }
+        }
+      }
     }
   }
 `;
@@ -572,9 +784,59 @@ export const ADD_CHARM = gql`
 `;
 
 export const DELETE_CHARM = gql`
-  mutation DELETE_CHARM($id: ID!) {
-    deleteCharm(_id: $id) {
+  mutation DELETE_CHARM($userId: ID!, $charmId: ID!) {
+    deleteCharm(userId: $userId, charmId: $charmId) {
       _id
+      username
+      email
+      charm {
+        _id
+        slug
+        name
+        ranks {
+          level
+          rarity
+          skills {
+            slug
+            level
+            description
+            skill
+            skillName
+            modifiers {
+              affinity
+              attack
+              damageFire
+              damageWater
+              damageIce
+              damageThunder
+              damageDragon
+              defense
+              health
+              sharpnessBonus
+              resistAll
+              resistFire
+              resistWater
+              resistIce
+              resistThunder
+              resistDragon
+            }
+          }
+          crafting {
+            craftable
+            materials {
+              quantity
+              item {
+                name
+                description
+                rarity
+                carryLimit
+                sellPrice
+                buyPrice
+              }
+            }
+          }
+        }
+      }
     }
   }
 `;
@@ -590,9 +852,43 @@ export const ADD_DECORATION = gql`
 `;
 
 export const DELETE_DECORATION = gql`
-  mutation DELETE_DECORATION($id: ID!) {
-    deleteDecoration(_id: $id) {
+  mutation DELETE_DECORATION($userId: ID!, $decorationId: ID!) {
+    deleteDecoration(userId: $userId, decorationId: $decorationId) {
       _id
+      username
+      email
+      decoration {
+        _id
+        slug
+        name
+        rarity
+        skills {
+          slug
+          description
+          level
+          skill
+          skillName
+          modifiers {
+          affinity
+            attack
+            damageFire
+            damageWater
+            damageIce
+            damageThunder
+            damageDragon
+            defense
+            health
+            sharpnessBonus
+            resistAll
+            resistFire
+            resistWater
+            resistIce
+            resistThunder
+            resistDragon
+          }
+        }
+        slot
+      }
     }
   }
 `;
@@ -608,9 +904,31 @@ export const ADD_EVENT = gql`
 `;
 
 export const DELETE_EVENT = gql`
-  mutation DELETE_EVENT($id: ID!) {
-    deleteEvent(_id: $id) {
+  mutation DELETE_EVENT($userId: ID!, $eventId: ID!) {
+    deleteEvent(userId: $userId, eventId: $eventId) {
       _id
+      username
+      email
+      event {
+        _id
+        name
+        platform
+        exclusive
+        type
+        expansion
+        description
+        requirements
+        questRank
+        successConditions
+        location {
+          name
+          zoneCount
+          camps {
+            name
+            zone
+          }
+        }
+      }
     }
   }
 `;
@@ -626,9 +944,19 @@ export const ADD_ITEM = gql`
 `;
 
 export const DELETE_ITEM = gql`
-  mutation DELETE_ITEM($id: ID!) {
-    deleteItem(_id: $id) {
+  mutation DELETE_ITEM($userId: ID!, $itemId: ID!) {
+    deleteItem(userId: $userId, itemId: $itemId) {
       _id
+      username
+      email
+      item {
+        _id
+        name
+        description
+        rarity
+        carryLimit
+        value
+      }
     }
   }
 `;
@@ -644,9 +972,20 @@ export const ADD_LOCATION = gql`
 `;
 
 export const DELETE_LOCATION = gql`
-  mutation DELETE_LOCATION($id: ID!) {
-    deleteLocation(_id: $id) {
+  mutation DELETE_LOCATION($userId: ID!, $locationId: ID!) {
+    deleteLocation(userId: $userId, locationId: $locationId) {
       _id
+      username
+      email
+      location {
+        _id
+        name
+        zoneCount
+        camps {
+          name
+          zone
+        }
+      }
     }
   }
 `;
@@ -662,9 +1001,107 @@ export const ADD_MONSTER = gql`
 `;
 
 export const DELETE_MONSTER = gql`
-  mutation DELETE_MONSTER($id: ID!) {
-    deleteMonster(_id: $id) {
+  mutation DELETE_MONSTER($userId: ID!, $monsterId: ID!) {
+    deleteMonster(userId: $userId, monsterId: $monsterId) {
       _id
+      username
+      email
+      monster {
+        _id
+        name
+        type
+        species
+        description
+        elements
+        ailments {
+          name
+          description
+          recovery {
+            actions
+            items {
+              _id
+              name
+              description
+              rarity
+              carryLimit
+              value
+            }
+          }
+          protection {
+            items {
+              _id
+              name
+              description
+              rarity
+              carryLimit
+              value
+            }
+            skills {
+              _id        
+              slug
+              name
+              description
+              ranks {
+                slug
+                skill
+                level
+                description
+                modifiers {
+                  affinity
+                  attack
+                  damageFire
+                  damageWater
+                  damageIce
+                  damageThunder
+                  damageDragon
+                  defense
+                  health
+                  sharpnessBonus
+                  resistAll
+                  resistFire
+                  resistWater
+                  resistIce
+                  resistThunder
+                  resistDragon
+                }
+              }
+            }
+          }
+        }
+        locations {
+          name
+          zoneCount
+          camps {
+            name
+            zone
+          }
+        }
+        resistances {
+          element
+          condition
+        }
+        weaknesses {
+          element
+          stars
+          condition
+        }
+        reward {
+          item {
+            name
+            description
+            rarity
+            carryLimit
+            value
+          }
+          conditions {
+            type
+            subtype
+            rank
+            quantity
+            chance
+          }
+        }
+      }
     }
   }
 `;
@@ -680,9 +1117,41 @@ export const ADD_SKILL = gql`
 `;
 
 export const DELETE_SKILL = gql`
-  mutation DELETE_SKILL($id: ID!) {
-    deleteSkill(_id: $id) {
+  mutation DELETE_SKILL($userId: ID!, $skillId: ID!) {
+    deleteSkill(userId: $userId, skillId: $skillId) {
       _id
+      username
+      email
+      skill {
+        _id
+        slug
+        name
+        description
+        ranks {
+          slug
+          skill
+          level
+          description
+          modifiers {
+            affinity
+            attack
+            damageFire
+            damageWater
+            damageIce
+            damageThunder
+            damageDragon
+            defense
+            health
+            sharpnessBonus
+            resistAll
+            resistFire
+            resistWater
+            resistIce
+            resistThunder
+            resistDragon
+          }
+        }
+      }
     }
   }
 `;
@@ -698,9 +1167,72 @@ export const ADD_WEAPON = gql`
 `;
 
 export const DELETE_WEAPON = gql`
-  mutation DELETE_WEAPON($id: ID!) {
-    deleteWeapon(_id: $id) {
+  mutation DELETE_WEAPON($userId: ID!, $weaponId: ID!) {
+    deleteWeapon(userId: $userId, weaponId: $weaponId) {
       _id
+      username
+      email
+      weapon {
+        _id
+        name
+        type
+        rarity
+        attack {
+          display
+          raw
+        }
+        elderseal
+        attributes {
+          damageType
+        }
+        damageType
+        durability {
+          red
+          orange
+          yellow
+          green
+          blue
+          white
+          purple
+        }
+        slots {
+          rank
+        }
+        elements {
+          type
+          damage
+          hidden
+        }
+        crafting {
+          craftable
+          previous
+          branches
+          craftingMaterials {
+            quantity
+            item {
+              name
+              description
+              rarity
+              carryLimit
+              value
+            }
+          }
+          upgradeMaterials {
+            quantity
+            item {
+              name
+              description
+              rarity
+              carryLimit
+              value
+            }
+          }
+          assets {
+            icon
+            image
+          }
+        }
+      }
     }
   }
 `;

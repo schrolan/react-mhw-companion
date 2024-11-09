@@ -3,7 +3,17 @@ import { GET_USER } from "../utils/queries"
 import { useQuery } from "@apollo/client";
 import Auth from "../utils/auth";
 import Container from "../components/container";
-import DeleteButton from "../components/deleteButton"
+import DeleteAilmentButton from "../components/ailmentDeleteButton";
+import DeleteArmorButton from "../components/armorDeleteButton";
+import DeleteArmorSetButton from "../components/armorSetDeleteButton";
+import DeleteCharmButton from "../components/charmDeleteButton";
+import DeleteDecorationButton from "../components/decorationDeleteButton";
+import DeleteEventButton from "../components/eventDeleteButton";
+import DeleteItemButton from "../components/itemDeleteButton";
+import DeleteLocationButton from "../components/locationDeleteButton";
+import DeleteMonsterButton from "../components/monsterDeleteButton";
+import DeleteSkillButton from "../components/skillDeleteButton";
+import DeleteWeaponButton from "../components/weaponDeleteButton";
 
 const User = () => {
     const { id } = useParams();
@@ -41,7 +51,7 @@ const User = () => {
                             <div className="ailment-background">
                                 <h4 className="card-text">Description: {ailment.description}</h4>
                             </div>
-                            <DeleteButton userId={user._id} entityId={ailment.id} entityType="ailment" />
+                            <DeleteAilmentButton userId={user._id} ailmentId={ailment._id} />
                         </div>
                     ))}
 
@@ -53,7 +63,7 @@ const User = () => {
                                 <h4 className="card-text">Type: {armor.type}</h4>
                                 <h4 className="card-text">Rank: {armor.rank}</h4>
                             </div>
-                            <DeleteButton userId={user._id} entityId={armor.id} entityType="armor" />
+                            <DeleteArmorButton userId={user._id} armorId={armor._id} />
                         </div>
                     ))}
 
@@ -65,7 +75,7 @@ const User = () => {
                                 <h4 className="card-text">Rank: {armorSet.rank}</h4>
                                 <h4 className="card-text">Bonus: {armorSet?.bonus?.name}</h4>
                             </div>
-                            <DeleteButton userId={user._id} entityId={armorSet.id} entityType="armorSet" />
+                            <DeleteArmorSetButton userId={user._id} armorSetId={armorSet._id} />
                         </div>
                     ))}
 
@@ -76,7 +86,7 @@ const User = () => {
                             <div className="charm-background">
                                 <h4 className="card-text">Ranks: {charm.ranks.map(rank => `Level: ${rank.level}, Skills: ${rank.skills.join(", ")}`).join(" | ")}</h4>
                             </div>
-                            <DeleteButton userId={user._id} entityId={charm.id} entityType="charm" />
+                            <DeleteCharmButton userId={user._id} charmId={charm._id} />
                         </div>
                     ))}
 
@@ -88,7 +98,7 @@ const User = () => {
                                 <h4 className="card-text">Rarity: {decoration.rarity}</h4>
                                 <h4 className="card-text">Skill: {decoration.skills.skillName}</h4>
                             </div>
-                            <DeleteButton userId={user._id} entityId={decoration.id} entityType="decoration" />
+                            <DeleteDecorationButton userId={user._id} decorationId={decoration._id} />
                         </div>
                     ))}
 
@@ -100,7 +110,7 @@ const User = () => {
                                 <h4 className="card-text">Type: {event.type}</h4>
                                 <h4 className="card-text">Description: {event.description}</h4>
                             </div>
-                            <DeleteButton userId={user._id} entityId={event.id} entityType="event" />
+                            <DeleteEventButton userId={user._id} eventId={event._id} />
                         </div>
                     ))}
 
@@ -112,7 +122,7 @@ const User = () => {
                                 <h4 className="card-text">Type: {item.type}</h4>
                                 <h4 className="card-text">Rarity: {item.rarity}</h4>
                             </div>
-                            <DeleteButton userId={user._id} entityId={item.id} entityType="item" />
+                            <DeleteItemButton userId={user._id} itemId={item._id} />
                         </div>
                     ))}
 
@@ -123,7 +133,7 @@ const User = () => {
                             <div className="location-background">
                                 <h4 className="card-text">Zone Count: {location.zoneCount}</h4>
                             </div>
-                            <DeleteButton userId={user._id} entityId={location.id} entityType="location" />
+                            <DeleteLocationButton userId={user._id} locationId={location._id} />
                         </div>
                     ))}
 
@@ -135,7 +145,7 @@ const User = () => {
                                 <h4 className="card-text">Type: {monster.type}</h4>
                                 <h4 className="card-text">Rank: {monster.rank}</h4>
                             </div>
-                            <DeleteButton userId={user._id} entityId={monster.id} entityType="monster" />
+                            <DeleteMonsterButton userId={user._id} monsterId={monster._id} />
                         </div>
                     ))}
 
@@ -146,7 +156,7 @@ const User = () => {
                             <div className="skill-background">
                                 <h4 className="card-text">Levels: {skill.ranks.map(rank => `Level: ${rank.level}, Modifiers: ${rank.modifiers.join(", ")}`).join(" | ")}</h4>
                             </div>
-                            <DeleteButton userId={user._id} entityId={skill.id} entityType="skill" />
+                            <DeleteSkillButton userId={user._id} skillId={skill._id} />
                         </div>
                     ))}
 
@@ -158,7 +168,7 @@ const User = () => {
                                 <h4 className="card-text">Type: {weapon.type}</h4>
                                 <h4 className="card-text">Rank: {weapon.rank}</h4>
                             </div>
-                            <DeleteButton userId={user._id} entityId={weapon.id} entityType="weapon" />
+                            <DeleteWeaponButton userId={user._id} weaponId={weapon._id} />
                         </div>
                     ))}
 

@@ -91,7 +91,7 @@ connection.once('open', async () => {
             }
 
             //Charm seed
-            for (const id of [1]) {
+            for (const id of [234]) {
                 const response = await fetch(`https://mhw-db.com/charms/${id}`)
 
                 const {
