@@ -14,53 +14,79 @@ const AilmentDetails = ({ ailment }) => {
     });
   
     const saveAilment = async (ailment) => {
-        const { _id, name, description, recovery, protection } = ailment;
-
-        await addAilment({
-            variables: {
-                userId: currentUser._id,
-                ailmentId: _id,
-                name,
-                description,
-                recovery,
-                protection
-            }
-        });
-        alert(`${name} saved!`);
+        try {
+            await addAilment({
+                variables: {
+                    userId: currentUser._id,  // Pass the userId from the logged-in user
+                    ailment: {  // Wrap the ailment data in an object
+                        name: ailment.name,
+                        description: ailment.description,
+                        recovery: {
+                            actions: ailment.recovery?.actions,
+                            items: ailment.recovery?.items.map(item => ({
+                                name: item.name,
+                                description: item.description,
+                                rarity: item.rarity,
+                                carryLimit: item.carryLimit,
+                                value: item.value
+                            }))
+                        },
+                        protection: {
+                            items: ailment.protection?.items.map(item => ({
+                                name: item.name,
+                                description: item.description,
+                                rarity: item.rarity,
+                                carryLimit: item.carryLimit,
+                                value: item.value
+                            })),
+                            skills: ailment.protection?.skills.map(skill => ({
+                                slug: skill.slug,
+                                name: skill.name,
+                                description: skill.description,
+                                ranks: Array.isArray(skill.ranks) ? skill.ranks.map(rank => ({
+                                    slug: rank.slug,
+                                    skill: rank.skill,
+                                    level: rank.level,
+                                    description: rank.description,
+                                    modifiers: rank.modifiers
+                                })) : [] // Ensure ranks is defined as an array
+                            }))
+                        }
+                    }
+                }
+            });
+            alert(`${ailment.name} saved to user!`);
+        } catch (error) {
+            console.log("Error saving ailment", error);
+            alert("Error saving ailment");
+        }
     };
-  
-    if (!ailment) return <div>No ailment data available</div>;
-
-    const { name, description, recovery, protection } = ailment;
   
     return (
         <Container>
             <div className="ailment-card">
-                <h2>{name}</h2>
-                <p>{description}</p>
+                <h2>{ailment.name}</h2>
+                <p>{ailment.description}</p>
 
-                {recovery && (
+                {ailment.recovery && (
                     <div className="ailment-section">
                         <h3>Recovery</h3>
-
-                        {/* Display Recovery Actions */}
-                        {recovery.actions && recovery.actions.length > 0 && (
+                        {ailment.recovery.actions && ailment.recovery.actions.length > 0 && (
                             <div>
                                 <h4>Actions</h4>
                                 <ul>
-                                    {recovery.actions.map((action, index) => (
+                                    {ailment.recovery.actions.map((action, index) => (
                                         <li key={index}>{action}</li>
                                     ))}
                                 </ul>
                             </div>
                         )}
 
-                        {/* Display Recovery Items */}
-                        {recovery.items && recovery.items.length > 0 && (
+                        {ailment.recovery.items && ailment.recovery.items.length > 0 && (
                             <div>
                                 <h4>Items</h4>
                                 <ul>
-                                    {recovery.items.map(item => (
+                                    {ailment.recovery.items.map(item => (
                                         <li key={item.id}>
                                             <strong>{item.name}</strong> - {item.description}
                                             <div>Rarity: {item.rarity}</div>
@@ -74,16 +100,15 @@ const AilmentDetails = ({ ailment }) => {
                     </div>
                 )}
 
-                {protection && (
+                {ailment.protection && (
                     <div className="ailment-section">
                         <h3>Protection</h3>
 
-                        {/* Display Protection Items */}
-                        {protection.items && protection.items.length > 0 && (
+                        {ailment.protection.items && ailment.protection.items.length > 0 && (
                             <div>
                                 <h4>Items</h4>
                                 <ul>
-                                    {protection.items.map(item => (
+                                    {ailment.protection.items.map(item => (
                                         <li key={item.id}>
                                             <strong>{item.name}</strong> - {item.description}
                                             <div>Rarity: {item.rarity}</div>
@@ -95,15 +120,13 @@ const AilmentDetails = ({ ailment }) => {
                             </div>
                         )}
 
-                        {/* Display Protection Skills */}
-                        {protection.skills && protection.skills.length > 0 && (
+                        {ailment.protection.skills && ailment.protection.skills.length > 0 && (
                             <div>
                                 <h4>Skills</h4>
-                                {protection.skills.map(skill => (
+                                {ailment.protection.skills.map(skill => (
                                     <div key={skill.id} className="skill">
                                         <strong>{skill.name}</strong> - {skill.description}
                                         <ul>
-                                            {/* Ensure ranks exists and is an array */}
                                             {Array.isArray(skill.ranks) && skill.ranks.length > 0 ? (
                                                 skill.ranks.map((rank, index) => (
                                                     <li key={index}>
@@ -118,7 +141,7 @@ const AilmentDetails = ({ ailment }) => {
                                                     </li>
                                                 ))
                                             ) : (
-                                                <li>No ranks available</li> // Handle case where ranks is empty or undefined
+                                                <li>No ranks available</li>
                                             )}
                                         </ul>
                                     </div>
@@ -128,7 +151,6 @@ const AilmentDetails = ({ ailment }) => {
                     </div>
                 )}
 
-                {/* Save Ailment Button */}
                 <button onClick={() => saveAilment(ailment)} className="save-button">
                     Save Ailment
                 </button>

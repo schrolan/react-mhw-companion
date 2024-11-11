@@ -507,15 +507,65 @@ export const LOGIN = gql`
   }
 `;
 
-// Ailment Mutations
+// Ailment Mutations]
+//This came from the apollo playground
 export const ADD_AILMENT = gql`
-  mutation ADD_AILMENT($input: AilmentInput!) {
-    addAilment(input: $input) {
-      ...AilmentFragment
+  mutation AddAilment($userId: ID!, $id: ID, $name: String, $description: String, $recovery: RecoveryInput, $protection: ProtectionInput) {
+  addAilment(userId: $userId, _id: $id, name: $name, description: $description, recovery: $recovery, protection: $protection) {
+    _id
+    name
+    description
+    recovery {
+      actions
+      items {
+        name
+        description
+        rarity
+        carryLimit
+        value
+      }
+    }
+    protection {
+      items {
+        name
+        description
+        rarity
+        carryLimit
+        value
+      }
+      skills {
+        slug
+        name
+        description
+        ranks {
+          slug
+          skill
+          level
+          description
+          modifiers {
+            affinity
+            attack
+            damageFire
+            damageWater
+            damageIce
+            damageThunder
+            damageDragon
+            defense
+            health
+            sharpnessBonus
+            resistAll
+            resistFire
+            resistWater
+            resistIce
+            resistThunder
+            resistDragon
+          }
+        }
+      }
     }
   }
-  ${AILMENT_FRAGMENT}
-`;
+}
+`
 
 export const DELETE_AILMENT = gql`
   mutation DELETE_AILMENT($userId: ID!, $ailmentId: ID!) {

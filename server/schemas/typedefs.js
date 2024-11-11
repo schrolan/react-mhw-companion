@@ -865,7 +865,7 @@ const typeDefs = `
         login(email: String!, password: String!): Auth
 
         addAilment(
-            user: ID!
+            userId: ID!
             _id: ID    
             name: String
             description: String
