@@ -8,50 +8,48 @@ import '../index.css';
 
 const AilmentDetails = ({ ailment }) => {
     const currentUser = Auth.getLoggedInUser();
-  
+
     const [addAilment] = useMutation(ADD_AILMENT, {
         refetchQueries: [{ query: GET_USER }, 'GET_USER'],
     });
-  
+
     const saveAilment = async (ailment) => {
         try {
             await addAilment({
                 variables: {
-                    userId: currentUser._id,  // Pass the userId from the logged-in user
-                    ailment: {  // Wrap the ailment data in an object
-                        name: ailment.name,
-                        description: ailment.description,
-                        recovery: {
-                            actions: ailment.recovery?.actions,
-                            items: ailment.recovery?.items.map(item => ({
-                                name: item.name,
-                                description: item.description,
-                                rarity: item.rarity,
-                                carryLimit: item.carryLimit,
-                                value: item.value
-                            }))
-                        },
-                        protection: {
-                            items: ailment.protection?.items.map(item => ({
-                                name: item.name,
-                                description: item.description,
-                                rarity: item.rarity,
-                                carryLimit: item.carryLimit,
-                                value: item.value
-                            })),
-                            skills: ailment.protection?.skills.map(skill => ({
-                                slug: skill.slug,
-                                name: skill.name,
-                                description: skill.description,
-                                ranks: Array.isArray(skill.ranks) ? skill.ranks.map(rank => ({
-                                    slug: rank.slug,
-                                    skill: rank.skill,
-                                    level: rank.level,
-                                    description: rank.description,
-                                    modifiers: rank.modifiers
-                                })) : [] // Ensure ranks is defined as an array
-                            }))
-                        }
+                    userId: currentUser._id,
+                    name: ailment.name,
+                    description: ailment.description,
+                    recovery: {
+                        actions: ailment.recovery?.actions,
+                        items: ailment.recovery?.items.map(item => ({
+                            name: item.name,
+                            description: item.description,
+                            rarity: item.rarity,
+                            carryLimit: item.carryLimit,
+                            value: item.value
+                        }))
+                    },
+                    protection: {
+                        items: ailment.protection?.items.map(item => ({
+                            name: item.name,
+                            description: item.description,
+                            rarity: item.rarity,
+                            carryLimit: item.carryLimit,
+                            value: item.value
+                        })),
+                        skills: ailment.protection?.skills.map(skill => ({
+                            slug: skill.slug,
+                            name: skill.name,
+                            description: skill.description,
+                            ranks: Array.isArray(skill.ranks) ? skill.ranks.map(rank => ({
+                                slug: rank.slug,
+                                skill: rank.skill,
+                                level: rank.level,
+                                description: rank.description,
+                                modifiers: rank.modifiers
+                            })) : [] // Ensure ranks is defined as an array
+                        }))
                     }
                 }
             });
@@ -61,7 +59,7 @@ const AilmentDetails = ({ ailment }) => {
             alert("Error saving ailment");
         }
     };
-  
+
     return (
         <Container>
             <div className="ailment-card">

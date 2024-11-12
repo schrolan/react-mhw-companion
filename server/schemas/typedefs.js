@@ -151,6 +151,7 @@ const typeDefs = `
         item: [ItemInput]
     }
 
+
     input UpgradeMaterialsInput {
         quantity: Int
         item: [ItemInput]
@@ -178,6 +179,23 @@ const typeDefs = `
         protection: ProtectionInput
     }
 
+    input ArmorItemInput {
+        name: String
+        description: String
+        rarity: Int
+        carryLimit: Int
+        value: Int
+    }
+
+    input ArmorCraftingMaterialsInput {
+        quantity: Int
+        item: ArmorItemInput
+    }
+
+    input ArmorCraftingInput {
+        materials: [ArmorCraftingMaterialsInput]
+    }
+
     input ArmorInput {
         _id: ID
         slug: String
@@ -191,7 +209,7 @@ const typeDefs = `
         skills: [SkillInput]
         armorSet: ArmorSetArmorInput
         assets: AssetsInput
-        crafting: CraftingInput
+        crafting: ArmorCraftingInput
     }
 
     input ArmorSetPiecesAttributesInput {
@@ -584,6 +602,23 @@ const typeDefs = `
         protection: Protection
     }
 
+    type ArmorItem {
+        name: String
+        description: String
+        rarity: Int
+        carryLimit: Int
+        value: Int
+    }
+
+    type ArmorCraftingMaterials {
+        quantity: Int
+        item: ArmorItem
+    }
+
+    type ArmorCrafting {
+        materials: [ArmorCraftingMaterials]
+    }
+
     type Armor {
         _id: ID
         slug: String
@@ -597,7 +632,7 @@ const typeDefs = `
         skills: [Skill]
         armorSet: ArmorSetArmor
         assets: Assets
-        crafting: Crafting
+        crafting: ArmorCrafting
     }
 
     type ArmorSetPiecesAttributes {
@@ -873,7 +908,7 @@ const typeDefs = `
             protection: ProtectionInput
         ):Ailment
         addArmor(
-            user: ID!
+            userId: ID!
             _id: ID            
             slug: String
             name: String
@@ -886,10 +921,10 @@ const typeDefs = `
             skills: [SkillInput]
             armorSet: ArmorSetArmorInput
             assets: AssetsInput
-            crafting: CraftingInput
+            crafting: ArmorCraftingInput
         ):Armor
         addArmorSet(
-            user: ID!
+            userId: ID!
             _id: ID           
             rank: String
             name: String
@@ -897,7 +932,7 @@ const typeDefs = `
             bonus: ArmorSetBonusInput
         ):ArmorSet
         addCharm(
-            user: ID!
+            userId: ID!
             _id: ID
             slug: String
             name: String
@@ -905,7 +940,7 @@ const typeDefs = `
             crafting: CraftingInput
         ):Charm
         addDecoration(
-            user: ID!
+            userId: ID!
             _id: ID
             slug: String
             name: String
@@ -914,7 +949,7 @@ const typeDefs = `
             slot: Int
         ):Decoration
         addEvent(
-            user: ID!
+            userId: ID!
             _id: ID
             name: String
             platform: String
@@ -928,7 +963,7 @@ const typeDefs = `
             location: [EventLocationInput]
         ):Event
         addItem(
-            user: ID!
+            userId: ID!
             _id: ID
             name: String
             description: String
@@ -937,14 +972,14 @@ const typeDefs = `
             value: Int
         ):Item
         addLocation(
-            user: ID!
+            userId: ID!
             _id: ID
             name: String
             zoneCount: Int
             camps: [CampsInput]
         ):Location
         addMonster(
-            user: ID!
+            userId: ID!
             _id: ID
             name: String
             type: String
@@ -958,7 +993,7 @@ const typeDefs = `
             reward: [RewardInput]
         ):Monster
         addSkill(
-            user: ID!
+            userId: ID!
             _id: ID
             slug: String
             name: String
@@ -966,7 +1001,7 @@ const typeDefs = `
             ranks: [SkillRanksInput]
         ):Skill
         addWeapon(
-            user: ID!
+            userId: ID!
             _id: ID
             name: String
             type: String

@@ -632,12 +632,81 @@ export const DELETE_AILMENT = gql`
 
 // Armor Mutations
 export const ADD_ARMOR = gql`
-  mutation ADD_ARMOR($input: ArmorInput!) {
-    addArmor(input: $input) {
-      ...ArmorFragment
+  mutation AddArmor($userId: ID!, $id: ID, $slug: String, $name: String, $type: String, $rank: String, $rarity: Int, $defense: [DefenseInput], $resistances: ResistancesInput, $slots: SlotsInput, $skills: [SkillInput], $armorSet: ArmorSetArmorInput, $assets: AssetsInput, $crafting: ArmorCraftingInput) {
+    addArmor(userId: $userId, _id: $id, slug: $slug, name: $name, type: $type, rank: $rank, rarity: $rarity, defense: $defense, resistances: $resistances, slots: $slots, skills: $skills, armorSet: $armorSet, assets: $assets, crafting: $crafting) {
+      _id
+      slug
+      name
+      type
+      rank
+      rarity
+      defense {
+        base
+        max
+        augmented
+      }
+      resistances {
+        fire
+        water
+        ice
+        thunder
+        dragon
+      }
+      slots {
+        rank
+      }
+      skills {
+        slug
+        name
+        description
+        ranks {
+          slug
+          skill
+          level
+          description
+          modifiers {
+            affinity
+            attack
+            damageFire
+            damageWater
+            damageIce
+            damageThunder
+            damageDragon
+            defense
+            health
+            sharpnessBonus
+            resistAll
+            resistFire
+            resistWater
+            resistIce
+            resistThunder
+            resistDragon
+          }
+        }
+      }
+      armorSet {
+        name
+        rank
+        pieces
+      }
+      assets {
+        imageMale
+        imageFemale
+      }
+      crafting {
+        materials {
+          quantity
+          item {
+            name
+            description
+            rarity
+            carryLimit
+            value
+          }
+        }
+      }
     }
   }
-  ${ARMOR_FRAGMENT}
 `;
 
 export const DELETE_ARMOR = gql`

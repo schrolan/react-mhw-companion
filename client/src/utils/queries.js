@@ -124,6 +124,7 @@ export const GET_AILMENT = gql`
 export const GET_ARMORS = gql`
   query ALL_ARMORS {
     armors {
+      _id
       slug
       name
       type
@@ -145,6 +146,7 @@ export const GET_ARMORS = gql`
           rank
       }
       skills {
+        _id
         slug
         name
         description
@@ -201,6 +203,7 @@ export const GET_ARMORS = gql`
 export const GET_ARMOR = gql`
   query GET_ARMOR($_id: ID!) {
     armor(_id: $_id) {
+      _id
       slug
       name
       type
@@ -222,6 +225,7 @@ export const GET_ARMOR = gql`
           rank
       }
       skills {
+        _id
         slug
         name
         description
@@ -1234,6 +1238,7 @@ export const GET_USERS = gql`
         }
       }
       armor {
+        _id
         slug
         name
         type
@@ -1255,6 +1260,7 @@ export const GET_USERS = gql`
             rank
         }
         skills {
+          _id
           slug
           name
           description
@@ -1839,6 +1845,7 @@ export const GET_USER = gql`
             rank
         }
         skills {
+          _id
           slug
           name
           description

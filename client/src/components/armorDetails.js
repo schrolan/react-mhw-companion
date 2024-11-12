@@ -14,29 +14,75 @@ const ArmorDetails = ({ armor }) => {
     });
 
     const saveArmor = async (armor) => {
-        const { id, name, type, rank, rarity, defense, resistances, skills, armorSet, crafting } = armor;
-
-        await addArmor({
-            variables: {
-                userId: currentUser._id,
-                armorId: id,
-                name,
-                type,
-                rank,
-                rarity,
-                defense,
-                resistances,
-                skills,
-                armorSet,
-                crafting
-            }
-        });
-        alert(`${name} saved!`);
+        try {
+            await addArmor({
+                variables: {
+                    userId: currentUser._id,
+                    name: armor.name,
+                    type: armor.type,
+                    rank: armor.rank,
+                    rarity: armor.rarity,
+                    defense: armor.defense ? {
+                        base: armor.defense.base,
+                        max: armor.defense.max,
+                        augmented: armor.defense.augmented
+                    } : null,
+                    resistances: armor.resistances ? {
+                        fire: armor.resistances.fire,
+                        water: armor.resistances.water,
+                        ice: armor.resistances.ice,
+                        thunder: armor.resistances.thunder,
+                        dragon: armor.resistances.dragon
+                    } : null,
+                    slots: armor.slots ? armor.slots.map(slot => ({
+                        rank: slot.rank
+                    })) : [],
+                    skills: armor.skills ? armor.skills.map(skill => ({
+                        slug: skill.slug,
+                        name: skill.name,
+                        description: skill.description,
+                        ranks: skill.ranks ? skill.ranks.map(rank => ({
+                            slug: rank.slug,
+                            skill: rank.skill,
+                            level: rank.level,
+                            description: rank.description,
+                            modifiers: rank.modifiers || {}
+                        })) : []
+                    })) : [],
+                    armorSet: armor.armorSet ? {
+                        name: armor.armorSet.name,
+                        rank: armor.armorSet.rank,
+                        pieces: armor.armorSet.pieces
+                    } : null,
+                    assets: armor.assets ? {
+                        imageMale: armor.assets.imageMale,
+                        imageFemale: armor.assets.imageFemale
+                    } : null,
+                    crafting: armor.crafting ? {
+                        materials: armor.crafting.materials ? armor.crafting.materials.map(material => ({
+                            quantity: material.quantity,
+                            item: {
+                                rarity: material.item.rarity,
+                                carryLimit: material.item.carryLimit,
+                                value: material.item.value,
+                                name: material.item.name,
+                                description: material.item.description
+                            }
+                        })) : []
+                    } : null
+                }
+            });
+            alert(`${armor.name} saved to user!`);
+        } catch (error) {
+            console.log("Error saving armor", error);
+            alert("Error saving armor");
+        }
     };
 
-    if (!armor) return <div>No armor data available</div>;
-
-    const { name, type, rank, rarity, defense, resistances, skills, armorSet, crafting, assets } = armor;
+    // Destructure armor to avoid repeated access of nested properties
+    const {
+        name, type, rank, rarity, defense, resistances, slots, skills, armorSet, assets, crafting
+    } = armor;
 
     return (
         <Container>
@@ -58,9 +104,9 @@ const ArmorDetails = ({ armor }) => {
                 {defense && (
                     <div className="armor-section">
                         <h3>Defense</h3>
-                        <p>Base: {defense.base || defense[0]?.base}</p>
-                        <p>Max: {defense.max || defense[0]?.max}</p>
-                        <p>Augmented: {defense.augmented || defense[0]?.augmented}</p>
+                        <p>Base: {defense.base}</p>
+                        <p>Max: {defense.max}</p>
+                        <p>Augmented: {defense.augmented}</p>
                     </div>
                 )}
 
@@ -79,7 +125,7 @@ const ArmorDetails = ({ armor }) => {
                     <div className="armor-section">
                         <h3>Skills</h3>
                         {skills.map(skill => (
-                            <div key={skill.id} className="skill">
+                            <div key={skill.slug} className="skill">
                                 <strong>{skill.name}</strong> - {skill.description}
                                 {skill.ranks && skill.ranks.length > 0 ? (
                                     skill.ranks.map((rank, index) => (
@@ -110,12 +156,10 @@ const ArmorDetails = ({ armor }) => {
                         <ul>
                             {crafting.materials.map((material, index) => (
                                 <li key={index}>
-                                    {Array.isArray(material.item) ? (
-                                        material.item.map(item => (
-                                            <div key={item.id}>
-                                                <strong>{item.name}</strong> - Quantity: {material.quantity}
-                                            </div>
-                                        ))
+                                    {material.item ? (
+                                        <div>
+                                            <strong>{material.item.name}</strong> - Quantity: {material.quantity}
+                                        </div>
                                     ) : (
                                         <p>Material information is unavailable</p>
                                     )}
