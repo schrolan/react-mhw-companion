@@ -88,7 +88,7 @@ const monsterSchema = new Schema({
             condition: Boolean
         }
     ],
-    reward: [
+    rewards: [
         {
             item: [itemSchema],
              conditions: [

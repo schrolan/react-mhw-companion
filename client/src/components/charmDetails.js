@@ -13,93 +13,107 @@ const CharmDetails = ({ charm }) => {
         refetchQueries: [{ query: GET_USER }, 'GET_USER'],
     });
 
-    const saveCharm = async (charm) => {
-        const { id, name, ranks } = charm;
-
-        await addCharm({
-            variables: {
-                userId: currentUser._id,
-                charmId: id,
-                name,
-                ranks
-            }
-        });
-        alert(`${name} saved!`);
+    const saveCharm = async () => {
+        try {
+            await addCharm({
+                variables: {
+                    userId: currentUser._id,
+                    slug: charm.slug,
+                    name: charm.name,
+                    ranks: charm.ranks?.map(rank => ({
+                        level: rank.level,
+                        rarity: rank.rarity,
+                        skills: rank.skills?.map(skill => ({
+                            slug: skill.slug,
+                            level: skill.level,
+                            description: skill.description,
+                            skill: skill.skill,
+                            skillName: skill.skillName,
+                            modifiers: skill.modifiers || {}
+                        })),
+                        crafting: rank.crafting
+                            ? {
+                                  craftable: rank.crafting.craftable,
+                                  materials: rank.crafting.materials?.map(material => ({
+                                      quantity: material.quantity,
+                                      item: {
+                                          name: material.item.name,
+                                          description: material.item.description,
+                                          rarity: material.item.rarity,
+                                          carryLimit: material.item.carryLimit,
+                                          sellPrice: material.item.sellPrice,
+                                          buyPrice: material.item.buyPrice
+                                      }
+                                  }))
+                              }
+                            : null
+                    }))
+                }
+            });
+            alert(`${charm.name} saved successfully!`);
+        } catch (error) {
+            console.error('Error saving charm:', error);
+            alert('Failed to save charm');
+        }
     };
 
     if (!charm) return <div>No charm data available</div>;
 
-    const { name, ranks } = charm;
-
     return (
         <Container>
             <div className="charm-card">
-                <h2>{name}</h2>
+                <h2>{charm.name}</h2>
+                <p>Slug: {charm.slug}</p>
 
-                {ranks.map((rank, index) => (
-                    <div key={index}>
-                        <p>Level: {rank.level}</p>
-                        <p>Rarity: {rank.rarity}</p>
+                {charm.ranks?.length > 0 && (
+                    <div className="charm-ranks">
+                        <h3>Ranks</h3>
+                        {charm.ranks.map((rank, index) => (
+                            <div key={index} className="rank-details">
+                                <p>Level: {rank.level}</p>
+                                <p>Rarity: {rank.rarity}</p>
 
-                        <div className="charm-skills">
-                            <h3>Skills:</h3>
-                            {rank.skills ? (
-                                rank.skills.map((skill, i) => (
-                                    <div key={i}>
-                                        <h4>{skill.name}</h4>
-                                        <p>{skill.description}</p>
-                                        {skill.ranks ? (
-                                            skill.ranks.map((skillRank, j) => (
-                                                <div key={j} className="skill-rank">
-                                                    <p>Level: {skillRank.level}</p>
-                                                    <p>{skillRank.description}</p>
-                                                    {skillRank.modifiers?.map((modifier, k) => (
-                                                        <div key={k}>
-                                                            <p>Affinity: {modifier.affinity}</p>
-                                                            <p>Attack: {modifier.attack}</p>
-                                                        </div>
-                                                    ))}
-                                                </div>
-                                            ))
-                                        ) : (
-                                            <p>No ranks available for this skill</p>
-                                        )}
-                                    </div>
-                                ))
-                            ) : (
-                                <p>No skills available</p>
-                            )}
-                        </div>
-
-                        {rank.crafting?.craftable && (
-                            <div className="crafting-materials">
-                                <h3>Crafting Materials:</h3>
-                                {rank.crafting.materials.map((material, i) => (
-                                    <div key={i}>
-                                        <p>Quantity: {material.quantity}</p>
-                                        {Array.isArray(material.item) ? (
-                                            material.item.map((item, j) => (
-                                                <div key={j}>
-                                                    <p>Name: {item.name}</p>
-                                                    <p>Rarity: {item.rarity}</p>
-                                                    <p>Value: {item.value}</p>
-                                                </div>
-                                            ))
-                                        ) : (
-                                            <div>
-                                                <p>Name: {material.item.name}</p>
-                                                <p>Rarity: {material.item.rarity}</p>
-                                                <p>Value: {material.item.value}</p>
+                                {rank.skills?.length > 0 && (
+                                    <div className="skills">
+                                        <h4>Skills:</h4>
+                                        {rank.skills.map((skill, skillIndex) => (
+                                            <div key={skillIndex} className="skill">
+                                                <strong>{skill.skillName}</strong> - {skill.description}
+                                                {skill.modifiers && (
+                                                    <div className="modifiers">
+                                                        <p>Affinity: {skill.modifiers.affinity}</p>
+                                                        <p>Attack: {skill.modifiers.attack}</p>
+                                                        <p>Defense: {skill.modifiers.defense}</p>
+                                                    </div>
+                                                )}
                                             </div>
+                                        ))}
+                                    </div>
+                                )}
+
+                                {rank.crafting && (
+                                    <div className="crafting">
+                                        <h4>Crafting:</h4>
+                                        <p>Craftable: {rank.crafting.craftable ? 'Yes' : 'No'}</p>
+                                        {rank.crafting.materials?.length > 0 && (
+                                            <ul>
+                                                {rank.crafting.materials.map((material, matIndex) => (
+                                                    <li key={matIndex}>
+                                                        <strong>{material.item.name}</strong> - {material.quantity}
+                                                        <p>{material.item.description}</p>
+                                                        <p>Rarity: {material.item.rarity}</p>
+                                                    </li>
+                                                ))}
+                                            </ul>
                                         )}
                                     </div>
-                                ))}
+                                )}
                             </div>
-                        )}
+                        ))}
                     </div>
-                ))}
+                )}
 
-                <button onClick={() => saveCharm(charm)} className="save-button">
+                <button onClick={saveCharm} className="save-button">
                     Save Charm
                 </button>
             </div>

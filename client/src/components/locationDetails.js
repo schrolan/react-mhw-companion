@@ -13,23 +13,24 @@ const LocationDetails = ({ location }) => {
         refetchQueries: [{ query: GET_USER }, 'GET_USER'],
     });
 
-    const saveLocation = async (location) => {
-        const { id, name, zoneCount, camps } = location;
-
-        await addLocation({
-            variables: {
-                userId: currentUser._id,
-                locationId: id,
-                name,
-                zoneCount,
-                camps: camps.map(camp => ({
-                    id: camp.id,
-                    name: camp.name,
-                    zone: camp.zone
-                })),
-            }
-        });
-        alert(`${name} saved!`);
+    const saveLocation = async () => {
+        try {
+            await addLocation({
+                variables: {
+                    userId: currentUser._id,
+                    name: location.name,
+                    zoneCount: location.zoneCount,
+                    camps: location.camps?.map(camp => ({
+                        name: camp.name,
+                        zone: camp.zone,
+                    })),
+                },
+            });
+            alert(`${location.name} saved successfully!`);
+        } catch (error) {
+            console.error('Error saving location:', error);
+            alert('Failed to save location');
+        }
     };
 
     if (!location) return <div>No location data available</div>;
@@ -39,15 +40,20 @@ const LocationDetails = ({ location }) => {
             <div className="location-card">
                 <h2>{location.name}</h2>
                 <p>Zone Count: {location.zoneCount}</p>
-                <h3>Camps:</h3>
-                <ul>
-                    {location.camps.map((camp) => (
-                        <li key={camp.id}>
-                            {camp.name} - Zone: {camp.zone}
-                        </li>
-                    ))}
-                </ul>
-                <button onClick={() => saveLocation(location)} className="save-button">
+
+                {location.camps?.length > 0 && (
+                    <div className="camps">
+                        <h3>Camps</h3>
+                        {location.camps.map((camp, index) => (
+                            <div key={index} className="camp">
+                                <p><strong>Camp Name:</strong> {camp.name}</p>
+                                <p><strong>Zone:</strong> {camp.zone}</p>
+                            </div>
+                        ))}
+                    </div>
+                )}
+
+                <button onClick={saveLocation} className="save-button">
                     Save Location
                 </button>
             </div>

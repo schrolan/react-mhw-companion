@@ -1,7 +1,7 @@
 import React from 'react';
 import { useMutation } from '@apollo/client';
-import { ADD_DECORATION } from '../utils/mutations';
-import { GET_USER } from '../utils/queries';
+import { ADD_DECORATION } from '../utils/mutations'; // Define this mutation in your utils folder
+import { GET_USER } from '../utils/queries'; // Ensure this query is set up correctly
 import Container from './container';
 import Auth from '../utils/auth';
 import '../index.css';
@@ -13,67 +13,63 @@ const DecorationDetails = ({ decoration }) => {
         refetchQueries: [{ query: GET_USER }, 'GET_USER'],
     });
 
-    const saveDecoration = async (decoration) => {
-        const { id, name, rarity, skill, slot } = decoration;
-
-        await addDecoration({
-            variables: {
-                userId: currentUser._id,
-                decorationId: id,
-                name,
-                rarity,
-                skill,
-                slot
-            }
-        });
-        alert(`${name} saved!`);
+    const saveDecoration = async () => {
+        try {
+            await addDecoration({
+                variables: {
+                    userId: currentUser._id,
+                    slug: decoration.slug,
+                    name: decoration.name,
+                    rarity: decoration.rarity,
+                    skill: decoration.skills?.map(skill => ({
+                        slug: skill.slug,
+                        description: skill.description,
+                        level: skill.level,
+                        skill: skill.skill,
+                        skillName: skill.skillName,
+                        modifiers: skill.modifiers || {},
+                    })),
+                    slot: decoration.slot,
+                },
+            });
+            alert(`${decoration.name} saved successfully!`);
+        } catch (error) {
+            console.error('Error saving decoration:', error);
+            alert('Failed to save decoration');
+        }
     };
 
     if (!decoration) return <div>No decoration data available</div>;
 
-    const { name, rarity, skill, slot } = decoration;
-
     return (
         <Container>
             <div className="decoration-card">
-                <h2>{name}</h2>
-                <p>Rarity: {rarity}</p>
-                <p>Slot: {slot}</p>
+                <h2>{decoration.name}</h2>
+                <p>Slug: {decoration.slug}</p>
+                <p>Rarity: {decoration.rarity}</p>
+                <p>Slot: {decoration.slot}</p>
 
-                <div className="decoration-skills">
-                    <h3>Skills:</h3>
-                    {skill && skill.length > 0 ? (
-                        skill.map((skillItem, index) => (
-                            <div key={index}>
-                                <h4>{skillItem.name}</h4>
-                                <p>{skillItem.description}</p>
-                                {skillItem.ranks && skillItem.ranks.length > 0 ? (
-                                    skillItem.ranks.map((rank, i) => (
-                                        <div key={i} className="skill-rank">
-                                            <p>Level: {rank.level}</p>
-                                            <p>{rank.description}</p>
-                                            {rank.modifiers && rank.modifiers.length > 0 && (
-                                                rank.modifiers.map((modifier, j) => (
-                                                    <div key={j}>
-                                                        <p>Affinity: {modifier.affinity}</p>
-                                                        <p>Attack: {modifier.attack}</p>
-                                                        {/* Display additional modifiers as needed */}
-                                                    </div>
-                                                ))
-                                            )}
-                                        </div>
-                                    ))
-                                ) : (
-                                    <p>No ranks available for this skill</p>
+                {decoration.skills?.length > 0 && (
+                    <div className="skills">
+                        <h3>Skills</h3>
+                        {decoration.skills.map((skill, index) => (
+                            <div key={index} className="skill">
+                                <strong>{skill.skillName}</strong> - {skill.description}
+                                <p>Level: {skill.level}</p>
+                                {skill.modifiers && (
+                                    <div className="modifiers">
+                                        <p>Affinity: {skill.modifiers.affinity}</p>
+                                        <p>Attack: {skill.modifiers.attack}</p>
+                                        <p>Defense: {skill.modifiers.defense}</p>
+                                        {/* Add other modifiers as necessary */}
+                                    </div>
                                 )}
                             </div>
-                        ))
-                    ) : (
-                        <p>No skills available for this decoration</p>
-                    )}
-                </div>
+                        ))}
+                    </div>
+                )}
 
-                <button onClick={() => saveDecoration(decoration)} className="save-button">
+                <button onClick={saveDecoration} className="save-button">
                     Save Decoration
                 </button>
             </div>

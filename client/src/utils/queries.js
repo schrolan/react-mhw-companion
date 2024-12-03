@@ -1679,7 +1679,7 @@ export const GET_USERS = gql`
           stars
           condition
         }
-        reward {
+        rewards {
           item {
             name
             description
@@ -2172,7 +2172,7 @@ export const GET_USER = gql`
           stars
           condition
         }
-        reward {
+        rewards {
           item {
             name
             description

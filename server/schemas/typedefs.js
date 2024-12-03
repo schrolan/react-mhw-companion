@@ -81,19 +81,6 @@ const typeDefs = `
         condition: Boolean
     }
 
-    input ConditionsInput {
-        type: String
-        subtype: String
-        rank: String
-        quantity: Int
-        chance: Int
-    }
-
-    input RewardInput {
-        item: [ItemInput]
-        conditions: [ConditionsInput]
-    }
-
     input ModifiersInput {
         affinity: Int
         attack: Int
@@ -391,6 +378,19 @@ const typeDefs = `
         protection: MonsterAilmentsProtectionInput
     }
 
+    input ConditionsInput {
+        type: String
+        subtype: String
+        rank: String
+        quantity: Int
+        chance: Int
+    }
+
+    input RewardsInput {
+        item: [ItemInput]
+        conditions: [ConditionsInput]
+    }
+
     input MonsterInput {
         _id: ID
         name: String
@@ -402,7 +402,7 @@ const typeDefs = `
         locations: [LocationInput]
         resistances: [MonsterResistancesInput]
         weaknesses: [WeaknessesInput]
-        reward: [RewardInput]
+        rewards: [RewardsInput]
     }
 
     input SkillInput {
@@ -513,7 +513,7 @@ const typeDefs = `
         chance: Int
     }
 
-    type Reward {
+    type Rewards {
         item: [Item]
         conditions: [Conditions]
     }
@@ -826,7 +826,7 @@ const typeDefs = `
         locations: [Location]
         resistances: [MonsterResistances]
         weaknesses: [Weaknesses]
-        reward: [Reward]
+        rewards: [Rewards]
     }
 
     type Skill {
@@ -987,10 +987,10 @@ const typeDefs = `
             description: String
             elements: [String]
             ailments: [MonsterAilmentsInput]
-            location: [LocationInput]
+            locations: [LocationInput]
             resistances: [MonsterResistancesInput]
             weaknesses: [WeaknessesInput]
-            reward: [RewardInput]
+            rewards: [RewardsInput]
         ):Monster
         addSkill(
             userId: ID!

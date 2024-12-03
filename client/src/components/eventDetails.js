@@ -13,74 +13,77 @@ const EventDetails = ({ event }) => {
         refetchQueries: [{ query: GET_USER }, 'GET_USER'],
     });
 
-    const saveEvent = async (event) => {
-        const { id, name, platform, exclusive, type, expansion, description, requirements, questRank, successConditions, startTimestamp, endTimestamp, location } = event;
-
-        await addEvent({
-            variables: {
-                userId: currentUser._id,
-                eventId: id,
-                name,
-                platform,
-                exclusive,
-                type,
-                expansion,
-                description,
-                requirements,
-                questRank,
-                successConditions,
-                startTimestamp,
-                endTimestamp,
-                location
-            }
-        });
-        alert(`${name} saved!`);
+    const saveEvent = async () => {
+        try {
+            await addEvent({
+                variables: {
+                    userId: currentUser._id,
+                    name: event.name,
+                    platform: event.platform,
+                    exclusive: event.exclusive,
+                    type: event.type,
+                    expansion: event.expansion,
+                    description: event.description,
+                    requirements: event.requirements,
+                    questRank: event.questRank,
+                    successConditions: event.successConditions,
+                    location: Array.isArray(event.location)
+                        ? event.location.map(loc => ({
+                            name: loc.name,
+                            zoneCount: loc.zoneCount,
+                            camps: loc.camps?.map(camp => ({
+                                name: camp.name,
+                                zone: camp.zone,
+                            })),
+                        }))
+                        : [],
+                },
+            });
+            alert(`${event.name} saved successfully!`);
+        } catch (error) {
+            console.error('Error saving event:', error);
+            alert('Failed to save event');
+        }
     };
 
     if (!event) return <div>No event data available</div>;
 
-    const { name, platform, exclusive, type, expansion, description, requirements, questRank, successConditions, startTimestamp, endTimestamp, location } = event;
-
     return (
         <Container>
             <div className="event-card">
-                <h2>{name}</h2>
-                <p>Platform: {platform}</p>
-                <p>Exclusive: {exclusive ? 'Yes' : 'No'}</p>
-                <p>Type: {type}</p>
-                <p>Expansion: {expansion}</p>
-                <p>Description: {description}</p>
-                <p>Requirements: {requirements}</p>
-                <p>Quest Rank: {questRank}</p>
-                <p>Success Conditions: {successConditions}</p>
-                <p>Start Date: {new Date(startTimestamp).toLocaleDateString()}</p>
-                <p>End Date: {new Date(endTimestamp).toLocaleDateString()}</p>
+                <h2>{event.name}</h2>
+                <p>Platform: {event.platform}</p>
+                <p>Exclusive: {event.exclusive ? 'Yes' : 'No'}</p>
+                <p>Type: {event.type}</p>
+                <p>Expansion: {event.expansion}</p>
+                <p>Description: {event.description}</p>
+                <p>Requirements: {event.requirements}</p>
+                <p>Quest Rank: {event.questRank}</p>
+                <p>Success Conditions: {event.successConditions}</p>
 
-                <div className="event-locations">
-                    <h3>Locations:</h3>
-                    {Array.isArray(location) && location.length > 0 ? (
-                        location.map((loc, index) => (
-                            <div key={index} className="location-info">
-                                <h4>{loc.name}</h4>
+                {event.location?.length > 0 && (
+                    <div className="location">
+                        <h3>Locations</h3>
+                        {event.location.map((loc, index) => (
+                            <div key={index} className="location-details">
+                                <p>Name: {loc.name}</p>
                                 <p>Zone Count: {loc.zoneCount}</p>
-                                <div className="location-camps">
-                                    <h5>Camps:</h5>
-                                    {Array.isArray(loc.camps) && loc.camps.length > 0 ? (
-                                        loc.camps.map((camp, i) => (
-                                            <p key={i}>{camp.name} (Zone: {camp.zone})</p>
-                                        ))
-                                    ) : (
-                                        <p>No camps available</p>
-                                    )}
-                                </div>
+                                {loc.camps?.length > 0 && (
+                                    <div className="camps">
+                                        <h4>Camps</h4>
+                                        {loc.camps.map((camp, i) => (
+                                            <p key={i}>
+                                                {camp.name} (Zone {camp.zone})
+                                            </p>
+                                        ))}
+                                    </div>
+                                )}
                             </div>
-                        ))
-                    ) : (
-                        <p>No locations available</p>
-                    )}
-                </div>
+                        ))}
+                    </div>
+                )}
 
-                <button onClick={() => saveEvent(event)} className="save-button">
+                <button onClick={saveEvent} className="save-button">
                     Save Event
                 </button>
             </div>

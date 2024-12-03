@@ -13,36 +13,36 @@ const ItemDetails = ({ item }) => {
         refetchQueries: [{ query: GET_USER }, 'GET_USER'],
     });
 
-    const saveItem = async (item) => {
-        const { id, name, description, rarity, carryLimit, value } = item;
-
-        await addItem({
-            variables: {
-                userId: currentUser._id,
-                itemId: id,
-                name,
-                description,
-                rarity,
-                carryLimit,
-                value,
-            }
-        });
-        alert(`${name} saved!`);
+    const saveItem = async () => {
+        try {
+            await addItem({
+                variables: {
+                    userId: currentUser._id,
+                    name: item.name,
+                    description: item.description,
+                    rarity: item.rarity,
+                    carryLimit: item.carryLimit,
+                    value: item.value,
+                },
+            });
+            alert(`${item.name} saved successfully!`);
+        } catch (error) {
+            console.error('Error saving item:', error);
+            alert('Failed to save item');
+        }
     };
 
     if (!item) return <div>No item data available</div>;
 
-    const { name, description, rarity, carryLimit, value } = item;
-
     return (
         <Container>
             <div className="item-card">
-                <h2>{name}</h2>
-                <p>{description}</p>
-                <p>Rarity: {rarity}</p>
-                <p>Carry Limit: {carryLimit}</p>
-                <p>Value: {value}</p>
-                <button onClick={() => saveItem(item)} className="save-button">
+                <h2>{item.name}</h2>
+                <p>Description: {item.description}</p>
+                <p>Rarity: {item.rarity}</p>
+                <p>Carry Limit: {item.carryLimit}</p>
+                <p>Value: {item.value}</p>
+                <button onClick={saveItem} className="save-button">
                     Save Item
                 </button>
             </div>
@@ -51,3 +51,4 @@ const ItemDetails = ({ item }) => {
 };
 
 export default ItemDetails;
+
