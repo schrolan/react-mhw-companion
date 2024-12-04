@@ -6,7 +6,7 @@ import Container from './container';
 import Auth from '../utils/auth';
 import '../index.css';
 
-const AilmentDetails = ({ ailment }) => {
+const AilmentDetails = ({ ailment, showSaveButton = true }) => {
     const currentUser = Auth.getLoggedInUser();
 
     const [addAilment] = useMutation(ADD_AILMENT, {
@@ -149,9 +149,12 @@ const AilmentDetails = ({ ailment }) => {
                     </div>
                 )}
 
-                <button onClick={() => saveAilment(ailment)} className="save-button">
-                    Save Ailment
-                </button>
+                {/* Conditionally render the Save Ailment button */}
+                {showSaveButton && (
+                    <button onClick={() => saveAilment(ailment)} className="save-button">
+                        Save Ailment
+                    </button>
+                )}
             </div>
         </Container>
     );

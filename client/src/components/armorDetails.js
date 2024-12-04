@@ -6,7 +6,7 @@ import Container from './container';
 import Auth from '../utils/auth';
 import '../index.css';
 
-const ArmorDetails = ({ armor }) => {
+const ArmorDetails = ({ armor, showSaveButton = true }) => { // Add the showSaveButton prop with a default value of true
     const currentUser = Auth.getLoggedInUser();
 
     const [addArmor] = useMutation(ADD_ARMOR, {
@@ -169,9 +169,12 @@ const ArmorDetails = ({ armor }) => {
                     </div>
                 )}
 
-                <button onClick={() => saveArmor(armor)} className="save-button">
-                    Save Armor
-                </button>
+                {/* Conditionally render the Save Armor button */}
+                {showSaveButton && (
+                    <button onClick={() => saveArmor(armor)} className="save-button">
+                        Save Armor
+                    </button>
+                )}
             </div>
         </Container>
     );

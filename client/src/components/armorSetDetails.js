@@ -6,7 +6,7 @@ import Container from './container';
 import Auth from '../utils/auth';
 import '../index.css';
 
-const ArmorSetDetails = ({ armorSet }) => {
+const ArmorSetDetails = ({ armorSet, showSaveButton = true }) => {
     const currentUser = Auth.getLoggedInUser();
 
     const [addArmorSet] = useMutation(ADD_ARMORSET, {
@@ -118,9 +118,11 @@ const ArmorSetDetails = ({ armorSet }) => {
                     </div>
                 )}
 
-                <button onClick={() => saveArmorSet(armorSet)} className="save-button">
-                    Save Armor Set
-                </button>
+                {showSaveButton && (
+                    <button onClick={() => saveArmorSet(armorSet)} className="save-button">
+                        Save ArmorSet
+                    </button>
+                )}
             </div>
         </Container>
     );

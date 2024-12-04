@@ -6,7 +6,7 @@ import Container from './container';
 import Auth from '../utils/auth';
 import '../index.css';
 
-const LocationDetails = ({ location }) => {
+const LocationDetails = ({ location, showSaveButton = true }) => {
     const currentUser = Auth.getLoggedInUser();
 
     const [addLocation] = useMutation(ADD_LOCATION, {
@@ -53,9 +53,11 @@ const LocationDetails = ({ location }) => {
                     </div>
                 )}
 
-                <button onClick={saveLocation} className="save-button">
-                    Save Location
-                </button>
+                {showSaveButton && (
+                    <button onClick={() => saveLocation(location)} className="save-button">
+                        Save Location
+                    </button>
+                )}
             </div>
         </Container>
     );

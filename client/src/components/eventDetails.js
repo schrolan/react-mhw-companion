@@ -6,7 +6,7 @@ import Container from './container';
 import Auth from '../utils/auth';
 import '../index.css';
 
-const EventDetails = ({ event }) => {
+const EventDetails = ({ event, showSaveButton = true }) => {
     const currentUser = Auth.getLoggedInUser();
 
     const [addEvent] = useMutation(ADD_EVENT, {
@@ -83,9 +83,11 @@ const EventDetails = ({ event }) => {
                     </div>
                 )}
 
-                <button onClick={saveEvent} className="save-button">
-                    Save Event
-                </button>
+                {showSaveButton && (
+                    <button onClick={() => saveEvent(event)} className="save-button">
+                        Save Event
+                    </button>
+                )}
             </div>
         </Container>
     );

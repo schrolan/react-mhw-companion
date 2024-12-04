@@ -6,7 +6,7 @@ import Container from './container';
 import Auth from '../utils/auth';
 import '../index.css';
 
-const SkillDetails = ({ skill }) => {
+const SkillDetails = ({ skill, showSaveButton = true }) => {
     const currentUser = Auth.getLoggedInUser();
 
     const [addSkill] = useMutation(ADD_SKILL, {
@@ -37,6 +37,10 @@ const SkillDetails = ({ skill }) => {
         }
     };
 
+    const hasValidModifiers = (modifiers) => {
+        return modifiers && Object.values(modifiers).some(value => value !== null);
+    };
+
     return (
         <Container>
             <div className="skill-card">
@@ -50,12 +54,17 @@ const SkillDetails = ({ skill }) => {
                             {skill.ranks.map((rank, index) => (
                                 <li key={index}>
                                     <strong>Level {rank.level}</strong> - {rank.description}
-                                    {rank.modifiers && Object.keys(rank.modifiers).length > 0 && (
+                                    
+                                    {rank.modifiers && hasValidModifiers(rank.modifiers) && (
                                         <div>
                                             <h4>Modifiers:</h4>
                                             <ul>
                                                 {Object.entries(rank.modifiers).map(([key, value]) => (
-                                                    <li key={key}>{key}: {value}</li>
+                                                    value !== null && (
+                                                        <li key={key}>
+                                                            {key}: {typeof value === 'object' ? JSON.stringify(value) : value}
+                                                        </li>
+                                                    )
                                                 ))}
                                             </ul>
                                         </div>
@@ -66,9 +75,11 @@ const SkillDetails = ({ skill }) => {
                     </div>
                 )}
 
-                <button onClick={() => saveSkill(skill)} className="save-button">
-                    Save Skill
-                </button>
+                {showSaveButton && (
+                    <button onClick={() => saveSkill(skill)} className="save-button">
+                        Save Skill
+                    </button>
+                )}
             </div>
         </Container>
     );

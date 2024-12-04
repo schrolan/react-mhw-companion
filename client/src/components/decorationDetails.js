@@ -6,7 +6,7 @@ import Container from './container';
 import Auth from '../utils/auth';
 import '../index.css';
 
-const DecorationDetails = ({ decoration }) => {
+const DecorationDetails = ({ decoration, showSaveButton = true }) => {
     const currentUser = Auth.getLoggedInUser();
 
     const [addDecoration] = useMutation(ADD_DECORATION, {
@@ -69,9 +69,11 @@ const DecorationDetails = ({ decoration }) => {
                     </div>
                 )}
 
-                <button onClick={saveDecoration} className="save-button">
-                    Save Decoration
-                </button>
+                {showSaveButton && (
+                    <button onClick={() => saveDecoration(decoration)} className="save-button">
+                        Save Decoration
+                    </button>
+                )}
             </div>
         </Container>
     );

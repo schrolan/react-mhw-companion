@@ -6,7 +6,7 @@ import Container from './container';
 import Auth from '../utils/auth';
 import '../index.css';
 
-const MonsterDetails = ({ monster }) => {
+const MonsterDetails = ({ monster, showSaveButton = true }) => {
     const currentUser = Auth.getLoggedInUser();
 
     const [addMonster] = useMutation(ADD_MONSTER, {
@@ -15,54 +15,59 @@ const MonsterDetails = ({ monster }) => {
 
     const saveMonster = async (monster) => {
         try {
-          await addMonster({
-            variables: {
-              userId: currentUser._id,
-              name: monster.name,
-              type: monster.type,
-              species: monster.species,
-              description: monster.description,
-              elements: monster.elements,
-              ailments: monster.ailments.map(ailment => ({
-                name: ailment.name,
-                description: ailment.description,
-                recovery: {
-                  actions: ailment.recovery.actions,
-                  items: ailment.recovery.items.map(item => ({
-                    name: item.name,         // Omit id
-                    description: item.description,
-                    rarity: item.rarity,
-                    carryLimit: item.carryLimit,
-                    value: item.value,
-                  })),
+            await addMonster({
+                variables: {
+                    userId: currentUser._id,
+                    name: monster.name,
+                    type: monster.type,
+                    species: monster.species,
+                    description: monster.description,
+                    elements: monster.elements,
+                    ailments: monster.ailments.map(ailment => ({
+                        name: ailment.name,
+                        description: ailment.description,
+                        recovery: {
+                            actions: ailment.recovery?.actions,  // Optional chaining for recovery actions
+                            items: ailment.recovery?.items?.map(item => ({
+                                name: item.name,
+                                description: item.description,
+                                rarity: item.rarity,
+                                carryLimit: item.carryLimit,
+                                value: item.value,
+                            })) || [],  // Default to empty array if items is null or undefined
+                        },
+                        protection: {
+                            items: ailment.protection?.items?.map(item => ({
+                                name: item.name,
+                                description: item.description,
+                            })) || [],  // Default to empty array if protection.items is null or undefined
+                        },
+                    })),
+                    locations: monster.locations.map(location => ({
+                        name: location.name,
+                        zoneCount: location.zoneCount,
+                        camps: location.camps,
+                    })),
+                    resistances: monster.resistances,
+                    weaknesses: monster.weaknesses,
+                    rewards: monster.rewards.map(reward => ({
+                        item: reward.item ? {
+                            name: reward.item.name,
+                            description: reward.item.description,
+                            rarity: reward.item.rarity,
+                            carryLimit: reward.item.carryLimit,
+                            value: reward.item.value,
+                        } : {},  // If reward.item is null, use an empty object
+                        conditions: reward.conditions,
+                    })),
                 },
-                protection: ailment.protection,
-              })),
-              locations: monster.locations.map(location => ({
-                name: location.name,
-                zoneCount: location.zoneCount,
-                camps: location.camps,
-              })),
-              resistances: monster.resistances,
-              weaknesses: monster.weaknesses,
-              rewards: monster.rewards.map(reward => ({
-                item: {
-                  name: reward.item.name,
-                  description: reward.item.description,
-                  rarity: reward.item.rarity,
-                  carryLimit: reward.item.carryLimit,
-                  value: reward.item.value,
-                },
-                conditions: reward.conditions,
-              })),
-            },
-          });
-          alert(`${monster.name} saved successfully!`);
+            });
+            alert(`${monster.name} saved successfully!`);
         } catch (error) {
-          console.error("Error saving monster", error);
-          alert("Error saving monster");
+            console.error("Error saving monster", error);
+            alert("Error saving monster");
         }
-      };
+    };
 
     return (
         <Container>
@@ -90,7 +95,7 @@ const MonsterDetails = ({ monster }) => {
                             {monster.ailments.map((ailment, index) => (
                                 <li key={index}>
                                     <strong>{ailment.name}</strong>: {ailment.description}
-                                    {ailment.recovery && (
+                                    {ailment.recovery && ailment.recovery.items && ailment.recovery.items.length > 0 && (
                                         <div>
                                             <h4>Recovery</h4>
                                             <p>Actions: {ailment.recovery.actions}</p>
@@ -103,7 +108,7 @@ const MonsterDetails = ({ monster }) => {
                                             </ul>
                                         </div>
                                     )}
-                                    {ailment.protection && (
+                                    {ailment.protection && ailment.protection.items && ailment.protection.items.length > 0 && (
                                         <div>
                                             <h4>Protection</h4>
                                             <ul>
@@ -120,6 +125,7 @@ const MonsterDetails = ({ monster }) => {
                         </ul>
                     </div>
                 )}
+
                 {monster.locations && (
                     <div>
                         <h3>Locations</h3>
@@ -147,6 +153,7 @@ const MonsterDetails = ({ monster }) => {
                         </ul>
                     </div>
                 )}
+
                 {monster.resistances && (
                     <div>
                         <h3>Resistances</h3>
@@ -179,7 +186,7 @@ const MonsterDetails = ({ monster }) => {
                         <ul>
                             {monster.rewards.map((reward, index) => (
                                 <li key={index}>
-                                    <strong>{reward.item.name}</strong> - {reward.item.description}
+                                    <strong>{reward.item ? reward.item.name : 'Unknown Item'}</strong> - {reward.item ? reward.item.description : 'No Description'}
                                     <h4>Conditions</h4>
                                     <ul>
                                         {reward.conditions.map((condition, idx) => (
@@ -194,9 +201,11 @@ const MonsterDetails = ({ monster }) => {
                     </div>
                 )}
 
-                <button onClick={() => saveMonster(monster)} className="save-button">
-                    Save Monster
-                </button>
+                {showSaveButton && (
+                    <button onClick={() => saveMonster(monster)} className="save-button">
+                        Save Monster
+                    </button>
+                )}
             </div>
         </Container>
     );

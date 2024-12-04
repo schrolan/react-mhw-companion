@@ -6,7 +6,7 @@ import Container from './container';
 import Auth from '../utils/auth';
 import '../index.css';
 
-const ItemDetails = ({ item }) => {
+const ItemDetails = ({ item, showSaveButton = true }) => {
     const currentUser = Auth.getLoggedInUser();
 
     const [addItem] = useMutation(ADD_ITEM, {
@@ -42,9 +42,11 @@ const ItemDetails = ({ item }) => {
                 <p>Rarity: {item.rarity}</p>
                 <p>Carry Limit: {item.carryLimit}</p>
                 <p>Value: {item.value}</p>
-                <button onClick={saveItem} className="save-button">
-                    Save Item
-                </button>
+                {showSaveButton && (
+                    <button onClick={() => saveItem(item)} className="save-button">
+                        Save Item
+                    </button>
+                )}
             </div>
         </Container>
     );

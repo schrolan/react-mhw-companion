@@ -6,7 +6,7 @@ import Container from './container';
 import Auth from '../utils/auth';
 import '../index.css';
 
-const WeaponDetails = ({ weapon }) => {
+const WeaponDetails = ({ weapon, showSaveButton = true }) => {
     const currentUser = Auth.getLoggedInUser();
 
     const [addWeapon] = useMutation(ADD_WEAPON, {
@@ -35,23 +35,23 @@ const WeaponDetails = ({ weapon }) => {
                         branches: weapon.crafting.branches,
                         craftingMaterials: weapon.crafting.craftingMaterials.map(material => ({
                             quantity: material.quantity,
-                            item: {
+                            item: material.item ? {
                                 name: material.item.name,
                                 description: material.item.description,
                                 rarity: material.item.rarity,
                                 carryLimit: material.item.carryLimit,
                                 value: material.item.value
-                            }
+                            } : null
                         })),
                         upgradeMaterials: weapon.crafting.upgradeMaterials.map(material => ({
                             quantity: material.quantity,
-                            item: {
+                            item: material.item ? {
                                 name: material.item.name,
                                 description: material.item.description,
                                 rarity: material.item.rarity,
                                 carryLimit: material.item.carryLimit,
                                 value: material.item.value
-                            }
+                            } : null
                         })),
                         assets: weapon.crafting.assets
                     },
@@ -63,7 +63,7 @@ const WeaponDetails = ({ weapon }) => {
             alert("Error saving weapon");
         }
     };
-    
+
     return (
         <Container>
             <div className="weapon-card">
@@ -149,13 +149,15 @@ const WeaponDetails = ({ weapon }) => {
                                 <h4>Crafting Materials</h4>
                                 <ul>
                                     {weapon.crafting.craftingMaterials.map((material, index) => (
-                                        <li key={index}>
-                                            <strong>{material.item.name}</strong> - {material.item.description}
-                                            <div>Quantity: {material.quantity}</div>
-                                            <div>Rarity: {material.item.rarity}</div>
-                                            <div>Carry Limit: {material.item.carryLimit}</div>
-                                            <div>Value: {material.item.value}</div>
-                                        </li>
+                                        material.item && (
+                                            <li key={index}>
+                                                <strong>{material.item.name}</strong> - {material.item.description}
+                                                <div>Quantity: {material.quantity}</div>
+                                                <div>Rarity: {material.item.rarity}</div>
+                                                <div>Carry Limit: {material.item.carryLimit}</div>
+                                                <div>Value: {material.item.value}</div>
+                                            </li>
+                                        )
                                     ))}
                                 </ul>
                             </div>
@@ -166,13 +168,15 @@ const WeaponDetails = ({ weapon }) => {
                                 <h4>Upgrade Materials</h4>
                                 <ul>
                                     {weapon.crafting.upgradeMaterials.map((material, index) => (
-                                        <li key={index}>
-                                            <strong>{material.item.name}</strong> - {material.item.description}
-                                            <div>Quantity: {material.quantity}</div>
-                                            <div>Rarity: {material.item.rarity}</div>
-                                            <div>Carry Limit: {material.item.carryLimit}</div>
-                                            <div>Value: {material.item.value}</div>
-                                        </li>
+                                        material.item && (
+                                            <li key={index}>
+                                                <strong>{material.item.name}</strong> - {material.item.description}
+                                                <div>Quantity: {material.quantity}</div>
+                                                <div>Rarity: {material.item.rarity}</div>
+                                                <div>Carry Limit: {material.item.carryLimit}</div>
+                                                <div>Value: {material.item.value}</div>
+                                            </li>
+                                        )
                                     ))}
                                 </ul>
                             </div>
@@ -188,9 +192,11 @@ const WeaponDetails = ({ weapon }) => {
                     </div>
                 )}
 
-                <button onClick={() => saveWeapon(weapon)} className="save-button">
-                    Save Weapon
-                </button>
+                {showSaveButton && (
+                    <button onClick={() => saveWeapon(weapon)} className="save-button">
+                        Save Weapon
+                    </button>
+                )}
             </div>
         </Container>
     );

@@ -6,7 +6,7 @@ import Container from './container';
 import Auth from '../utils/auth';
 import '../index.css';
 
-const CharmDetails = ({ charm }) => {
+const CharmDetails = ({ charm, showSaveButton = true }) => {
     const currentUser = Auth.getLoggedInUser();
 
     const [addCharm] = useMutation(ADD_CHARM, {
@@ -113,9 +113,11 @@ const CharmDetails = ({ charm }) => {
                     </div>
                 )}
 
-                <button onClick={saveCharm} className="save-button">
-                    Save Charm
-                </button>
+                {showSaveButton && (
+                    <button onClick={() => saveCharm(charm)} className="save-button">
+                        Save Charm
+                    </button>
+                )}
             </div>
         </Container>
     );
