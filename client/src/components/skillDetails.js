@@ -26,9 +26,9 @@ const SkillDetails = ({ skill, showSaveButton = true }) => {
                         skill: rank.skill,
                         level: rank.level,
                         description: rank.description,
-                        modifiers: rank.modifiers
-                    }))
-                }
+                        modifiers: rank.modifiers,
+                    })),
+                },
             });
             alert(`${skill.name} saved to user!`);
         } catch (error) {
@@ -37,9 +37,17 @@ const SkillDetails = ({ skill, showSaveButton = true }) => {
         }
     };
 
-    const hasValidModifiers = (modifiers) => {
-        return modifiers && Object.values(modifiers).some(value => value !== null);
-    };
+    const formatModifiers = (modifiers) => {
+        if (!Array.isArray(modifiers)) {
+            return [];
+        }
+        return modifiers.map((mod) =>
+            Object.entries(mod)
+                .filter(([key, value]) => key !== '__typename' && value !== null && value !== undefined)
+                .map(([key, value]) => `${key}: ${value}`)
+                .join(', ')
+        );
+    };     
 
     return (
         <Container>
@@ -47,31 +55,24 @@ const SkillDetails = ({ skill, showSaveButton = true }) => {
                 <h2>{skill.name}</h2>
                 <p>{skill.description}</p>
 
-                {skill.ranks && skill.ranks.length > 0 && (
+                {skill.ranks && (
                     <div className="skill-section">
                         <h3>Ranks</h3>
-                        <ul>
-                            {skill.ranks.map((rank, index) => (
-                                <li key={index}>
-                                    <strong>Level {rank.level}</strong> - {rank.description}
-                                    
-                                    {rank.modifiers && hasValidModifiers(rank.modifiers) && (
-                                        <div>
-                                            <h4>Modifiers:</h4>
-                                            <ul>
-                                                {Object.entries(rank.modifiers).map(([key, value]) => (
-                                                    value !== null && (
-                                                        <li key={key}>
-                                                            {key}: {typeof value === 'object' ? JSON.stringify(value) : value}
-                                                        </li>
-                                                    )
-                                                ))}
-                                            </ul>
-                                        </div>
-                                    )}
-                                </li>
-                            ))}
-                        </ul>
+                        {skill.ranks.map((rank, index) => (
+                            <div key={index} className="rank">
+                                <strong>Level {rank.level}</strong> - {rank.description}
+                                {rank.modifiers && (
+                                    <div>
+                                        <h4>Modifiers</h4>
+                                        <ul>
+                                            {formatModifiers(rank.modifiers).map((modifier, i) => (
+                                                <li key={i}>{modifier}</li>
+                                            ))}
+                                        </ul>
+                                    </div>
+                                )}
+                            </div>
+                        ))}
                     </div>
                 )}
 

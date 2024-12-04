@@ -47,7 +47,7 @@ function App() {
         <Header />
         <Container>
           <Routes>
-            <Route path="/" element={<AilmentSearch />} />
+            <Route path="/search/ailments" element={<AilmentSearch />} />
             <Route path="/search/armor" element={<ArmorSearch />} />
             <Route path="/search/armor-sets" element={<ArmorSetSearch />} />
             <Route path="/search/charms" element={<CharmSearch />} />

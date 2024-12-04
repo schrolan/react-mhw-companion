@@ -61,7 +61,7 @@ const User = () => {
                         <div className="card bg-success" key={`ailment-${i}`}>
                             <AilmentDetails ailment={ailment} showSaveButton={false} />
 
-                            <DeleteAilmentButton userId={user._id} ailmentId={ailment.id} />
+                            <DeleteAilmentButton userId={user._id} ailmentId={ailment._id} />
                         </div>
                     ))}
 
@@ -70,7 +70,7 @@ const User = () => {
                         <div className="card bg-success" key={`armor-${i}`}>
                             <ArmorDetails armor={armor} showSaveButton={false} />
 
-                            <DeleteArmorButton userId={user._id} armorId={armor.id} />
+                            <DeleteArmorButton userId={user._id} armorId={armor._id} />
                         </div>
                     ))}
 
@@ -79,7 +79,7 @@ const User = () => {
                         <div className="card bg-success" key={`armorSet-${i}`}>
                             <ArmorSetDetails armorSet={armorSet} showSaveButton={false} />
 
-                            <DeleteArmorSetButton userId={user._id} armorSetId={armorSet.id} />
+                            <DeleteArmorSetButton userId={user._id} armorSetId={armorSet._id} />
                         </div>
                     ))}
 
@@ -88,7 +88,7 @@ const User = () => {
                         <div className="card bg-success" key={`charm-${i}`}>
                             <CharmDetails charm={charm} showSaveButton={false} />
 
-                            <DeleteCharmButton userId={user._id} charmId={charm.id} />
+                            <DeleteCharmButton userId={user._id} charmId={charm._id} />
                         </div>
                     ))}
 
@@ -97,7 +97,7 @@ const User = () => {
                         <div className="card bg-success" key={`decoration-${i}`}>
                             <DecorationDetails decoration={decoration} showSaveButton={false} />
 
-                            <DeleteDecorationButton userId={user._id} decorationId={decoration.id} />
+                            <DeleteDecorationButton userId={user._id} decorationId={decoration._id} />
                         </div>
                     ))}
 
@@ -106,7 +106,7 @@ const User = () => {
                         <div className="card bg-success" key={`event-${i}`}>
                             <EventDetails event={event} showSaveButton={false} />
 
-                            <DeleteEventButton userId={user._id} eventId={event.id} />
+                            <DeleteEventButton userId={user._id} eventId={event._id} />
                         </div>
                     ))}
 
@@ -115,7 +115,7 @@ const User = () => {
                         <div className="card bg-success" key={`item-${i}`}>
                             <ItemDetails item={item} showSaveButton={false} />
 
-                            <DeleteItemButton userId={user._id} itemId={item.id} />
+                            <DeleteItemButton userId={user._id} itemId={item._id} />
                         </div>
                     ))}
 
@@ -124,7 +124,7 @@ const User = () => {
                         <div className="card bg-success" key={`location-${i}`}>
                             <LocationDetails location={location} showSaveButton={false} />
 
-                            <DeleteLocationButton userId={user._id} locationId={location.id} />
+                            <DeleteLocationButton userId={user._id} locationId={location._id} />
                         </div>
                     ))}
 
@@ -133,7 +133,7 @@ const User = () => {
                         <div className="card bg-success" key={`monster-${i}`}>
                             <MonsterDetails monster={monster} showSaveButton={false} />
 
-                            <DeleteMonsterButton userId={user._id} monsterId={monster.id} />
+                            <DeleteMonsterButton userId={user._id} monsterId={monster._id} />
                         </div>
                     ))}
 
@@ -142,7 +142,7 @@ const User = () => {
                         <div className="card bg-success" key={`skill-${i}`}>
                             <SkillDetails skill={skill} showSaveButton={false} />
 
-                            <DeleteSkillButton userId={user._id} skillId={skill.id} />
+                            <DeleteSkillButton userId={user._id} skillId={skill._id} />
                         </div>
                     ))}
 
@@ -151,7 +151,7 @@ const User = () => {
                         <div className="card bg-success" key={`weapon-${i}`}>
                             <WeaponDetails weapon={weapon} showSaveButton={false} />
 
-                            <DeleteWeaponButton userId={user._id} weaponId={weapon.id} />
+                            <DeleteWeaponButton userId={user._id} weaponId={weapon._id} />
                         </div>
                     ))}
 
