@@ -14,71 +14,58 @@ const SkillDetails = ({ skill }) => {
     });
 
     const saveSkill = async (skill) => {
-        const { id, slug, name, description, ranks } = skill;
-
-        await addSkill({
-            variables: {
-                userId: currentUser._id,
-                id,
-                slug,
-                name,
-                description,
-                ranks: ranks.map(rank => ({
-                    id: rank.id,
-                    slug: rank.slug,
-                    skill: rank.skill,
-                    level: rank.level,
-                    description: rank.description,
-                    modifiers: rank.modifiers.map(modifier => ({
-                        affinity: modifier.affinity,
-                        attack: modifier.attack,
-                        damageFire: modifier.damageFire,
-                        damageWater: modifier.damageWater,
-                        damageIce: modifier.damageIce,
-                        damageThunder: modifier.damageThunder,
-                        damageDragon: modifier.damageDragon,
-                        defense: modifier.defense,
-                        health: modifier.health,
-                        sharpnessBonus: modifier.sharpnessBonus,
-                        resistAll: modifier.resistAll,
-                        resistFire: modifier.resistFire,
-                        resistWater: modifier.resistWater,
-                        resistIce: modifier.resistIce,
-                        resistThunder: modifier.resistThunder,
-                        resistDragon: modifier.resistDragon,
-                    })),
-                })),
-            }
-        });
-        alert(`${name} saved!`);
+        try {
+            await addSkill({
+                variables: {
+                    userId: currentUser._id,
+                    slug: skill.slug,
+                    name: skill.name,
+                    description: skill.description,
+                    ranks: skill.ranks.map(rank => ({
+                        slug: rank.slug,
+                        skill: rank.skill,
+                        level: rank.level,
+                        description: rank.description,
+                        modifiers: rank.modifiers
+                    }))
+                }
+            });
+            alert(`${skill.name} saved to user!`);
+        } catch (error) {
+            console.error("Error saving skill", error);
+            alert("Error saving skill");
+        }
     };
-
-    if (!skill) return <div>No skill data available</div>;
 
     return (
         <Container>
             <div className="skill-card">
                 <h2>{skill.name}</h2>
-                <p>Slug: {skill.slug}</p>
                 <p>{skill.description}</p>
-                <h3>Ranks:</h3>
-                {skill.ranks.map(rank => (
-                    <div key={rank.id} className="rank">
-                        <strong>Level {rank.level}:</strong> {rank.description}
-                        <h4>Modifiers:</h4>
+
+                {skill.ranks && skill.ranks.length > 0 && (
+                    <div className="skill-section">
+                        <h3>Ranks</h3>
                         <ul>
-                            {Array.isArray(rank.modifiers) && rank.modifiers.length > 0 ? (
-                                rank.modifiers.map((modifier, index) => (
-                                    <li key={index}>
-                                        Affinity: {modifier.affinity}, Attack: {modifier.attack}, Damage (Fire): {modifier.damageFire}, Damage (Water): {modifier.damageWater}, Damage (Ice): {modifier.damageIce}, Damage (Thunder): {modifier.damageThunder}, Damage (Dragon): {modifier.damageDragon}, Defense: {modifier.defense}, Health: {modifier.health}, Sharpness Bonus: {modifier.sharpnessBonus}, Resist All: {modifier.resistAll}, Resist Fire: {modifier.resistFire}, Resist Water: {modifier.resistWater}, Resist Ice: {modifier.resistIce}, Resist Thunder: {modifier.resistThunder}, Resist Dragon: {modifier.resistDragon}
-                                    </li>
-                                ))
-                            ) : (
-                                <li>No modifiers available</li>
-                            )}
+                            {skill.ranks.map((rank, index) => (
+                                <li key={index}>
+                                    <strong>Level {rank.level}</strong> - {rank.description}
+                                    {rank.modifiers && Object.keys(rank.modifiers).length > 0 && (
+                                        <div>
+                                            <h4>Modifiers:</h4>
+                                            <ul>
+                                                {Object.entries(rank.modifiers).map(([key, value]) => (
+                                                    <li key={key}>{key}: {value}</li>
+                                                ))}
+                                            </ul>
+                                        </div>
+                                    )}
+                                </li>
+                            ))}
                         </ul>
                     </div>
-                ))}
+                )}
+
                 <button onClick={() => saveSkill(skill)} className="save-button">
                     Save Skill
                 </button>

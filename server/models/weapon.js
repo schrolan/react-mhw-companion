@@ -39,9 +39,9 @@ const weaponSchema = new Schema({
     ],
     elements: [
         {
-            type: String,
-            damage: Number,
-            hidden: Boolean
+            type: { type: String },
+            damage: { type: Number },
+            hidden: { type: Boolean }
         }
     ],
     crafting: {
@@ -51,13 +51,13 @@ const weaponSchema = new Schema({
         craftingMaterials: [
             {
                 quantity: Number,
-                item: [itemSchema]
+                item: itemSchema
             }
         ],
         upgradeMaterials: [
             {
                 quantity: Number,
-                item: [itemSchema]
+                item: itemSchema
             }
         ],
         assets: {

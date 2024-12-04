@@ -314,6 +314,11 @@ const resolvers = {
         },
         addMonster: async(parent, args, context, info) => {
             const monster = await Monster.create(args)
+
+            if (args.rewards?.[0]?.conditions?.[0]?.type === "null") {
+                args.rewards[0].conditions[0].type = null;
+            }
+
             if (args.userId) {
                 await User.findByIdAndUpdate(args.userId, {
                     $addToSet: {

@@ -133,15 +133,22 @@ const typeDefs = `
         hidden: Boolean
     }
 
-    input CraftingMaterialsInput {
-        quantity: Int
-        item: [ItemInput]
+    input WeaponCraftingItemInput {
+        name: String
+        description: String
+        rarity: Int
+        carryLimit: Int
+        value: Int
     }
 
+    input CraftingMaterialsInput {
+        quantity: Int
+        item: WeaponCraftingItemInput
+    }
 
     input UpgradeMaterialsInput {
         quantity: Int
-        item: [ItemInput]
+        item: WeaponCraftingItemInput
     }
 
     input WeaponAssetsInput {
@@ -363,11 +370,11 @@ const typeDefs = `
 
     input MonsterAilmentsRecoveryInput {
         actions: [String]
-        items: [ItemInput]
+        items: [WeaponCraftingItemInput]
     }
 
     input MonsterAilmentsProtectionInput {
-        items: [ItemInput]
+        items: [WeaponCraftingItemInput]
         skills: [SkillInput]
     }
 
@@ -505,19 +512,6 @@ const typeDefs = `
         condition: Boolean
     }
 
-    type Conditions {
-        type: String
-        subtype: String
-        rank: String
-        quantity: Int
-        chance: Int
-    }
-
-    type Rewards {
-        item: [Item]
-        conditions: [Conditions]
-    }
-
     type Modifiers {
         affinity: Int
         attack: Int
@@ -570,14 +564,22 @@ const typeDefs = `
         hidden: Boolean
     }
 
+    type WeaponCraftingItem {
+        name: String
+        description: String
+        rarity: Int
+        carryLimit: Int
+        value: Int
+    }
+
     type CraftingMaterials {
         quantity: Int
-        item: [Item]
+        item: WeaponCraftingItem
     }
 
     type UpgradeMaterials {
         quantity: Int
-        item: [Item]
+        item: WeaponCraftingItem
     }
 
     type WeaponAssets {
@@ -800,11 +802,11 @@ const typeDefs = `
 
     type MonsterAilmentsRecovery {
         actions: [String]
-        items: [Item]
+        items: [WeaponCraftingItem]
     }
 
     type MonsterAilmentsProtection {
-        items: [Item]
+        items: [WeaponCraftingItem]
         skills: [Skill]
     }
 
@@ -813,6 +815,19 @@ const typeDefs = `
         description: String
         recovery: MonsterAilmentsRecovery
         protection: MonsterAilmentsProtection
+    }
+
+    type Conditions {
+        type: String
+        subtype: String
+        rank: String
+        quantity: Int
+        chance: Int
+    }
+
+    type Rewards {
+        item: [Item]
+        conditions: [Conditions]
     }
 
     type Monster {
@@ -850,7 +865,7 @@ const typeDefs = `
         slots: [Slots]
         elements: [Elements]
         crafting: WeaponCrafting
-        }
+    }
         
     type User {
         _id: ID

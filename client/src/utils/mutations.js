@@ -1,5 +1,487 @@
 import { gql } from "@apollo/client";
 
+// Fragments
+const MODIFIERS_FRAGMENT = gql`
+  fragment ModifiersFragment on Modifier {
+    affinity
+    attack
+    damageFire
+    damageWater
+    damageIce
+    damageThunder
+    damageDragon
+    defense
+    health
+    sharpnessBonus
+    resistAll
+    resistFire
+    resistWater
+    resistIce
+    resistThunder
+    resistDragon
+  }
+`;
+
+const SKILLRANKS_FRAGMENT = gql`
+  fragment SkillRanksFragment on SkillRank {
+    slug
+    skill
+    level
+    description
+    modifiers {
+      ...ModifiersFragment
+    }
+  }
+  ${MODIFIERS_FRAGMENT}
+`;
+
+const SKILL_FRAGMENT = gql`
+  fragment SkillFragment on Skill {
+    _id
+    slug
+    name
+    description
+    ranks {
+      ...SkillRanksFragment
+    }
+  }
+  ${SKILLRANKS_FRAGMENT}
+`;
+
+const ITEM_FRAGMENT = gql`
+  fragment ItemFragment on Item {
+    _id
+    name
+    description
+    rarity
+    carryLimit
+    value
+  }
+`;
+
+const RECOVERY_FRAGMENT = gql`
+  fragment RecoveryFragment on Recovery {
+    actions
+    items {
+      ...ItemFragment
+    }
+  }
+  ${ITEM_FRAGMENT}
+`;
+
+const PROTECTION_FRAGMENT = gql`
+  fragment ProtectionFragment on Protection {
+    items {
+      ...ItemFragment
+    }
+    skills {
+      ...SkillFragment
+    }
+  }
+  ${ITEM_FRAGMENT}
+  ${SKILL_FRAGMENT}
+`;
+
+const DEFENSE_FRAGMENT = gql`
+  fragment DefenseFragment on Defense {
+    base
+    max
+    augmented
+  }
+`;
+
+const RESISTANCES_FRAGMENT = gql`
+  fragment ResistancesFragment on Resistances {
+    fire
+    water
+    ice
+    thunder
+    dragon
+  }
+`;
+
+const SLOTS_FRAGMENT = gql`
+  fragment SlotsFragment on Slots {
+    rank
+  }
+`;
+
+const ARMORSETARMOR_FRAGMENT = gql`
+  fragment ArmorSetArmorFragment on ArmorSetArmor {
+    name
+    rank
+    pieces
+  }
+`
+
+const ASSETS_FRAGMENT = gql`
+  fragment AssetsFragment on Assets {
+    imageMale
+    imageFemale
+  }
+`
+const MATERIALS_FRAGMENT = gql`
+  fragment MaterialsFragment on Materials {
+    quantity
+    item {
+      ...ItemFragment
+    }
+  }
+  ${ITEM_FRAGMENT}
+`
+
+const CRAFTING_FRAGMENT = gql`
+  fragment CraftingFragment on Crafting {
+    craftable
+    materials {
+      ...MaterialsFragment
+    }
+  }
+  ${MATERIALS_FRAGMENT}
+`;
+
+const RANKS_FRAGMENT = gql`
+  fragment RanksFragment on Ranks {
+    pieces
+    skills {
+      ...SkillFragment
+    }
+    skill
+    skillName
+  }
+  ${SKILL_FRAGMENT}
+`
+
+const BONUS_FRAGMENT = gql`
+  fragment BonusFragment on Bonus {
+    name
+    ranks {
+      ...RanksFragment
+    }
+  }
+  ${RANKS_FRAGMENT}
+`
+
+const CAMPS_FRAGMENT = gql`
+fragment CampsFragment on Camps {
+  name
+  zone
+}
+`
+
+const MONSTERRESISTANCESFRAGMENT = gql`
+ fragment MonsterResistancesFragment on MonsterResistances {
+  element
+  condition
+ }
+`
+
+const WEAKNESSES_FRAGMENT = gql`
+  fragment WeaknessesFragment on Weaknessess {
+    element
+    stars
+    condition
+  }
+`
+
+const CONDITIONS_FRAGMENT = gql`
+  fragment ConditionsFragment on Conditions {
+    type
+    subtype
+    rank
+    quantity
+    chance
+  }
+`
+
+const REWARD_FRAGMENT = gql `
+  fragment RewardFragment on Reward {
+    item {
+      ...ItemFragment
+    }
+    conditions {
+      ...ConditionsFragment
+    }
+  }
+  ${ITEM_FRAGMENT}
+  ${CONDITIONS_FRAGMENT}
+`
+
+const ATTRIBUTES_FRAGMENT = gql`
+  fragment AttributesFragment on Attributes {
+    damageType
+  }
+`
+const CRAFTINGMATERIALS_FRAGMENT = gql`
+  fragment CraftingMaterialsFragment on CraftingMaterials {
+    quantity
+    item {
+      ...ItemFragment
+    }
+  }
+  ${ITEM_FRAGMENT}
+`
+
+const UPGRAGEMATERIALS_FRAGMENT = gql`
+  fragment UpgradeMaterialsFragment on UpgradeMaterials {
+    quantity
+    item {
+      ...ItemFragment
+    }
+  }
+  ${ITEM_FRAGMENT}
+`
+const WEAPONASSETS_FRAGMENT = gql`
+  fragment WeaponAssetsFragment on WeaponAssets {
+    icon
+    image
+  }
+`
+const WEAPONCRAFTING_FRAGMENT = gql`
+ fragment WeaponCraftingFragment on WeaponCrafting {
+  craftable
+  previous
+  branches
+  craftingMaterials {
+    ...CraftingMaterialsFragment
+  }
+  upgradeMaterials {
+    ...UpgradeMaterialsFragment
+  }
+  assets {
+    ...WeaponAssets
+  }
+ }
+  ${CRAFTINGMATERIALS_FRAGMENT}
+  ${UPGRAGEMATERIALS_FRAGMENT}
+  ${WEAPONASSETS_FRAGMENT}
+`
+
+const AILMENT_FRAGMENT = gql`
+  fragment AilmentFragment on Ailment {
+    _id
+    name
+    description
+    recovery {
+      ...RecoveryFragment
+    }
+    protection {
+      ...ProtectionFragment
+    }
+  }
+  ${RECOVERY_FRAGMENT}
+  ${PROTECTION_FRAGMENT}
+`
+
+const ARMOR_FRAGMENT = gql`
+  fragment ArmorFragment on Armor {
+    _id
+    slug
+    name
+    type
+    rank
+    rarity
+    defense {
+      ...DefenseFragment
+    }
+    resistances {
+      ...ResistancesFragment
+    }
+    slots {
+      ...SlotsFragment
+    }
+    skills {
+      ...SkillFragment
+    }
+    armorSet {
+      ...ArmorSetArmorFragment
+    }
+    assets {
+      ...AssetsFragment
+    }
+    crafting {
+      ...CraftingFragment
+    }
+  }
+  ${DEFENSE_FRAGMENT}
+  ${RESISTANCES_FRAGMENT}
+  ${SLOTS_FRAGMENT}
+  ${SKILL_FRAGMENT}
+  ${ARMORSETARMOR_FRAGMENT}
+  ${ASSETS_FRAGMENT}
+  ${CRAFTING_FRAGMENT}
+`;
+
+const ARMORSET_FRAGMENT = gql`
+  fragment ArmorSetFragment on ArmorSet {
+    _id
+    rank
+    name
+    pieces {
+      ...ArmorFragment
+    }
+    bonus {
+      ...BonusFragment
+    }
+  }
+  ${ARMOR_FRAGMENT}
+  ${BONUS_FRAGMENT}
+`;
+
+const CHARM_FRAGMENT = gql`
+  fragment CharmFragment on Charm {
+    _id
+    slug
+    name
+    ranks {
+      ...SkillFragment
+    }
+    crafting {
+      ...CraftingFragment
+    }
+  }
+  ${SKILL_FRAGMENT}
+  ${CRAFTING_FRAGMENT}
+`;
+
+const DECORATION_FRAGMENT = gql`
+  fragment DecorationFragment on Decoration {
+    _id
+    slug
+    name
+    rarity
+    skill {
+     ...SkillFragment
+    }
+    slot
+  }
+  ${SKILL_FRAGMENT}
+`;
+
+const LOCATION_FRAGMENT = gql`
+  fragment LocationFragment on Location {
+    _id
+    name
+    zoneCount
+    camps {
+      ...CampsFragment
+    }
+  }
+  ${CAMPS_FRAGMENT}
+`;
+
+const EVENT_FRAGMENT = gql`
+  fragment EventFragment on Event {
+    _id
+    name
+    platform
+    exclusive
+    type
+    expansion
+    description
+    requirements
+    questRank
+    successConditions
+    location {
+      ...LocationFragment
+    }
+  }
+  ${LOCATION_FRAGMENT}
+`;
+
+const MONSTER_FRAGMENT = gql`
+  fragment MonsterFragment on Monster {
+    _id
+    name
+    type
+    species
+    description
+    elements
+    ailments {
+      ...AilmentFragment
+    }
+    location {
+      ...LocationFragment
+    }
+    resistances {
+      ...MonsterResistancesFragment
+    }
+    weaknesses {
+      ...WeaknessesFragment
+    }
+    reward {
+      ...RewardFragment
+    }
+  }
+  ${AILMENT_FRAGMENT}
+  ${LOCATION_FRAGMENT}
+  ${MONSTERRESISTANCESFRAGMENT}
+  ${WEAKNESSES_FRAGMENT}
+  ${REWARD_FRAGMENT}
+`;
+
+const ATTACK_FRAGMENT = gql`
+  fragment AttackFragment on Attack {
+    display
+    raw
+  }
+`;
+
+const DURABILITY_FRAGMENT = gql`
+  fragment DurabilityFragment on Durability {
+    red
+    orange
+    yellow
+    green
+    blue
+    white
+    purple
+  }
+`;
+
+const ELEMENT_FRAGMENT = gql`
+  fragment ElementFragment on Element {
+    type
+    damage
+    hidden
+  }
+`;
+
+const WEAPON_FRAGMENT = gql`
+  fragment WeaponFragment on Weapon {
+    _id
+    name
+    type
+    rarity
+    attack {
+      ...AttackFragment
+    }
+    elderseal
+    attributes {
+      ...AttributesFragment
+    }
+    damageType
+    durability {
+      ...DurabilityFragment
+    }
+    slots {
+      ...SlotsFragment
+    }
+    elements {
+      ...ElementFragment
+    }
+    crafting {
+      ...WeaponCraftingFragment
+    }
+  }
+  ${ATTACK_FRAGMENT}
+  ${ATTRIBUTES_FRAGMENT}
+  ${DURABILITY_FRAGMENT}
+  ${SLOTS_FRAGMENT}
+  ${ELEMENT_FRAGMENT}
+  ${WEAPONCRAFTING_FRAGMENT}
+`;
+
 // User Mutations
 export const ADD_USER = gql`
   mutation ADD_USER($username: String!, $email: String!, $password: String!) 
@@ -802,12 +1284,104 @@ export const DELETE_LOCATION = gql`
 
 // Monster Mutations
 export const ADD_MONSTER = gql`
-  mutation ADD_MONSTER($input: MonsterInput!) {
-    addMonster(input: $input) {
-      ...MonsterFragment
+  mutation AddMonster($userId: ID!, $type: String, $species: String, $description: String, $elements: [String], $ailments: [MonsterAilmentsInput], $id: ID, $name: String, $locations: [LocationInput], $resistances: [MonsterResistancesInput], $weaknesses: [WeaknessesInput], $rewards: [RewardsInput]) {
+  addMonster(userId: $userId, type: $type, species: $species, description: $description, elements: $elements, ailments: $ailments, _id: $id, name: $name, locations: $locations, resistances: $resistances, weaknesses: $weaknesses, rewards: $rewards) {
+    _id
+    name
+    type
+    species
+    description
+    elements
+    ailments {
+      name
+      description
+      recovery {
+        actions
+        items {
+          name
+          description
+          rarity
+          carryLimit
+          value
+        }
+      }
+      protection {
+        items {
+          name
+          description
+          rarity
+          carryLimit
+          value
+        }
+        skills {
+          _id
+          slug
+          name
+          description
+          ranks {
+            slug
+            skill
+            level
+            description
+            modifiers {
+              affinity
+              attack
+              damageFire
+              damageWater
+              damageIce
+              damageThunder
+              damageDragon
+              defense
+              health
+              sharpnessBonus
+              resistAll
+              resistFire
+              resistWater
+              resistIce
+              resistThunder
+              resistDragon
+            }
+          }
+        }
+      }
+    }
+    locations {
+      _id
+      name
+      zoneCount
+      camps {
+        name
+        zone
+      }
+    }
+    resistances {
+      element
+      condition
+    }
+    weaknesses {
+      element
+      stars
+      condition
+    }
+    rewards {
+      item {
+        _id
+        name
+        description
+        rarity
+        carryLimit
+        value
+      }
+      conditions {
+        type
+        subtype
+        rank
+        quantity
+        chance
+      }
     }
   }
-  ${MONSTER_FRAGMENT}
+}
 `;
 
 export const DELETE_MONSTER = gql`
@@ -918,12 +1492,38 @@ export const DELETE_MONSTER = gql`
 
 // Skill Mutations
 export const ADD_SKILL = gql`
-  mutation ADD_SKILL($input: SkillInput!) {
-    addSkill(input: $input) {
-      ...SkillFragment
+  mutation AddSkill($userId: ID!, $id: ID, $slug: String, $name: String, $description: String, $ranks: [SkillRanksInput]) {
+  addSkill(userId: $userId, _id: $id, slug: $slug, name: $name, description: $description, ranks: $ranks) {
+    _id
+    slug
+    name
+    description
+    ranks {
+      slug
+      skill
+      level
+      description
+      modifiers {
+        affinity
+        attack
+        damageFire
+        damageWater
+        damageIce
+        damageThunder
+        damageDragon
+        defense
+        health
+        sharpnessBonus
+        resistAll
+        resistFire
+        resistWater
+        resistIce
+        resistThunder
+        resistDragon
+      }
     }
   }
-  ${SKILL_FRAGMENT}
+}
 `;
 
 export const DELETE_SKILL = gql`
@@ -968,12 +1568,69 @@ export const DELETE_SKILL = gql`
 
 // Weapon Mutations
 export const ADD_WEAPON = gql`
-  mutation ADD_WEAPON($input: WeaponInput!) {
-    addWeapon(input: $input) {
-      ...WeaponFragment
+  mutation AddWeapon($userId: ID!, $id: ID, $name: String, $type: String, $rarity: Int, $attack: AttackInput, $elderseal: Boolean, $attributes: AttributesInput, $damageType: String, $durability: [DurabilityInput], $slots: [SlotsInput], $elements: [ElementsInput], $crafting: WeaponCraftingInput) {
+  addWeapon(userId: $userId, _id: $id, name: $name, type: $type, rarity: $rarity, attack: $attack, elderseal: $elderseal, attributes: $attributes, damageType: $damageType, durability: $durability, slots: $slots, elements: $elements, crafting: $crafting) {
+    _id
+    name
+    type
+    rarity
+    attack {
+      display
+      raw
+    }
+    elderseal
+    attributes {
+      damageType
+    }
+    damageType
+    durability {
+      red
+      orange
+      yellow
+      green
+      blue
+      white
+      purple
+    }
+    slots {
+      rank
+    }
+    elements {
+      type
+      damage
+      hidden
+    }
+    crafting {
+      craftable
+      previous
+      branches
+      craftingMaterials {
+        quantity
+        item {
+          name
+          description
+          rarity
+          carryLimit
+          value
+        }
+      }
+      upgradeMaterials {
+        quantity
+        item {
+          name
+          description
+          rarity
+          carryLimit
+          value
+        }
+      }
+      assets {
+        icon
+        image
+      }
     }
   }
-  ${WEAPON_FRAGMENT}
+}
 `;
 
 export const DELETE_WEAPON = gql`

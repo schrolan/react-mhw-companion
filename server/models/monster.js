@@ -93,11 +93,11 @@ const monsterSchema = new Schema({
             item: [itemSchema],
              conditions: [
                 {
-                    type: String,
-                    subtype: String,
-                    rank: String,
-                    quantity: Number,
-                    chance: Number
+                    type: { type: String },
+                    subtype: { type: String },
+                    rank: { type: String },
+                    quantity: { type: Number },
+                    chance: { type: Number }
                 }
              ]
         }

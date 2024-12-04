@@ -658,7 +658,6 @@ export const GET_MONSTERS = gql`
         recovery {
           actions
           items {
-            _id
             name
             description
             rarity
@@ -668,7 +667,6 @@ export const GET_MONSTERS = gql`
         }
         protection {
           items {
-            _id
             name
             description
             rarity
@@ -758,7 +756,6 @@ export const GET_MONSTER = gql`
         recovery {
           actions
           items {
-            _id
             name
             description
             rarity
@@ -768,7 +765,6 @@ export const GET_MONSTER = gql`
         }
         protection {
           items {
-            _id
             name
             description
             rarity
@@ -1188,7 +1184,6 @@ export const GET_USERS = gql`
         recovery {
           actions
           items {
-            _id
             name
             description
             rarity
@@ -1198,7 +1193,6 @@ export const GET_USERS = gql`
         }
         protection {
           items {
-            _id
             name
             description
             rarity
@@ -2106,7 +2100,6 @@ export const GET_USER = gql`
           recovery {
             actions
             items {
-              _id
               name
               description
               rarity
@@ -2116,7 +2109,6 @@ export const GET_USER = gql`
           }
           protection {
             items {
-              _id
               name
               description
               rarity

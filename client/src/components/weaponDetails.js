@@ -13,127 +13,182 @@ const WeaponDetails = ({ weapon }) => {
         refetchQueries: [{ query: GET_USER }, 'GET_USER'],
     });
 
-    const saveWeapon = async () => {
-        if (!weapon || !weapon.crafting) {
-            alert("Weapon data or crafting details are missing!");
-            return;
-        }
-
-        const { id, name, type, rarity, attack, elderseal, attributes } = weapon;
-
-        await addWeapon({
-            variables: {
-                userId: currentUser._id,
-                id,
-                name,
-                type,
-                rarity,
-                attack: {
-                    display: attack?.display,
-                    raw: attack?.raw,
-                },
-                elderseal,
-                attributes: {
-                    damageType: attributes?.damageType,
-                },
-                durability: Array.isArray(weapon.durability) ? weapon.durability : [],
-                slots: Array.isArray(weapon.slots) ? weapon.slots.map(slot => ({
-                    rank: slot.rank,
-                })) : [],
-                elements: Array.isArray(weapon.elements) ? weapon.elements.map(element => ({
-                    type: element.type,
-                    damage: element.damage,
-                    hidden: element.hidden,
-                })) : [],
-                crafting: {
-                    craftable: weapon.crafting.craftable,
-                    previous: weapon.crafting.previous,
-                    branches: weapon.crafting.branches,
-                    craftingMaterials: Array.isArray(weapon.crafting.craftingMaterials) ? weapon.crafting.craftingMaterials.map(material => ({
-                        quantity: material.quantity,
-                        item: Array.isArray(material.item) ? material.item.map(item => ({
-                            id: item.id,
-                            name: item.name,
-                            description: item.description,
-                            rarity: item.rarity,
-                            carryLimit: item.carryLimit,
-                            value: item.value,
-                        })) : [],
-                    })) : [],
-                    upgradeMaterials: Array.isArray(weapon.crafting.upgradeMaterials) ? weapon.crafting.upgradeMaterials.map(material => ({
-                        quantity: material.quantity,
-                        item: Array.isArray(material.item) ? material.item.map(item => ({
-                            id: item.id,
-                            name: item.name,
-                            description: item.description,
-                            rarity: item.rarity,
-                            carryLimit: item.carryLimit,
-                            value: item.value,
-                        })) : [],
-                    })) : [],
-                    assets: {
-                        icon: weapon.crafting.assets?.icon,
-                        image: weapon.crafting.assets?.image,
+    const saveWeapon = async (weapon) => {
+        try {
+            await addWeapon({
+                variables: {
+                    userId: currentUser._id,
+                    name: weapon.name,
+                    type: weapon.type,
+                    rarity: weapon.rarity,
+                    attack: weapon.attack,
+                    elderseal: weapon.elderseal,
+                    attributes: weapon.attributes,
+                    damageType: weapon.damageType,
+                    durability: weapon.durability,
+                    slots: weapon.slots,
+                    elements: weapon.elements,
+                    // Crafting - only pass relevant fields, not the id
+                    crafting: {
+                        craftable: weapon.crafting.craftable,
+                        previous: weapon.crafting.previous,
+                        branches: weapon.crafting.branches,
+                        craftingMaterials: weapon.crafting.craftingMaterials.map(material => ({
+                            quantity: material.quantity,
+                            item: {
+                                name: material.item.name,
+                                description: material.item.description,
+                                rarity: material.item.rarity,
+                                carryLimit: material.item.carryLimit,
+                                value: material.item.value
+                            }
+                        })),
+                        upgradeMaterials: weapon.crafting.upgradeMaterials.map(material => ({
+                            quantity: material.quantity,
+                            item: {
+                                name: material.item.name,
+                                description: material.item.description,
+                                rarity: material.item.rarity,
+                                carryLimit: material.item.carryLimit,
+                                value: material.item.value
+                            }
+                        })),
+                        assets: weapon.crafting.assets
                     },
                 },
-            }
-        });
-        alert(`${name} saved!`);
+            });
+            alert(`${weapon.name} saved to user!`);
+        } catch (error) {
+            console.error("Error saving weapon", error);
+            alert("Error saving weapon");
+        }
     };
-
-    if (!weapon) return <div>No weapon data available</div>;
-
+    
     return (
         <Container>
             <div className="weapon-card">
                 <h2>{weapon.name}</h2>
                 <p>Type: {weapon.type}</p>
                 <p>Rarity: {weapon.rarity}</p>
-                <p>Attack (Display): {weapon.attack?.display}</p>
-                <p>Attack (Raw): {weapon.attack?.raw}</p>
+
+                {weapon.attack && (
+                    <div>
+                        <h3>Attack</h3>
+                        <p>Display: {weapon.attack.display}</p>
+                        <p>Raw: {weapon.attack.raw}</p>
+                    </div>
+                )}
+
                 <p>Elderseal: {weapon.elderseal ? 'Yes' : 'No'}</p>
-                <p>Damage Type: {weapon.attributes?.damageType}</p>
-                <h3>Durability:</h3>
-                <ul>
-                    {(Array.isArray(weapon.durability) ? weapon.durability : []).map((dur, index) => (
-                        <li key={index}>
-                            Red: {dur.red}, Orange: {dur.orange}, Yellow: {dur.yellow}, Green: {dur.green}, Blue: {dur.blue}, White: {dur.white}, Purple: {dur.purple}
-                        </li>
-                    ))}
-                </ul>
-                <h3>Slots:</h3>
-                <ul>
-                    {(Array.isArray(weapon.slots) ? weapon.slots : []).map((slot, index) => (
-                        <li key={index}>Rank: {slot.rank}</li>
-                    ))}
-                </ul>
-                <h3>Elements:</h3>
-                <ul>
-                    {(Array.isArray(weapon.elements) ? weapon.elements : []).map((element, index) => (
-                        <li key={index}>{element.type}: {element.damage} (Hidden: {element.hidden ? 'Yes' : 'No'})</li>
-                    ))}
-                </ul>
-                <h3>Crafting:</h3>
-                <p>Craftable: {weapon.crafting?.craftable ? 'Yes' : 'No'}</p>
-                <p>Previous Weapon ID: {weapon.crafting?.previous || 'N/A'}</p>
-                <h4>Crafting Materials:</h4>
-                <ul>
-                    {(Array.isArray(weapon.crafting?.craftingMaterials) ? weapon.crafting.craftingMaterials : []).map((material, index) => (
-                        <li key={index}>
-                            {material.quantity} x {(Array.isArray(material.item) ? material.item : []).map(item => item.name).join(', ')}
-                        </li>
-                    ))}
-                </ul>
-                <h4>Upgrade Materials:</h4>
-                <ul>
-                    {(Array.isArray(weapon.crafting?.upgradeMaterials) ? weapon.crafting.upgradeMaterials : []).map((material, index) => (
-                        <li key={index}>
-                            {material.quantity} x {(Array.isArray(material.item) ? material.item : []).map(item => item.name).join(', ')}
-                        </li>
-                    ))}
-                </ul>
-                <img src={weapon.crafting?.assets?.image} alt={weapon.name} className="weapon-image" />
-                <button onClick={saveWeapon} className="save-button">
+
+                {weapon.attributes && (
+                    <div>
+                        <h3>Attributes</h3>
+                        <p>Damage Type: {weapon.attributes.damageType}</p>
+                    </div>
+                )}
+
+                <p>Damage Type: {weapon.damageType}</p>
+
+                {weapon.durability && weapon.durability.length > 0 && (
+                    <div>
+                        <h3>Durability</h3>
+                        <ul>
+                            {weapon.durability.map((dur, index) => (
+                                <li key={index}>
+                                    Red: {dur.red}, Orange: {dur.orange}, Yellow: {dur.yellow}, Green: {dur.green}, Blue: {dur.blue}, White: {dur.white}, Purple: {dur.purple}
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
+                )}
+
+                {weapon.slots && weapon.slots.length > 0 && (
+                    <div>
+                        <h3>Slots</h3>
+                        <ul>
+                            {weapon.slots.map((slot, index) => (
+                                <li key={index}>Rank: {slot.rank}</li>
+                            ))}
+                        </ul>
+                    </div>
+                )}
+
+                {weapon.elements && weapon.elements.length > 0 && (
+                    <div>
+                        <h3>Elements</h3>
+                        <ul>
+                            {weapon.elements.map((element, index) => (
+                                <li key={index}>
+                                    Type: {element.type}, Damage: {element.damage}, Hidden: {element.hidden ? 'Yes' : 'No'}
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
+                )}
+
+                {weapon.crafting && (
+                    <div>
+                        <h3>Crafting</h3>
+                        <p>Craftable: {weapon.crafting.craftable ? 'Yes' : 'No'}</p>
+                        <p>Previous: {weapon.crafting.previous}</p>
+
+                        {weapon.crafting.branches && weapon.crafting.branches.length > 0 && (
+                            <div>
+                                <h4>Branches</h4>
+                                <ul>
+                                    {weapon.crafting.branches.map((branch, index) => (
+                                        <li key={index}>{branch}</li>
+                                    ))}
+                                </ul>
+                            </div>
+                        )}
+
+                        {weapon.crafting.craftingMaterials && (
+                            <div>
+                                <h4>Crafting Materials</h4>
+                                <ul>
+                                    {weapon.crafting.craftingMaterials.map((material, index) => (
+                                        <li key={index}>
+                                            <strong>{material.item.name}</strong> - {material.item.description}
+                                            <div>Quantity: {material.quantity}</div>
+                                            <div>Rarity: {material.item.rarity}</div>
+                                            <div>Carry Limit: {material.item.carryLimit}</div>
+                                            <div>Value: {material.item.value}</div>
+                                        </li>
+                                    ))}
+                                </ul>
+                            </div>
+                        )}
+
+                        {weapon.crafting.upgradeMaterials && (
+                            <div>
+                                <h4>Upgrade Materials</h4>
+                                <ul>
+                                    {weapon.crafting.upgradeMaterials.map((material, index) => (
+                                        <li key={index}>
+                                            <strong>{material.item.name}</strong> - {material.item.description}
+                                            <div>Quantity: {material.quantity}</div>
+                                            <div>Rarity: {material.item.rarity}</div>
+                                            <div>Carry Limit: {material.item.carryLimit}</div>
+                                            <div>Value: {material.item.value}</div>
+                                        </li>
+                                    ))}
+                                </ul>
+                            </div>
+                        )}
+
+                        {weapon.crafting.assets && (
+                            <div>
+                                <h4>Assets</h4>
+                                <img src={weapon.crafting.assets.icon} alt={`${weapon.name} Icon`} />
+                                <img src={weapon.crafting.assets.image} alt={`${weapon.name} Image`} />
+                            </div>
+                        )}
+                    </div>
+                )}
+
+                <button onClick={() => saveWeapon(weapon)} className="save-button">
                     Save Weapon
                 </button>
             </div>

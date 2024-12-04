@@ -14,86 +14,55 @@ const MonsterDetails = ({ monster }) => {
     });
 
     const saveMonster = async (monster) => {
-        const { name, type, species, description, elements, ailments, location, resistances, weaknesses, reward } = monster;
-
-        await addMonster({
+        try {
+          await addMonster({
             variables: {
-                userId: currentUser._id,
-                name,
-                type,
-                species,
-                description,
-                elements,
-                ailments: ailments.map(a => ({
-                    id: a.id,
-                    name: a.name,
-                    description: a.description,
-                    recovery: {
-                        action: a.recovery.action,
-                        item: a.recovery.item.map(i => ({
-                            id: i.id,
-                            name: i.name,
-                            description: i.description,
-                            rarity: i.rarity,
-                            carryLimit: i.carryLimit,
-                            value: i.value
-                        })),
-                    },
-                    protection: {
-                        item: a.protection.item.map(i => ({
-                            id: i.id,
-                            name: i.name,
-                            description: i.description,
-                            rarity: i.rarity,
-                            carryLimit: i.carryLimit,
-                            value: i.value
-                        })),
-                        skill: a.protection.skill.map(s => ({
-                            id: s.id,
-                            slug: s.slug,
-                            name: s.name,
-                            description: s.description,
-                            ranks: s.ranks.map(r => ({
-                                id: r.id,
-                                slug: r.slug,
-                                skill: r.skill,
-                                level: r.level,
-                                description: r.description,
-                                modifiers: r.modifiers
-                            }))
-                        })),
-                    },
-                })),
-                location: Array.isArray(location) ? location.map(l => ({
-                    id: l.id,
-                    name: l.name,
-                    zoneCount: l.zoneCount,
-                    camps: Array.isArray(l.camps) ? l.camps.map(c => ({
-                        id: c.id,
-                        name: c.name,
-                        zone: c.zone
-                    })) : [],
-                })) : [], // Ensure location is an array
-                resistances,
-                weaknesses,
-                reward: reward.map(r => ({
-                    id: r.id,
-                    item: r.item.map(i => ({
-                        id: i.id,
-                        name: i.name,
-                        description: i.description,
-                        rarity: i.rarity,
-                        carryLimit: i.carryLimit,
-                        value: i.value
-                    })),
-                    conditions: r.conditions
-                }))
-            }
-        });
-        alert(`${name} saved!`);
-    };
-
-    if (!monster) return <div>No monster data available</div>;
+              userId: currentUser._id,
+              name: monster.name,
+              type: monster.type,
+              species: monster.species,
+              description: monster.description,
+              elements: monster.elements,
+              ailments: monster.ailments.map(ailment => ({
+                name: ailment.name,
+                description: ailment.description,
+                recovery: {
+                  actions: ailment.recovery.actions,
+                  items: ailment.recovery.items.map(item => ({
+                    name: item.name,         // Omit id
+                    description: item.description,
+                    rarity: item.rarity,
+                    carryLimit: item.carryLimit,
+                    value: item.value,
+                  })),
+                },
+                protection: ailment.protection,
+              })),
+              locations: monster.locations.map(location => ({
+                name: location.name,
+                zoneCount: location.zoneCount,
+                camps: location.camps,
+              })),
+              resistances: monster.resistances,
+              weaknesses: monster.weaknesses,
+              rewards: monster.rewards.map(reward => ({
+                item: {
+                  name: reward.item.name,
+                  description: reward.item.description,
+                  rarity: reward.item.rarity,
+                  carryLimit: reward.item.carryLimit,
+                  value: reward.item.value,
+                },
+                conditions: reward.conditions,
+              })),
+            },
+          });
+          alert(`${monster.name} saved successfully!`);
+        } catch (error) {
+          console.error("Error saving monster", error);
+          alert("Error saving monster");
+        }
+      };
 
     return (
         <Container>
@@ -101,29 +70,130 @@ const MonsterDetails = ({ monster }) => {
                 <h2>{monster.name}</h2>
                 <p>Type: {monster.type}</p>
                 <p>Species: {monster.species}</p>
-                <p>{monster.description}</p>
-                <h3>Elements:</h3>
-                <ul>
-                    {monster.elements.map((element, index) => (
-                        <li key={index}>{element}</li>
-                    ))}
-                </ul>
-                <h3>Ailments:</h3>
-                {monster.ailments.map(ailment => (
-                    <div key={ailment.id}>
-                        <strong>{ailment.name}</strong>: {ailment.description}
+                <p>Description: {monster.description}</p>
+
+                {monster.elements && (
+                    <div>
+                        <h3>Elements</h3>
+                        <ul>
+                            {monster.elements.map((element, index) => (
+                                <li key={index}>{element}</li>
+                            ))}
+                        </ul>
                     </div>
-                ))}
-                <h3>Locations:</h3>
-                {Array.isArray(monster.location) && monster.location.length > 0 ? (
-                    monster.location.map(loc => (
-                        <div key={loc.id}>
-                            <strong>{loc.name}</strong> - Zones: {loc.zoneCount}
-                        </div>
-                    ))
-                ) : (
-                    <p>No locations available</p>
                 )}
+
+                {monster.ailments && (
+                    <div>
+                        <h3>Ailments</h3>
+                        <ul>
+                            {monster.ailments.map((ailment, index) => (
+                                <li key={index}>
+                                    <strong>{ailment.name}</strong>: {ailment.description}
+                                    {ailment.recovery && (
+                                        <div>
+                                            <h4>Recovery</h4>
+                                            <p>Actions: {ailment.recovery.actions}</p>
+                                            <ul>
+                                                {ailment.recovery.items.map((item, idx) => (
+                                                    <li key={idx}>
+                                                        {item.name} - {item.description}
+                                                    </li>
+                                                ))}
+                                            </ul>
+                                        </div>
+                                    )}
+                                    {ailment.protection && (
+                                        <div>
+                                            <h4>Protection</h4>
+                                            <ul>
+                                                {ailment.protection.items.map((item, idx) => (
+                                                    <li key={idx}>
+                                                        {item.name} - {item.description}
+                                                    </li>
+                                                ))}
+                                            </ul>
+                                        </div>
+                                    )}
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
+                )}
+                {monster.locations && (
+                    <div>
+                        <h3>Locations</h3>
+                        <ul>
+                            {monster.locations.map((location, index) => (
+                                <li key={index}>
+                                    <strong>{location.name}</strong>
+                                    <p>Zones: {location.zoneCount}</p>
+                                    {location.camps && location.camps.length > 0 ? (
+                                        <div>
+                                            <h4>Camps</h4>
+                                            <ul>
+                                                {location.camps.map((camp, idx) => (
+                                                    <li key={idx}>
+                                                        {camp.name} (Zone: {camp.zone})
+                                                    </li>
+                                                ))}
+                                            </ul>
+                                        </div>
+                                    ) : (
+                                        <p>No camps available for this location</p>
+                                    )}
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
+                )}
+                {monster.resistances && (
+                    <div>
+                        <h3>Resistances</h3>
+                        <ul>
+                            {monster.resistances.map((resistance, index) => (
+                                <li key={index}>
+                                    {resistance.element} - {resistance.condition}
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
+                )}
+
+                {monster.weaknesses && (
+                    <div>
+                        <h3>Weaknesses</h3>
+                        <ul>
+                            {monster.weaknesses.map((weakness, index) => (
+                                <li key={index}>
+                                    {weakness.element} - {weakness.stars} stars, {weakness.condition}
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
+                )}
+
+                {monster.rewards && (
+                    <div>
+                        <h3>Rewards</h3>
+                        <ul>
+                            {monster.rewards.map((reward, index) => (
+                                <li key={index}>
+                                    <strong>{reward.item.name}</strong> - {reward.item.description}
+                                    <h4>Conditions</h4>
+                                    <ul>
+                                        {reward.conditions.map((condition, idx) => (
+                                            <li key={idx}>
+                                                Type: {condition.type}, Subtype: {condition.subtype}, Rank: {condition.rank}, Quantity: {condition.quantity}, Chance: {condition.chance}%
+                                            </li>
+                                        ))}
+                                    </ul>
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
+                )}
+
                 <button onClick={() => saveMonster(monster)} className="save-button">
                     Save Monster
                 </button>
