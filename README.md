@@ -1,5 +1,9 @@
 # React Monster Hunter World Companion
 
+## Deployed Site
+
+http://3.141.0.125:3000/
+
 ## What it is:
 
 This project allows players of the Capcom video game Monster Hunter World to look up various things from the game world and save them to a profile that they are able to create. You are able to look up ailments, armors, armor sets, charms, decorations, events, items, locations, monsters, skills, and weapons. When you are logged in you are able to view what you have saved and delete them from your profile.
