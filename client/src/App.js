@@ -22,7 +22,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 
 const httpLink = createHttpLink({
-  uri: 'http://localhost:3000/graphql',
+  uri: 'http://3.141.0.125:3000/graphql',
 });
 
 const authLink = setContext((_, { headers }) => {

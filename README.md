@@ -1,4 +1,34 @@
-# Getting Started with Create React App
+# React Monster Hunter World Companion
+
+## What it is:
+
+This project allows players of the Capcom video game Monster Hunter World to look up various things from the game world and save them to a profile that they are able to create. You are able to look up ailments, armors, armor sets, charms, decorations, events, items, locations, monsters, skills, and weapons. When you are logged in you are able to view what you have saved and delete them from your profile.
+
+Monster hunter world API: https://docs.mhw-db.com/
+
+## Scripts to get started
+
+Run npm i to install dependencies.
+
+npm run seed allows the database to be seeded.
+
+npm run build builds out the frontend
+
+## How to use the project
+
+This app allows you to search for the above mentioned entities. When you want to make a search just feel free to select the search entity you want to search and start looking. Results will come back and there will be an option to save the entity. To save it you will need to create a user or sign into an existing one.
+
+## Technologies used
+
+React
+
+MongoDB
+
+Apollo
+
+Bootstrap
+
+## Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 

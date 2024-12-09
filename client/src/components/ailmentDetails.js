@@ -48,7 +48,7 @@ const AilmentDetails = ({ ailment, showSaveButton = true }) => {
                                 level: rank.level,
                                 description: rank.description,
                                 modifiers: rank.modifiers
-                            })) : [] // Ensure ranks is defined as an array
+                            })) : []
                         }))
                     }
                 }
