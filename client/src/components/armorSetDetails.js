@@ -26,12 +26,10 @@ const ArmorSetDetails = ({ armorSet, showSaveButton = true }) => {
                         type: piece.type,
                         rank: piece.rank,
                         rarity: piece.rarity,
-                        attributes: piece.attributes,
                         skills: piece.skills?.map(skill => ({
                             slug: skill.slug,
                             level: skill.level,
                             description: skill.description,
-                            modifiers: skill.modifiers,
                             skill: skill.skill,
                             skillName: skill.skillName
                         })),
@@ -47,7 +45,6 @@ const ArmorSetDetails = ({ armorSet, showSaveButton = true }) => {
                                             slug: rank.skill.slug,
                                             level: rank.skill.level,
                                             description: rank.skill.description,
-                                            modifiers: rank.skill.modifiers,
                                             skill: rank.skill.skill,
                                             skillName: rank.skill.skillName
                                         }
@@ -66,7 +63,6 @@ const ArmorSetDetails = ({ armorSet, showSaveButton = true }) => {
 
     if (!armorSet) return <div>No armor set data available</div>;
 
-    // Destructure armorSet for clarity
     const { name, rank, pieces, bonus } = armorSet;
 
     return (
@@ -80,18 +76,22 @@ const ArmorSetDetails = ({ armorSet, showSaveButton = true }) => {
                         <div key={index} className="armor-piece">
                             <h4>{piece.name} ({piece.type})</h4>
                             <p>Rarity: {piece.rarity}</p>
-                            <div className="attributes">
-                                <h5>Attributes:</h5>
-                                {piece.attributes && (
-                                    <>
-                                        <p>Defense: {piece.attributes.defense}</p>
-                                        <p>Fire Resistance: {piece.attributes.resistFire}</p>
-                                        <p>Water Resistance: {piece.attributes.resistWater}</p>
-                                        <p>Thunder Resistance: {piece.attributes.resistThunder}</p>
-                                        <p>Ice Resistance: {piece.attributes.resistIce}</p>
-                                    </>
-                                )}
-                            </div>
+                            {piece.skills?.length > 0 && (
+                                <div className="skills">
+                                    <h5>Skills:</h5>
+                                    {piece.skills.map((skill, skillIndex) => (
+                                        <div key={skillIndex}>
+                                            <strong>{skill.skillName}</strong>: {skill.description}
+                                        </div>
+                                    ))}
+                                </div>
+                            )}
+                            {piece.assets && (
+                                <div className="assets">
+                                    <img src={piece.assets.imageMale} alt={`${piece.name} (Male)`} />
+                                    <img src={piece.assets.imageFemale} alt={`${piece.name} (Female)`} />
+                                </div>
+                            )}
                         </div>
                     ))}
                 </div>
@@ -105,12 +105,6 @@ const ArmorSetDetails = ({ armorSet, showSaveButton = true }) => {
                                 {rank.skill && (
                                     <div className="bonus-skill">
                                         <strong>{rank.skill.skillName}</strong> - {rank.skill.description}
-                                        {rank.skill.modifiers && (
-                                            <div>
-                                                <p>Affinity: {rank.skill.modifiers.affinity}</p>
-                                                <p>Attack: {rank.skill.modifiers.attack}</p>
-                                            </div>
-                                        )}
                                     </div>
                                 )}
                             </div>

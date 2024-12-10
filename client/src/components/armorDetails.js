@@ -6,7 +6,7 @@ import Container from './container';
 import Auth from '../utils/auth';
 import '../index.css';
 
-const ArmorDetails = ({ armor, showSaveButton = true }) => { // Add the showSaveButton prop with a default value of true
+const ArmorDetails = ({ armor, showSaveButton = true }) => {
     const currentUser = Auth.getLoggedInUser();
 
     const [addArmor] = useMutation(ADD_ARMOR, {
@@ -79,7 +79,7 @@ const ArmorDetails = ({ armor, showSaveButton = true }) => { // Add the showSave
         }
     };
 
-    // Destructure armor to avoid repeated access of nested properties
+    
     const {
         name, type, rank, rarity, defense, resistances, slots, skills, armorSet, assets, crafting
     } = armor;

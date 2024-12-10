@@ -363,6 +363,90 @@ export const GET_ARMORSETS = gql`
     }
   }
 `
+export const GET_ARMORSET = gql `
+query GET_ARMORSET($_id: ID!) {
+  armorSet(_id: $_id) {
+    _id
+    name
+    rank
+    pieces {
+      slug
+      name
+      type
+      rank
+      rarity
+      armorSet
+      attributes {
+        defense
+        resistFire
+        resistWater
+        resistThunder
+        resistIce
+      }
+      skills {
+        slug
+        level
+        description
+        modifiers {
+          affinity
+          attack
+          damageFire
+          damageWater
+          damageIce
+          damageThunder
+          damageDragon
+          defense
+          health
+          sharpnessBonus
+          resistAll
+          resistFire
+          resistWater
+          resistIce
+          resistThunder
+          resistDragon
+        }
+        skill
+        skillName
+      }
+      assets {
+        imageMale
+        imageFemale
+      }
+    }
+    bonus {
+      name
+      ranks {
+        pieces
+        skill {
+          slug
+          level
+          description
+          modifiers {
+            affinity
+            attack
+            damageFire
+            damageWater
+            damageIce
+            damageThunder
+            damageDragon
+            defense
+            health
+            sharpnessBonus
+            resistAll
+            resistFire
+            resistWater
+            resistIce
+            resistThunder
+            resistDragon
+          }
+          skill
+          skillName
+        }
+      }
+    }
+  }
+}
+`
 
 export const GET_CHARMS = gql`
   query ALL_CHARMS {
