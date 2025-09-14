@@ -23,13 +23,7 @@ if (process.env.NODE_ENV === 'production') {
     app.use(express.static(path.join(__dirname, '..', 'client', 'build')));
 }
 
-app.use(cors({
-  origin: [
-    'http://localhost:3000',
-    'http://192.168.1.178:3000'
-  ],
-  credentials: true
-}));
+app.use(cors({ origin: '*', credentials: true }));
 
 mongoose.connect(process.env.MONGODB_URI || 'mongodb+srv://root:root@cluster0.5jsp7.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0', {
     useNewUrlParser: true,
