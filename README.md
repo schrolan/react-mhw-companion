@@ -2,7 +2,7 @@
 
 ## Deployed Site
 
-http://3.141.0.125:3000/
+http://18.222.21.105:3000/
 
 ## What it is:
 
