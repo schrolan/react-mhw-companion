@@ -8,7 +8,7 @@ const SearchForm = ({
   reset
 }) => {
   return (
-    <nav className="navbar navbar-expand-lg navbar-light bg-light">
+    <nav className="navbar">
       <div className="container-fluid">
         <Container>
           <form className="d-flex" onSubmit={handleFormSubmit}>
@@ -22,7 +22,7 @@ const SearchForm = ({
             />
             {searchTerm && (
               <button
-                className="btn btn-success"
+                className="btn"
                 type="button"
                 onClick={reset}
               >

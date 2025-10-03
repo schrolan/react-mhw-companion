@@ -28,7 +28,6 @@ const WeaponDetails = ({ weapon, showSaveButton = true }) => {
                     durability: weapon.durability,
                     slots: weapon.slots,
                     elements: weapon.elements,
-                    // Crafting - only pass relevant fields, not the id
                     crafting: {
                         craftable: weapon.crafting.craftable,
                         previous: weapon.crafting.previous,

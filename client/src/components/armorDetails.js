@@ -169,7 +169,6 @@ const ArmorDetails = ({ armor, showSaveButton = true }) => {
                     </div>
                 )}
 
-                {/* Conditionally render the Save Armor button */}
                 {showSaveButton && (
                     <button onClick={() => saveArmor(armor)} className="save-button">
                         Save Armor

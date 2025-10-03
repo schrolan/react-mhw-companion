@@ -27,20 +27,20 @@ const MonsterDetails = ({ monster, showSaveButton = true }) => {
                         name: ailment.name,
                         description: ailment.description,
                         recovery: {
-                            actions: ailment.recovery?.actions,  // Optional chaining for recovery actions
+                            actions: ailment.recovery?.actions,
                             items: ailment.recovery?.items?.map(item => ({
                                 name: item.name,
                                 description: item.description,
                                 rarity: item.rarity,
                                 carryLimit: item.carryLimit,
                                 value: item.value,
-                            })) || [],  // Default to empty array if items is null or undefined
+                            })) || [],
                         },
                         protection: {
                             items: ailment.protection?.items?.map(item => ({
                                 name: item.name,
                                 description: item.description,
-                            })) || [],  // Default to empty array if protection.items is null or undefined
+                            })) || [],
                         },
                     })),
                     locations: monster.locations.map(location => ({
@@ -57,7 +57,7 @@ const MonsterDetails = ({ monster, showSaveButton = true }) => {
                             rarity: reward.item.rarity,
                             carryLimit: reward.item.carryLimit,
                             value: reward.item.value,
-                        } : {},  // If reward.item is null, use an empty object
+                        } : {},
                         conditions: reward.conditions,
                     })),
                 },

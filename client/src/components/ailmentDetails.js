@@ -149,7 +149,6 @@ const AilmentDetails = ({ ailment, showSaveButton = true }) => {
                     </div>
                 )}
 
-                {/* Conditionally render the Save Ailment button */}
                 {showSaveButton && (
                     <button onClick={() => saveAilment(ailment)} className="save-button">
                         Save Ailment

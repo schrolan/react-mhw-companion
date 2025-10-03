@@ -19,7 +19,7 @@ const DeleteItemButton = ({ userId, itemId }) => {
     }
 
     return (
-        <button className='btn btn-success' onClick={handleDelete} disabled={loading}>Remove</button>
+        <button className='btn' onClick={handleDelete} disabled={loading}>Remove</button>
     )
 }
 

@@ -7,7 +7,7 @@ const Header = () => {
 
     return (
         <header className="app-header">
-            <nav className="navbar navbar-expand-lg navbar-light bg-light">
+            <nav className="navbar">
                 <div className="container-fluid">
                     <Link to={"/"} className="navbar-brand">
                         <h1>MHW Search</h1>
@@ -62,7 +62,7 @@ const Header = () => {
                         </ul>
 
                         <form className="d-flex">
-                            <Link to={toPath} className="btn btn-success">
+                            <Link to={toPath} className="btn">
                                 <h2>Your Collection</h2>
                             </Link>
                         </form>

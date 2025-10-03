@@ -1,7 +1,7 @@
 import React from 'react';
 import { useMutation } from '@apollo/client';
-import { ADD_DECORATION } from '../utils/mutations'; // Define this mutation in your utils folder
-import { GET_USER } from '../utils/queries'; // Ensure this query is set up correctly
+import { ADD_DECORATION } from '../utils/mutations';
+import { GET_USER } from '../utils/queries';
 import Container from './container';
 import Auth from '../utils/auth';
 import '../index.css';
@@ -61,7 +61,6 @@ const DecorationDetails = ({ decoration, showSaveButton = true }) => {
                                         <p>Affinity: {skill.modifiers.affinity}</p>
                                         <p>Attack: {skill.modifiers.attack}</p>
                                         <p>Defense: {skill.modifiers.defense}</p>
-                                        {/* Add other modifiers as necessary */}
                                     </div>
                                 )}
                             </div>
