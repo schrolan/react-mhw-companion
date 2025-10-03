@@ -9,7 +9,6 @@ const ArmorSearch = () => {
     const [searchTerm, setSearchTerm] = useState('');
     const category = 'armor';
 
-    // Initial fetch of armor data on component mount
     useEffect(() => {
         const fetchEntities = async () => {
             try {
@@ -18,9 +17,9 @@ const ArmorSearch = () => {
                     throw new Error('Unable to fetch armor data');
                 }
                 const data = await response.json();
-                setEntities(data); // Store all armor data
-                setFilteredEntities(data); // Initialize filtered data
-                setSearchTerm(''); // Clear any existing search term
+                setEntities(data);
+                setFilteredEntities(data);
+                setSearchTerm('');
             } catch (err) {
                 setError(err.message);
             }
@@ -29,7 +28,6 @@ const ArmorSearch = () => {
         fetchEntities();
     }, [category]);
 
-    // Filter entities whenever searchTerm changes
     useEffect(() => {
         if (searchTerm) {
             const results = entities.filter(entity =>
@@ -37,7 +35,7 @@ const ArmorSearch = () => {
             );
             setFilteredEntities(results);
         } else {
-            setFilteredEntities(entities); // Reset to all entities if search term is empty
+            setFilteredEntities(entities);
         }
     }, [searchTerm, entities]);
 

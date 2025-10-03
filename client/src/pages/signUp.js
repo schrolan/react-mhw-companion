@@ -15,7 +15,6 @@ const SignUp = () => {
         e.preventDefault();
         
         try {
-            // First, call addUser mutation
             const addUserResponse = await addUser({
                 variables: {
                     username,
@@ -25,7 +24,6 @@ const SignUp = () => {
             });
 
             if (addUserResponse?.data?.addUser) {
-                // Once user is added, call login mutation
                 const loginResponse = await login({
                     variables: {
                         email,
